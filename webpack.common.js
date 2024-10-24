@@ -11,13 +11,15 @@ module.exports = (mode) => {
   const devMode = mode === NODE_ENV.DEV
   return {
     entry: {
-      index: { import: './src/index.js' },
-      test: { import: './src/test/testIndex.js' }
+      index: { import: './src/index.tsx' }
     },
     output: {
       filename: '[name].[contenthash].js', // 动态生成 bundle 名称
       path: path.resolve(__dirname, 'dist'),
       clean: true
+    },
+    resolve: {
+      extensions: ['.tsx', '.ts', '...']
     },
     externals: {
       react: 'React', // key 对应引入包的名称 value 原包向window中注入的变量名称

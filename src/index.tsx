@@ -6,3 +6,5 @@ export default function initReact() {
 
   createRoot(root).render(<App />)
 }
+
+initReact()
