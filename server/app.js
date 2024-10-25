@@ -7,8 +7,8 @@ if (process.env.NODE_ENV === 'development') {
   app.use(express.static('dist'))
 }
 
-app.use((err, req, res) => {
-  console.log('middle-error: ', err)
-})
+// app.use((err, req, res) => {
+//   console.log('middle-error: ', err)
+// })
 
 module.exports = app
