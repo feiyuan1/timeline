@@ -58,7 +58,8 @@ module.exports = (mode) => {
       devMiddleware: {
         // 这里还能开启服务端渲染呢
         // wroteToDisk: true
-      }
+      },
+      hot: false
     },
     plugins: [
       new HtmlWebpackPlugin({

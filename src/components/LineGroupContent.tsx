@@ -28,6 +28,7 @@ const LineContent = ({ data: { updateTime, nodes } }: { data: Line }) => {
               rowGap: '10px',
               alignItems: 'center'
             }}
+            key={node.id}
           >
             <Chip
               label={node.updateTime}
