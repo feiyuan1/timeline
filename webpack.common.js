@@ -19,7 +19,14 @@ module.exports = (mode) => {
       clean: true
     },
     resolve: {
-      extensions: ['.tsx', '.ts', '...']
+      extensions: ['.tsx', '.ts', '...'],
+      alias: {
+        components: path.resolve(__dirname, 'src/components/'),
+        pages: path.resolve(__dirname, 'src/pages/'),
+        assets: path.resolve(__dirname, 'src/assets/'),
+        utils: path.resolve(__dirname, 'src/utils/'),
+        types: path.resolve(__dirname, 'src/types/')
+      }
     },
     externals: {
       react: 'React', // key 对应引入包的名称 value 原包向window中注入的变量名称
@@ -73,18 +80,21 @@ module.exports = (mode) => {
           test: /\.(ts|tsx)$/i,
           use: ['ts-loader']
         },
-        // {
-        //   test: /\.jsx$/i,
-        //   use: {
-        //     loader: 'babel-loader',
-        //     options: {
-        //       presets: [
-        //         '@babel/preset-env',
-        //         [('@babel/preset-react', { runtime: 'automatic' })]
-        //       ]
-        //     }
-        //   }
-        // },
+        {
+          test: /\.jsx$/i,
+          use: {
+            loader: 'babel-loader',
+            options: {
+              presets: [
+                '@babel/preset-env',
+                [
+                  ('@babel/preset-react',
+                  { runtime: 'automatic', importSource: '@emotion/react' })
+                ]
+              ]
+            }
+          }
+        },
         {
           test: /\.css$/i, // 处理 css 文件，先安装依赖，再配置
           use: [

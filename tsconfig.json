@@ -6,6 +6,19 @@
     "allowJs": true,
     "target": "es5",
     "sourceMap": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "strictNullChecks": true,
+    "allowSyntheticDefaultImports": true,
+    "types": ["@emotion/react/types/css-prop", "webpack-env"],
+    "paths": {
+      "components/*": ["./src/components/*"],
+      "pages/*": ["./src/pages/*"],
+      "assets/*": ["./src/assets/*"],
+      "utils/*": ["./src/utils/*"],
+      "types": ["./src/types"],
+      "types/*": ["./src/types/*"]
+    }
   }
 }
