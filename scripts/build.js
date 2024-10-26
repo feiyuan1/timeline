@@ -5,4 +5,4 @@ const scripts = [
   'https://browser.sentry-cdn.com/7.113.0/bundle.tracing.min.js'
 ]
 
-module.exports = {scripts}
+module.exports = { scripts }

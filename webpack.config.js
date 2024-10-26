@@ -1,6 +1,6 @@
-const webpackProd = require("./webpack.prod.js")
-const webpackDev = require("./webpack.dev.js")
-const {NODE_ENV} = require("./env.js")
+const webpackProd = require('./webpack.prod.js')
+const webpackDev = require('./webpack.dev.js')
+const { NODE_ENV } = require('./env.js')
 
 // 分割不同环境下的配置项
 module.exports = (env, argv) => {
@@ -9,9 +9,12 @@ module.exports = (env, argv) => {
   console.log('argv.mode: ', argv.mode)
   const mode = argv.mode || process.env.NODE_ENV
 
-  switch(mode){
-    case NODE_ENV.PROD: return webpackProd;
-    case NODE_ENV.DEV: return webpackDev
-    default: throw new Error('这是什么环境？？？')
+  switch (mode) {
+    case NODE_ENV.PROD:
+      return webpackProd
+    case NODE_ENV.DEV:
+      return webpackDev
+    default:
+      throw new Error('这是什么环境？？？')
   }
 }
