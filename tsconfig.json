@@ -23,7 +23,8 @@
       "assets/*": ["./src/assets/*"],
       "utils/*": ["./src/utils/*"],
       "types": ["./src/types"],
-      "types/*": ["./src/types/*"]
+      "types/*": ["./src/types/*"],
+      "_constants": ["./src/constants.ts"]
     }
   }
 }

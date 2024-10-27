@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 import CardHeader from '@mui/material/CardHeader'
@@ -6,9 +7,10 @@ import Card from '@mui/material/Card'
 import LineContent, { LineGroupContent } from 'components/LineGroupContent'
 import { Line, LineGroup } from 'types'
 import { list } from './mock'
+import { typeMap } from '_constants'
 
 const getCardContent = (data: Line | LineGroup) => {
-  if (data.type === 1) {
+  if (data.type === typeMap.lineGroup) {
     return <LineGroupContent data={data} />
   }
 
@@ -21,9 +23,23 @@ const getCardContent = (data: Line | LineGroup) => {
 }
 
 const ListItem = ({ data }: { data: Line | LineGroup }) => {
+  const navigate = useNavigate()
   const cardContent = getCardContent(data)
-
-  return <Card sx={{ marginBottom: '20px' }}>{cardContent}</Card>
+  const handleHref = () => {
+    const { type, id } = data
+    if (type === typeMap.lineGroup) {
+      return
+    }
+    navigate('/line/' + id)
+  }
+  return (
+    <Card
+      sx={{ marginBottom: '20px', '&:hover': { cursor: 'pointer' } }}
+      onClick={handleHref}
+    >
+      {cardContent}
+    </Card>
+  )
 }
 
 const Main = () => {

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { MouseEventHandler, useCallback, useState } from 'react'
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 import CardHeader from '@mui/material/CardHeader'
@@ -9,10 +9,21 @@ import Chip from '@mui/material/Chip'
 import Stack from '@mui/material/Stack'
 import Divider from '@mui/material/Divider'
 import { Line, LineGroup } from 'types'
+import { useNavigate } from 'react-router'
 
-const LineContent = ({ data: { updateTime, nodes } }: { data: Line }) => {
+const LineContent = ({
+  data: { updateTime, nodes },
+  handleClick
+}: {
+  data: Line
+  handleClick?: MouseEventHandler<HTMLDivElement>
+}) => {
+  const cardPoprs = {
+    ...(handleClick && { onClick: handleClick }),
+    component: 'div'
+  }
   return (
-    <CardContent>
+    <CardContent {...cardPoprs}>
       <Stack
         direction="row"
         spacing={1}
@@ -47,14 +58,18 @@ const LineContent = ({ data: { updateTime, nodes } }: { data: Line }) => {
 }
 
 export const LineGroupContent = ({
-  data: { name, lines }
+  data: { name, lines, id }
 }: {
   data: LineGroup
 }) => {
   const [curTab, setCurTab] = useState(0)
+  const navigate = useNavigate()
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setCurTab(newValue)
   }
+  const handleClick = useCallback(() => {
+    navigate('/line-group/' + id)
+  }, [])
 
   return (
     <Box>
@@ -71,7 +86,7 @@ export const LineGroupContent = ({
               <Tab label={line.name} key={index} />
             ))}
           </Tabs>
-          <LineContent data={lines[curTab]} />
+          <LineContent data={lines[curTab]} handleClick={handleClick} />
         </Box>
       )}
     </Box>
