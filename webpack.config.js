@@ -4,6 +4,7 @@ const { NODE_ENV } = require('./env.js')
 
 // 分割不同环境下的配置项
 module.exports = (env, argv) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-expressions
   env && console.log('webpack env: ', env)
   console.log('node-env: ', process.env.NODE_ENV)
   console.log('argv.mode: ', argv.mode)

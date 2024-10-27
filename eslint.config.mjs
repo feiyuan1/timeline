@@ -5,13 +5,15 @@ import tseslint from 'typescript-eslint'
 import PluginPrettier from 'eslint-plugin-prettier/recommended'
 
 export default [
-  { files: ['./src/**/*.{js,mjs,cjs,ts,jsx,tsx}'] },
+  { files: ['src/**/*.{js,mjs,cjs,ts,jsx,tsx}'] },
   { languageOptions: { globals: { ...globals.browser, ...globals.node } } },
   pluginJs.configs.recommended,
   ...tseslint.configs.recommended,
   // pluginReact.configs.flat.recommended,
   {
-    '@typescript-eslint/no-require-imports': 'off'
+    rules: {
+      '@typescript-eslint/no-require-imports': 'off'
+    }
   },
   PluginPrettier
 ]
