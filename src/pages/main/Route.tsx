@@ -1,10 +1,11 @@
-import { Route, Routes } from 'react-router-dom'
+import { Route } from 'react-router-dom'
 import Main from './Main'
+import { Fragment } from 'react'
 
-export default function Index() {
-  return (
-    <Routes>
-      <Route path="/" Component={Main} />
-    </Routes>
-  )
-}
+const Index = (
+  <Fragment key="main">
+    <Route path="/" index Component={Main} />
+  </Fragment>
+)
+
+export default Index
