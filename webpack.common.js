@@ -1,6 +1,5 @@
 const path = require('path')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { NODE_ENV } = require('./env.js')
 
 // 先这样临时删除 dist 目录
@@ -63,14 +62,6 @@ module.exports = (mode) => {
       hot: false
     },
     plugins: [
-      new HtmlWebpackPlugin({
-        title: 'test of webpack 学习',
-        filename: 'test.html',
-        chunks: ['test']
-      }),
-      // new webpack.DefinePlugin({
-      //   TWO: "1+1",
-      // }),
       new MiniCssExtractPlugin({
         filename: devMode ? '[name].css' : '[name].[contenthash].css',
         chunkFilename: devMode ? '[id].css' : '[id].[contenthash].css'

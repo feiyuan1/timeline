@@ -12,7 +12,8 @@ export default [
   // pluginReact.configs.flat.recommended,
   {
     rules: {
-      '@typescript-eslint/no-require-imports': 'off'
+      '@typescript-eslint/no-require-imports': 'off',
+      'no-console': 'error'
     }
   },
   PluginPrettier
