@@ -17,6 +17,8 @@
       "react-dom",
       "react"
     ],
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "downlevelIteration": true,
     "paths": {
       "components/*": ["./src/components/*"],
       "pages/*": ["./src/pages/*"],
