@@ -1,5 +1,4 @@
 import OriginalTextField from '@mui/material/TextField'
-import FormHelperText from '@mui/material/FormHelperText'
 import InputLabel from '@mui/material/InputLabel'
 import OriginalSelect, {
   SelectChangeEvent,
@@ -12,7 +11,6 @@ import FormControlLabel, {
 import Checkbox from '@mui/material/Checkbox'
 import useRegularInput from 'utils/useRegularInput'
 import { formatDate } from 'utils/date'
-import { ChangeEvent } from 'react'
 
 type BaseProps = {
   name: string
