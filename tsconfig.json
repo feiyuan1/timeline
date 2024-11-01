@@ -15,7 +15,8 @@
       "@emotion/react/types/css-prop",
       "webpack-env",
       "react-dom",
-      "react"
+      "react",
+      "jest"
     ],
     "lib": ["dom", "dom.iterable", "esnext"],
     "downlevelIteration": true,
