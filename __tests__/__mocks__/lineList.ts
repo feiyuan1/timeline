@@ -144,5 +144,15 @@ export const list: (Line | LineGroup)[] = [
         key: 123 // number or string
       }
     ]
+  },
+  {
+    id: 0,
+    type: 0,
+    createTime: 123,
+    updateTime: 123,
+    name: '无节点',
+    description: 'no nodes',
+    nodeType: 0,
+    nodes: []
   }
 ]

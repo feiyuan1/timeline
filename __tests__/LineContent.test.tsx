@@ -3,10 +3,10 @@ import LineContent from 'components/LineGroupContent'
 import { list } from './__mocks__/lineList'
 import { Line } from 'types'
 
-describe('LineContent', () => {
+describe('test LineContent UI', () => {
   const data = list[1] as Line
 
-  it('nodes UI', () => {
+  it('nodes', () => {
     const { container } = render(<LineContent data={data} />)
     const stack = container.querySelector<HTMLDivElement>('.MuiStack-root')
     expect(stack).toBeTruthy()
@@ -29,10 +29,18 @@ describe('LineContent', () => {
     })
   })
 
-  it('footer UI', () => {
+  it('footer', () => {
     render(<LineContent data={data} />)
     expect(screen.getByText('创建时间', { exact: false })).toHaveTextContent(
       data.createTime.toString()
     )
+  })
+})
+
+describe('test LineContent UI edge cases', () => {
+  it('test nodes.length === 0', () => {
+    const data = list[2] as Line
+    const { container } = render(<LineContent data={data} />)
+    expect(container).toHaveTextContent('暂无节点')
   })
 })

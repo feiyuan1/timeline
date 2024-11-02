@@ -22,6 +22,10 @@ const LineContent = ({
     ...(handleClick && { onClick: handleClick }),
     component: 'div'
   }
+  if (!nodes.length) {
+    return <CardContent {...cardPoprs}>暂无节点</CardContent>
+  }
+
   return (
     <CardContent {...cardPoprs}>
       <Stack
