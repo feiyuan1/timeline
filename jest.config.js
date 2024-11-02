@@ -1,10 +1,11 @@
 /** @type {import('ts-jest').JestConfigWithTsJest} **/
 
 module.exports = {
-  testEnvironment: 'node',
+  testEnvironment: 'jsdom',
   transform: {
     '^.+.(tsx|ts)?$': ['ts-jest', {}]
   },
+  setupFilesAfterEnv: ['<rootDir>/jest-setup.js'],
   // moduleDirectories: [
   // 'node_modules'
   //   __dirname // the root directory

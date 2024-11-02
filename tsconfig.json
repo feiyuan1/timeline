@@ -16,7 +16,8 @@
       "webpack-env",
       "react-dom",
       "react",
-      "jest"
+      "jest",
+      "@testing-library/jest-dom"
     ],
     "lib": ["dom", "dom.iterable", "esnext"],
     "downlevelIteration": true,
