@@ -8,7 +8,7 @@ import LineContent, { LineGroupContent } from 'components/LineGroupContent'
 import AppendItem from './AppendItem'
 import { Line, LineGroup } from 'types'
 import { Type } from '_constants'
-import { list } from './mock'
+import { list } from '../../../__tests__/__mocks__/lineList'
 
 const getCardContent = (data: Line | LineGroup) => {
   if (data.type === Type.lineGroup) {
