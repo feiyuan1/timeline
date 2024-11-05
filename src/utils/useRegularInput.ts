@@ -42,7 +42,7 @@ const useRegularInput: RegularInput = ({ name }) => {
       (result, key) => ({ ...result, [key]: validations[key].value }),
       {}
     )
-  }, [validateRef.current])
+  }, [name, validateRef])
 
   const handleChange: ChangeEventHandler<
     HTMLInputElement | HTMLTextAreaElement

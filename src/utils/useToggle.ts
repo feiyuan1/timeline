@@ -7,10 +7,7 @@ const useToggle = (init?: boolean) => {
     setStatus(!status)
   }, [status])
 
-  const result = useMemo(
-    () => [status, toggle] as const,
-    [init, status, toggle]
-  )
+  const result = useMemo(() => [status, toggle] as const, [status, toggle])
 
   return result
 }

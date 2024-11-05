@@ -78,12 +78,12 @@ const AppendItem = memo(() => {
   const handleOpenLine = useCallback(() => {
     handleClose()
     toggleLine()
-  }, [])
+  }, [toggleLine])
 
   const handleOpenGroup = useCallback(() => {
     handleClose()
     toggleGroup()
-  }, [])
+  }, [toggleGroup])
 
   const menuList = useMemo(
     () => [

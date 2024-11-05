@@ -73,7 +73,7 @@ export const LineGroupContent = ({
   }
   const handleClick = useCallback(() => {
     navigate('/line-group/' + id)
-  }, [])
+  }, [id, navigate])
 
   return (
     <Box>

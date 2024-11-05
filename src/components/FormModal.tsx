@@ -53,11 +53,11 @@ const FormModalInner = ({
       return
     }
     validateRef.current = validations
-  }, [])
+  }, [validateRef, validations])
 
   useEffect(() => {
     update(initValue)
-  }, [initValue])
+  }, [initValue, update])
 
   const handleFormSubmit: React.FormEventHandler<HTMLFormElement> = (event) => {
     handleSubmit(ref.current)
