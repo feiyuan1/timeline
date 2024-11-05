@@ -13,7 +13,15 @@ export default [
   {
     rules: {
       '@typescript-eslint/no-require-imports': 'off',
-      'no-console': 'error'
+      'no-console': 'error',
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        {
+          argsIgnorePattern: '^_',
+          caughtErrorsIgnorePattern: '^_',
+          destructuredArrayIgnorePattern: '^_'
+        }
+      ]
     }
   },
   PluginPrettier
