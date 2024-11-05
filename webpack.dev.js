@@ -2,7 +2,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { merge } = require('webpack-merge')
 const common = require('./webpack.common.js')
 const { NODE_ENV } = require('./env.js')
-const { scripts } = require('./scripts/build.js')
+const { scripts } = require('./scripts/devBuild.js')
 
 module.exports = merge(common(NODE_ENV.DEV), {
   devtool: false,
