@@ -202,3 +202,12 @@ describe('test LineGroupContent with logic', () => {
     matchContent(data.lines[targetIndex], container)
   })
 })
+
+describe('LineGroupContent edge cases', () => {
+  it('list length equal to 0', () => {
+    // the tabs should not be in the doucment
+    const data = list[3] as LineGroup
+    const { queryByRole } = renderLineGroup(data)
+    expect(queryByRole('tablist')).toBeFalsy()
+  })
+})

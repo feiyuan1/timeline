@@ -154,5 +154,14 @@ export const list: (Line | LineGroup)[] = [
     description: 'no nodes',
     nodeType: 0,
     nodes: []
+  },
+  {
+    id: 0,
+    type: 1, // 0 线路 1 线路组 2 子线路 3 节点 4 记录
+    createTime: 123,
+    updateTime: 123,
+    name: '其他组',
+    description: '测试列表为空',
+    lines: []
   }
 ]

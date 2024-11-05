@@ -9,12 +9,12 @@ import { TextField, Select } from 'components/RegularInput'
 import { NodeType } from '_constants'
 import useToggle from 'utils/useToggle'
 
-const options = [
+export const options = [
   { label: '时间', key: 'date', value: NodeType.date },
   { label: '自定义', key: 'custom', value: NodeType.custom }
 ]
 
-const lineProps: Omit<FormModalProps, 'open' | 'handleClose'> = {
+export const lineProps: Omit<FormModalProps, 'open' | 'handleClose'> = {
   initValue: {
     nodeType: NodeType.date
   },
@@ -47,7 +47,7 @@ const lineProps: Omit<FormModalProps, 'open' | 'handleClose'> = {
   }
 }
 
-const groupProps: Omit<FormModalProps, 'open' | 'handleClose'> = {
+export const groupProps: Omit<FormModalProps, 'open' | 'handleClose'> = {
   validations: {
     name: {
       required: {

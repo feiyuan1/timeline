@@ -10,7 +10,7 @@ import { Line, LineGroup } from 'types'
 import { Type } from '_constants'
 import { list } from '../../../__tests__/__mocks__/lineList'
 
-const getCardContent = (data: Line | LineGroup) => {
+export const getCardContent = (data: Line | LineGroup) => {
   if (data.type === Type.lineGroup) {
     return <LineGroupContent data={data} />
   }
@@ -23,7 +23,7 @@ const getCardContent = (data: Line | LineGroup) => {
   )
 }
 
-const ListItem = ({ data }: { data: Line | LineGroup }) => {
+export const ListItem = ({ data }: { data: Line | LineGroup }) => {
   const navigate = useNavigate()
   const cardContent = getCardContent(data)
   const handleHref = () => {
