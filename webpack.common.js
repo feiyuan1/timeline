@@ -1,6 +1,8 @@
 const path = require('path')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const { NODE_ENV } = require('./env.js')
+const BundleAnalyzerPlugin =
+  require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 // 先这样临时删除 dist 目录
 const rimraf = require('rimraf')
@@ -65,7 +67,8 @@ module.exports = (mode) => {
       new MiniCssExtractPlugin({
         filename: devMode ? '[name].css' : '[name].[contenthash].css',
         chunkFilename: devMode ? '[id].css' : '[id].[contenthash].css'
-      })
+      }),
+      new BundleAnalyzerPlugin()
     ],
     module: {
       rules: [
