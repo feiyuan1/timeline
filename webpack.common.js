@@ -68,7 +68,7 @@ module.exports = (mode) => {
         filename: devMode ? '[name].css' : '[name].[contenthash].css',
         chunkFilename: devMode ? '[id].css' : '[id].[contenthash].css'
       }),
-      new BundleAnalyzerPlugin()
+      new BundleAnalyzerPlugin({ openAnalyzer: false }) // http://127.0.0.1:8888/
     ],
     module: {
       rules: [
