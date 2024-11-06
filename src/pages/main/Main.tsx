@@ -8,6 +8,7 @@ import LineContent, { LineGroupContent } from 'components/LineGroupContent'
 import AppendItem from './AppendItem'
 import { Line, LineGroup } from 'types'
 import { Type } from '_constants'
+import { getLink } from 'utils/index'
 import { list } from '../../../__tests__/__mocks__/lineList'
 
 export const getCardContent = (data: Line | LineGroup) => {
@@ -27,11 +28,7 @@ export const ListItem = ({ data }: { data: Line | LineGroup }) => {
   const navigate = useNavigate()
   const cardContent = getCardContent(data)
   const handleHref = () => {
-    const { type, id } = data
-    if (type === Type.lineGroup) {
-      return
-    }
-    navigate('/line/' + id)
+    navigate(getLink(data))
   }
 
   return (

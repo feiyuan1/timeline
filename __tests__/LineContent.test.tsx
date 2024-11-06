@@ -114,30 +114,6 @@ describe('test LineGroupContent UI', () => {
   })
 })
 
-describe('test LineGroupCotnent interaction', () => {
-  const data = list[0] as LineGroup
-  it('click content', () => {
-    // navigate to /line-group/:id
-    const { container } = renderLineGroup(data)
-    const content = container.querySelector<HTMLDivElement>(
-      '.MuiCardContent-root'
-    )
-    expect(content).toBeInTheDocument()
-    if (!content) {
-      return
-    }
-
-    fireEvent.click(
-      content,
-      new MouseEvent('click', {
-        bubbles: true,
-        cancelable: true
-      })
-    )
-    expect(window.location.pathname).toBe(`/line-group/${data.id}`)
-  })
-})
-
 // 点击 container 中第 index 个 tab
 const changeTab = (container: HTMLElement, index: number) => {
   const tabList = within(container).getAllByRole('tab')

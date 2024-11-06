@@ -1,4 +1,4 @@
-import { MouseEventHandler, useCallback, useState } from 'react'
+import { MouseEventHandler, useState } from 'react'
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 import CardHeader from '@mui/material/CardHeader'
@@ -9,7 +9,6 @@ import Chip from '@mui/material/Chip'
 import Stack from '@mui/material/Stack'
 import Divider from '@mui/material/Divider'
 import { Line, LineGroup } from 'types'
-import { useNavigate } from 'react-router'
 
 const LineContent = ({
   data: { updateTime, nodes },
@@ -62,18 +61,15 @@ const LineContent = ({
 }
 
 export const LineGroupContent = ({
-  data: { name, lines, id }
+  data: { name, lines }
 }: {
   data: LineGroup
 }) => {
   const [curTab, setCurTab] = useState(0)
-  const navigate = useNavigate()
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setCurTab(newValue)
+    event.stopPropagation()
   }
-  const handleClick = useCallback(() => {
-    navigate('/line-group/' + id)
-  }, [id, navigate])
 
   return (
     <Box>
@@ -90,7 +86,7 @@ export const LineGroupContent = ({
               <Tab label={line.name} key={index} />
             ))}
           </Tabs>
-          <LineContent data={lines[curTab]} handleClick={handleClick} />
+          <LineContent data={lines[curTab]} />
         </Box>
       )}
     </Box>
