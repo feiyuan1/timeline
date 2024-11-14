@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "noImplicitAny": true,
+    "outDir": "./dist"
+  },
+  "include": ["**/*"],
+  "types": ["koa", "koa-static", "webpack-dev-middleware"]
+}

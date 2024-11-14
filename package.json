@@ -5,10 +5,10 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack --mode=production",
+    "build:server": "webpack --config ./webpack.server.js --mode=development",
     "build:dev": "webpack --mode=development",
-    "start:prod": "webpack serve --mode=production",
     "start": "webpack serve --mode development",
-    "server": "npm run build && cross-env NODE_ENV=production node server/index ",
+    "server-fe:dev": "npx tsc -p ./server || npm run build:server && cross-env NODE_ENV=development DEBUG=koa* node ./server/dist/index.js ",
     "analyse": "webpack --mode=production --profile --json > stats.json",
     "lint": "npx eslint ./src ./__tests__",
     "lint:fix": "npx eslint ./src ./__tests__ --fix",
@@ -22,8 +22,12 @@
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.0.1",
     "@types/jest": "^29.5.14",
+    "@types/koa": "^2.15.0",
+    "@types/koa__router": "^12.0.4",
+    "@types/koa-static": "^4.0.4",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
+    "@types/webpack-dev-middleware": "^5.3.0",
     "@types/webpack-env": "^1.18.5",
     "eslint": "^9.13.0",
     "eslint-config-prettier": "^9.1.0",
@@ -46,6 +50,7 @@
     "webpack": "^5.95.0",
     "webpack-bundle-analyzer": "^4.10.2",
     "webpack-cli": "^5.1.4",
+    "webpack-dev-middleware": "^7.4.2",
     "webpack-dev-server": "^5.1.0",
     "webpack-merge": "^6.0.1"
   },
@@ -55,7 +60,14 @@
     "@mui/icons-material": "^6.1.5",
     "@mui/material": "^6.1.5",
     "cross-env": "^7.0.3",
+    "express": "^4.21.1",
+    "koa": "^2.15.3",
+    "koa-router": "^13.0.1",
+    "koa-static": "^5.0.0",
+    "mkdirp": "^3.0.1",
+    "node-polyfill-webpack-plugin": "^4.0.0",
     "react-router": "^6.27.0",
-    "react-router-dom": "^6.27.0"
+    "react-router-dom": "^6.27.0",
+    "webpack-node-externals": "^3.0.0"
   }
 }

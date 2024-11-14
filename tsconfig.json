@@ -1,4 +1,5 @@
 {
+  "exclude": ["./server/**/*"],
   "compilerOptions": {
     "module": "ESNext",
     "moduleResolution": "Bundler",

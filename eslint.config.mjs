@@ -28,6 +28,12 @@ export default [
           caughtErrorsIgnorePattern: '^_',
           destructuredArrayIgnorePattern: '^_'
         }
+      ],
+      '@typescript-eslint/no-this-alias': [
+        'error',
+        {
+          allowedNames: ['ctx']
+        }
       ]
     }
   },
