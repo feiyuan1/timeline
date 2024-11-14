@@ -7,13 +7,17 @@ const { scripts } = require('./scripts/devBuild.js')
 module.exports = merge(common(NODE_ENV.DEV), {
   devtool: false,
   devServer: {
-    // proxy: {
-    //   '/api': { target: 'http://localhost:3000', pathRewrite: { '^/api': '' } },
-    //   '/baidu': {
-    //     target: 'https://www.baidu.com',
-    //     pathRewrite: { '^/baidu': '' }
-    //   }
-    // }
+    proxy: [
+      {
+        context: ['/'],
+        target: 'http://localhost:3000'
+      }
+    ],
+    devMiddleware: {
+      serverSideRender: true,
+      index: false
+    },
+    hot: false
   },
   plugins: [
     new HtmlWebpackPlugin({

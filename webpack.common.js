@@ -1,6 +1,7 @@
 const path = require('path')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const { NODE_ENV } = require('./env.js')
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const BundleAnalyzerPlugin =
   require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
@@ -14,10 +15,12 @@ module.exports = (mode) => {
     entry: {
       index: { import: './src/index.tsx' }
     },
+    mode,
     output: {
       filename: '[name].[contenthash].js', // 动态生成 bundle 名称
-      path: path.resolve(__dirname, 'dist'),
-      clean: true
+      path: path.resolve(__dirname, 'dist/client'),
+      clean: true,
+      publicPath: '/'
     },
     resolve: {
       extensions: ['.tsx', '.ts', '...'],
@@ -56,19 +59,12 @@ module.exports = (mode) => {
         }
       }
     },
-    devServer: {
-      devMiddleware: {
-        // 这里还能开启服务端渲染呢
-        // wroteToDisk: true
-      },
-      hot: false
-    },
     plugins: [
       new MiniCssExtractPlugin({
         filename: devMode ? '[name].css' : '[name].[contenthash].css',
         chunkFilename: devMode ? '[id].css' : '[id].[contenthash].css'
-      }),
-      new BundleAnalyzerPlugin({ openAnalyzer: false }) // http://127.0.0.1:8888/
+      })
+      // new BundleAnalyzerPlugin({ openAnalyzer: false }) // http://127.0.0.1:8888/
     ],
     module: {
       rules: [
@@ -76,21 +72,21 @@ module.exports = (mode) => {
           test: /\.(ts|tsx)$/i,
           use: ['ts-loader']
         },
-        {
-          test: /\.jsx$/i,
-          use: {
-            loader: 'babel-loader',
-            options: {
-              presets: [
-                '@babel/preset-env',
-                [
-                  ('@babel/preset-react',
-                  { runtime: 'automatic', importSource: '@emotion/react' })
-                ]
-              ]
-            }
-          }
-        },
+        // {
+        //   test: /\.jsx$/i,
+        //   use: {
+        //     loader: 'babel-loader',
+        //     options: {
+        //       presets: [
+        //         '@babel/preset-env',
+        //         [
+        //           ('@babel/preset-react',
+        //           { runtime: 'automatic', importSource: '@emotion/react' })
+        //         ]
+        //       ]
+        //     }
+        //   }
+        // },
         {
           test: /\.css$/i, // 处理 css 文件，先安装依赖，再配置
           use: [

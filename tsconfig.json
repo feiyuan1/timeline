@@ -18,7 +18,8 @@
       "react-dom",
       "react",
       "jest",
-      "@testing-library/jest-dom"
+      "@testing-library/jest-dom",
+      "koa-bodyparser"
     ],
     "lib": ["dom", "dom.iterable", "esnext"],
     "downlevelIteration": true,
