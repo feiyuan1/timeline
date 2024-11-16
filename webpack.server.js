@@ -4,7 +4,7 @@ module.exports = {
   entry: { server: './src/server/index.tsx' },
   target: 'node',
   output: {
-    filename: 'index.js',
+    filename: 'serverRender.js',
     path: path.resolve(__dirname, 'dist/server'),
     clean: true,
     library: {
