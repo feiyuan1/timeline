@@ -5,10 +5,6 @@ const { NODE_ENV } = require('./env.js')
 const BundleAnalyzerPlugin =
   require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
-// 先这样临时删除 dist 目录
-const rimraf = require('rimraf')
-rimraf('./dist', () => {})
-
 module.exports = (mode) => {
   const devMode = mode === NODE_ENV.DEV
   return {
