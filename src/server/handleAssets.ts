@@ -1,10 +1,4 @@
 import { StatsCompilation } from 'webpack'
-import {
-  FilledContext,
-  IncomingMessage,
-  ServerResponse
-} from 'webpack-dev-middleware'
-import Koa from 'koa'
 import { NODE_ENV } from '../../env'
 import { scripts as proScripts } from '../../scripts/build'
 import { scripts as devScripts } from '../../scripts/devBuild'
@@ -43,6 +37,7 @@ export const composeAssets = (chunks: Record<string, string[]>) => {
   }, result)
 }
 
+// 内置了获取 external scripts 的逻辑
 const getScriptHtml = (scripts: string[], stats: StatsCompilation) => {
   const { publicPath = '' } = stats
   const externalScripts =
@@ -56,17 +51,18 @@ const getScriptHtml = (scripts: string[], stats: StatsCompilation) => {
   return ''
 }
 
-const getAssets = (state: Koa.DefaultState) => {
-  const { devMiddleware } = state.webpack as {
-    devMiddleware: FilledContext<IncomingMessage, ServerResponse>
+interface CustomWebpackState {
+  stats: StatsCompilation
+}
+
+const getAssets = (state: CustomWebpackState) => {
+  const { assetsByChunkName } = state.stats
+  if (!assetsByChunkName) {
+    throw 'assetsByChunkName is not defined'
   }
-  // @ts-expect-error TODO 整理 生产和 开发 提供资源的逻辑
-  const jsonWebpackStats = devMiddleware.stats.toJson()
-  const { assetsByChunkName } = jsonWebpackStats
-  // @ts-expect-error TODO 整理 生产和 开发 提供资源的逻辑
   const assets = composeAssets(assetsByChunkName)
 
-  const scriptHtml = getScriptHtml(assets.scripts, jsonWebpackStats)
+  const scriptHtml = getScriptHtml(assets.scripts, state.stats)
   return { scriptHtml }
 }
 

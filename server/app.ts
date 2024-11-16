@@ -2,12 +2,15 @@ import Koa = require('koa')
 const serve = require('koa-static')
 const Router = require('koa-router')
 const path = require('path')
-const webpack = require('webpack')
+import webpack = require('webpack')
 const { toTreeSync } = require('memfs/lib/print')
 const clientConfig = require(path.resolve('./webpack.config.js'))({}, {})
 const koaDevMiddleware = require('./koaDevMiddleware')
 const { getSSRMiddleware } = require('./utils/sSRMiddleware')
-
+interface CustomWebpackState {
+  stats?: webpack.StatsCompilation
+}
+const webpackState: CustomWebpackState = {}
 // eslint-disable-next-line no-console
 console.log('process.env.NODE_ENV: ', process.env.NODE_ENV)
 
@@ -34,7 +37,8 @@ if (process.env.NODE_ENV === 'development') {
   app.use(async (ctx: Koa.Context, next) => {
     const { devMiddleware } = ctx.state.webpack
     const outputFileSystem = devMiddleware.outputFileSystem
-    const jsonWebpackStats = devMiddleware.stats.toJson()
+    const jsonWebpackStats = devMiddleware.stats.toJson({ normal: true })
+    webpackState.stats = jsonWebpackStats
     const { assetsByChunkName } = jsonWebpackStats
     // eslint-disable-next-line no-console
     console.log(
@@ -44,17 +48,26 @@ if (process.env.NODE_ENV === 'development') {
     )
     await next()
   })
+} else if (process.env.NODE_ENV === 'production') {
+  webpack(clientConfig, (err, stats: webpack.StatsCompilation) => {
+    const statsJson = stats.toJson({ normal: true })
+    webpackState.stats = statsJson
+    // eslint-disable-next-line no-console
+    console.log('stats json: ', statsJson.warnings)
+  })
+  app.use(serve(clientConfig.output.path))
 }
-// TODO-server 区分路由（这样生产和开发环境在路由上的设计是相同的）
-// TODO 整理 生产和 开发 提供资源的逻辑
+
+app.use(async (ctx, next) => {
+  if (!webpackState.stats) {
+    throw 'the webpackStats is null'
+  }
+  ctx.webpackState = webpackState
+  await next()
+})
 app.use(serverRenderMiddleware)
 app.use(apiRouter.routes()).use(apiRouter.allowedMethods())
 app.use(router.routes()).use(router.allowedMethods())
-
-if (process.env.NODE_ENV === 'production') {
-  // app.use(express.static('dist'))
-  app.use(serve(path.resolve('./dist')))
-}
 
 // app.use(middlewares)
 module.exports = app

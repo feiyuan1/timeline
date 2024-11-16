@@ -29,11 +29,11 @@ async function serverRenderMiddleware(ctx: Koa.Context, next: Koa.Next) {
   if (!goNext(ctx)) {
     // eslint-disable-next-line no-console
     console.log('serverRender')
-    const { res, request, state } = ctx
+    const { res, request, webpackState } = ctx
     const route = renderToString(await getRouter(request, res))
     const filePath = path.resolve('./public', 'index.html')
     const htmlContent = fs.readFileSync(filePath, 'utf8')
-    const { scriptHtml } = getAssets(state)
+    const { scriptHtml } = getAssets(webpackState)
     // TODO insert styles
     const html = insertContent(
       htmlContent,
