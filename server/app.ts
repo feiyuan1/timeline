@@ -18,7 +18,6 @@ const app = new Koa()
 const serverRenderMiddleware = getSSRMiddleware()
 const router = new Router()
 const apiRouter = new Router({ prefix: '/api' })
-// const middlewares = []
 
 app.use(async (ctx: Koa.Context, next) => {
   // eslint-disable-next-line no-console
@@ -64,5 +63,4 @@ app.use(serverRenderMiddleware)
 app.use(apiRouter.routes()).use(apiRouter.allowedMethods())
 app.use(router.routes()).use(router.allowedMethods())
 
-// app.use(middlewares)
 module.exports = app
