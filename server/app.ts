@@ -1,8 +1,9 @@
 import Koa = require('koa')
+import webpack = require('webpack')
+import webpackMiddleware from './webpackMiddleware'
 const serve = require('koa-static')
 const Router = require('koa-router')
 const path = require('path')
-import webpack = require('webpack')
 const { toTreeSync } = require('memfs/lib/print')
 const clientConfig = require(path.resolve('./webpack.config.js'))({}, {})
 const koaDevMiddleware = require('./koaDevMiddleware')
@@ -48,12 +49,7 @@ if (process.env.NODE_ENV === 'development') {
     await next()
   })
 } else if (process.env.NODE_ENV === 'production') {
-  webpack(clientConfig, (err, stats: webpack.StatsCompilation) => {
-    const statsJson = stats.toJson({ normal: true })
-    webpackState.stats = statsJson
-    // eslint-disable-next-line no-console
-    console.log('stats json: ', statsJson.warnings)
-  })
+  app.use(webpackMiddleware(webpackState))
   app.use(serve(clientConfig.output.path))
 }
 
