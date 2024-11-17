@@ -7,10 +7,9 @@ const { toTreeSync } = require('memfs/lib/print')
 const clientConfig = require(path.resolve('./webpack.config.js'))({}, {})
 const koaDevMiddleware = require('./koaDevMiddleware')
 const { getSSRMiddleware } = require('./utils/sSRMiddleware')
-interface CustomWebpackState {
-  stats?: webpack.StatsCompilation
-}
-const webpackState: CustomWebpackState = {}
+require('./types')
+
+const webpackState: webpack.CustomWebpackState = {}
 // eslint-disable-next-line no-console
 console.log('process.env.NODE_ENV: ', process.env.NODE_ENV)
 
@@ -58,7 +57,7 @@ if (process.env.NODE_ENV === 'development') {
   app.use(serve(clientConfig.output.path))
 }
 
-app.use(async (ctx, next) => {
+app.use(async (ctx: Koa.CustomContext, next) => {
   if (!webpackState.stats) {
     throw 'the webpackStats is null'
   }

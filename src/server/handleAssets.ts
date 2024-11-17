@@ -1,7 +1,8 @@
-import { StatsCompilation } from 'webpack'
+import { StatsCompilation, CustomWebpackState } from 'webpack'
 import { NODE_ENV } from '../../env'
 import { scripts as proScripts } from '../../scripts/build'
 import { scripts as devScripts } from '../../scripts/devBuild'
+import '../../server/types'
 
 interface ComposedAssetsType {
   scripts: string[]
@@ -51,11 +52,7 @@ const getScriptHtml = (scripts: string[], stats: StatsCompilation) => {
   return ''
 }
 
-interface CustomWebpackState {
-  stats: StatsCompilation
-}
-
-const getAssets = (state: CustomWebpackState) => {
+const getAssets = (state: Required<CustomWebpackState>) => {
   const { assetsByChunkName } = state.stats
   if (!assetsByChunkName) {
     throw 'assetsByChunkName is not defined'
