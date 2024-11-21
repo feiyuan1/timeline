@@ -1,6 +1,6 @@
 import Koa = require('koa')
 import webpack = require('webpack')
-import fs from 'fs'
+import fs = require('fs')
 
 /**
  * 扩充 webpack、koa 类型字段
