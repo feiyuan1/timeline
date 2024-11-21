@@ -1,9 +1,8 @@
 import { renderToString } from 'react-dom/server'
 import path from 'path'
-import fs from 'fs'
 import Koa from 'koa'
 import getRouter from './handleReactRoute'
-import getAssets from './handleAssets'
+import 'server/types'
 
 /**
  * serverRenderMiddleware 处理路由规则：
@@ -25,20 +24,17 @@ const goNext = (ctx: Koa.Context) => {
 const insertContent = (html: string, content: string) =>
   html.replace('<div id="root"></div>', content)
 
-async function serverRenderMiddleware(ctx: Koa.Context, next: Koa.Next) {
+async function serverRenderMiddleware(ctx: Koa.CustomContext, next: Koa.Next) {
   if (!goNext(ctx)) {
     // eslint-disable-next-line no-console
     console.log('serverRender')
     const { res, request, webpackState } = ctx
     const route = renderToString(await getRouter(request, res))
-    const filePath = path.resolve('./public', 'index.html')
+    const fs = webpackState.outputFileSystem
+    const { outputPath = '' } = webpackState.stats
+    const filePath = path.resolve(outputPath, 'index.html')
     const htmlContent = fs.readFileSync(filePath, 'utf8')
-    const { scriptHtml } = getAssets(webpackState)
-    // TODO insert styles
-    const html = insertContent(
-      htmlContent,
-      `<div id="root">${route}</div>` + scriptHtml
-    )
+    const html = insertContent(htmlContent, `<div id="root">${route}</div>`)
     ctx.body = html
   }
   await next()

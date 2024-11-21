@@ -1,5 +1,6 @@
 import Koa = require('koa')
 import webpack = require('webpack')
+import fs from 'fs'
 
 /**
  * 扩充 webpack、koa 类型字段
@@ -7,11 +8,12 @@ import webpack = require('webpack')
 declare module 'webpack' {
   export interface CustomWebpackState {
     stats?: webpack.StatsCompilation
+    outputFileSystem: typeof fs
   }
 }
 
 declare module 'koa' {
   export interface CustomContext extends Koa.Context {
-    webpackState: webpack.CustomWebpackState
+    webpackState: Required<webpack.CustomWebpackState>
   }
 }

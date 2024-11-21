@@ -39,6 +39,8 @@
     -->
     <!-- <script crossorigin src=""></script>
     <script crossorigin src=""></script> -->
-    <!-- <%= scripts.map(url => `<script crossorigin src="${url}"></script>`).join('') %> -->
+    <%= scripts.map(url => `
+    <script crossorigin src="${url}"></script>
+    `).join('') %>
   </body>
 </html>

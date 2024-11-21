@@ -1,9 +1,9 @@
 {
-  "exclude": ["./server/**/*"],
+  "exclude": ["./server/**/*", "./src/server/**/*"],
   "compilerOptions": {
     "module": "ESNext",
     "moduleResolution": "Bundler",
-    "outDir": "./dist",
+    "outDir": "./dist/ts",
     "allowJs": true,
     "target": "es5",
     "sourceMap": true,

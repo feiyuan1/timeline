@@ -3,6 +3,7 @@ const path = require('path')
 module.exports = {
   entry: { server: './src/server/index.tsx' },
   target: 'node',
+  mode: process.env.NODE_ENV || 'production',
   output: {
     filename: 'serverRender.js',
     path: path.resolve(__dirname, 'dist/server'),
@@ -20,7 +21,8 @@ module.exports = {
       assets: path.resolve(__dirname, 'src/assets/'),
       utils: path.resolve(__dirname, 'src/utils/'),
       types: path.resolve(__dirname, 'src/types/'),
-      _constants: path.resolve(__dirname, 'src/constants.ts')
+      _constants: path.resolve(__dirname, 'src/constants.ts'),
+      server: path.resolve(__dirname, 'server')
     }
   },
   // TODO 方便调试，可以仅在 dev 环境下开启

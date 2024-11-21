@@ -1,16 +1,17 @@
 import Koa = require('koa')
 import webpack = require('webpack')
-import webpackMiddleware from './webpackMiddleware'
 const serve = require('koa-static')
 const Router = require('koa-router')
 const path = require('path')
-const { toTreeSync } = require('memfs/lib/print')
+const fs = require('fs')
 const clientConfig = require(path.resolve('./webpack.config.js'))({}, {})
-const koaDevMiddleware = require('./koaDevMiddleware')
 const { getSSRMiddleware } = require('./utils/sSRMiddleware')
+const webpackMiddleware = require('./webpackMiddleware')
 require('./types')
 
-const webpackState: webpack.CustomWebpackState = {}
+const webpackState: webpack.CustomWebpackState = {
+  outputFileSystem: fs
+}
 // eslint-disable-next-line no-console
 console.log('process.env.NODE_ENV: ', process.env.NODE_ENV)
 
@@ -25,41 +26,23 @@ app.use(async (ctx: Koa.Context, next) => {
   await next()
 })
 
-if (process.env.NODE_ENV === 'development') {
-  const compiler = webpack(clientConfig)
-  app.use(
-    koaDevMiddleware(compiler, {
-      ...clientConfig.devServer.devMiddleware,
-      publicPath: clientConfig.output.publicPath
-    })
-  )
-  app.use(async (ctx: Koa.Context, next) => {
-    const { devMiddleware } = ctx.state.webpack
-    const outputFileSystem = devMiddleware.outputFileSystem
-    const jsonWebpackStats = devMiddleware.stats.toJson({ normal: true })
-    webpackState.stats = jsonWebpackStats
-    const { assetsByChunkName } = jsonWebpackStats
-    // eslint-disable-next-line no-console
-    console.log(
-      'webpack finish: ',
-      assetsByChunkName,
-      toTreeSync(outputFileSystem)
-    )
+if (process.env.NODE_ENV === 'production') {
+  /**
+   * ssr logic
+   */
+  app.use(webpackMiddleware(webpackState))
+  app.use(async (ctx: Koa.CustomContext, next) => {
+    if (!webpackState.stats) {
+      throw 'the webpackStats is null'
+    }
+    // @ts-expect-error webpackState.stats 一定存在
+    ctx.webpackState = webpackState
     await next()
   })
-} else if (process.env.NODE_ENV === 'production') {
-  app.use(webpackMiddleware(webpackState))
-  app.use(serve(clientConfig.output.path))
+  app.use(serve(clientConfig.output.path, { defer: true }))
+  app.use(serverRenderMiddleware)
 }
 
-app.use(async (ctx: Koa.CustomContext, next) => {
-  if (!webpackState.stats) {
-    throw 'the webpackStats is null'
-  }
-  ctx.webpackState = webpackState
-  await next()
-})
-app.use(serverRenderMiddleware)
 app.use(apiRouter.routes()).use(apiRouter.allowedMethods())
 app.use(router.routes()).use(router.allowedMethods())
 

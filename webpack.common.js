@@ -1,15 +1,12 @@
 const path = require('path')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const { NODE_ENV } = require('./env.js')
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const BundleAnalyzerPlugin =
-  require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 module.exports = (mode) => {
   const devMode = mode === NODE_ENV.DEV
   return {
     entry: {
-      index: { import: './src/index.tsx' }
+      index: { import: [devMode ? './src/devIndex.tsx' : './src/index.tsx'] }
     },
     mode,
     output: {
@@ -60,7 +57,6 @@ module.exports = (mode) => {
         filename: devMode ? '[name].css' : '[name].[contenthash].css',
         chunkFilename: devMode ? '[id].css' : '[id].[contenthash].css'
       })
-      // new BundleAnalyzerPlugin({ openAnalyzer: false }) // http://127.0.0.1:8888/
     ],
     module: {
       rules: [
