@@ -21,8 +21,7 @@ module.exports = {
       assets: path.resolve(__dirname, 'src/assets/'),
       utils: path.resolve(__dirname, 'src/utils/'),
       types: path.resolve(__dirname, 'src/types/'),
-      _constants: path.resolve(__dirname, 'src/constants.ts'),
-      server: path.resolve(__dirname, 'server')
+      _constants: path.resolve(__dirname, 'src/constants.ts')
     }
   },
   // TODO 方便调试，可以仅在 dev 环境下开启
@@ -35,7 +34,14 @@ module.exports = {
         test: /\.(ts|tsx)$/i,
         // use: ['ts-loader']
         // TODO ts compile fail 不阻塞 webpack 编译完毕
-        use: [{ loader: 'ts-loader', options: { transpileOnly: true } }] // WILL DISABLE TYPESCRIPT ERRORS
+        use: [
+          {
+            loader: 'ts-loader',
+            options: {
+              transpileOnly: true
+            }
+          }
+        ] // WILL DISABLE TYPESCRIPT ERRORS
       }
     ]
   }

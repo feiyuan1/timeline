@@ -1,5 +1,5 @@
-import Routes from './Routes'
+import { PropsWithChildren } from 'react'
 
-export default function App() {
-  return <Routes />
+export default function App({ children }: PropsWithChildren) {
+  return children
 }

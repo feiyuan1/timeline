@@ -7,7 +7,6 @@ const fs = require('fs')
 const clientConfig = require(path.resolve('./webpack.config.js'))({}, {})
 const { getSSRMiddleware } = require('./utils/sSRMiddleware')
 const webpackMiddleware = require('./webpackMiddleware')
-require('./types')
 
 const webpackState: webpack.CustomWebpackState = {
   outputFileSystem: fs

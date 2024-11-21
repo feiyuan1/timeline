@@ -1,12 +1,11 @@
 import {
   createStaticHandler,
   createStaticRouter,
-  StaticRouterProvider,
   StaticHandlerContext
 } from 'react-router-dom/server'
 import Koa from 'koa'
 import { ServerResponse } from 'webpack-dev-middleware'
-import { routes } from '../Routes'
+import { routes } from '../Router'
 
 function createFetchRequest(req: Koa.Request, res: ServerResponse) {
   const origin = `${req.protocol}://${req.host}`
@@ -55,7 +54,7 @@ const getRouter = async (req: Koa.Request, res: ServerResponse) => {
   const fetchRequest = createFetchRequest(req, res)
   const context = (await query(fetchRequest)) as StaticHandlerContext
   const router = createStaticRouter(dataRoutes, context)
-  return <StaticRouterProvider router={router} context={context} />
+  return { router, context }
 }
 
 export default getRouter

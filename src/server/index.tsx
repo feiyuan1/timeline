@@ -1,8 +1,9 @@
 import { renderToString } from 'react-dom/server'
+import { StaticRouterProvider } from 'react-router-dom/server'
 import path from 'path'
 import Koa from 'koa'
-import getRouter from './handleReactRoute'
-import 'server/types'
+import getRouter from './getRouter'
+import App from '../App'
 
 /**
  * serverRenderMiddleware 处理路由规则：
@@ -29,12 +30,17 @@ async function serverRenderMiddleware(ctx: Koa.CustomContext, next: Koa.Next) {
     // eslint-disable-next-line no-console
     console.log('serverRender')
     const { res, request, webpackState } = ctx
-    const route = renderToString(await getRouter(request, res))
+    const routerProps = await getRouter(request, res)
+    const content = renderToString(
+      <App>
+        <StaticRouterProvider {...routerProps} />
+      </App>
+    )
     const fs = webpackState.outputFileSystem
     const { outputPath = '' } = webpackState.stats
     const filePath = path.resolve(outputPath, 'index.html')
     const htmlContent = fs.readFileSync(filePath, 'utf8')
-    const html = insertContent(htmlContent, `<div id="root">${route}</div>`)
+    const html = insertContent(htmlContent, `<div id="root">${content}</div>`)
     ctx.body = html
   }
   await next()

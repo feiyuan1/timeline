@@ -2,7 +2,6 @@ import { StatsCompilation, CustomWebpackState } from 'webpack'
 import { NODE_ENV } from '../../env'
 import { scripts as proScripts } from '../../scripts/build'
 import { scripts as devScripts } from '../../scripts/devBuild'
-import '../../server/types'
 
 interface ComposedAssetsType {
   scripts: string[]

@@ -6,6 +6,6 @@
     "outDir": "../dist/server",
     "skipLibCheck": true
   },
-  "include": ["**/*"],
+  "include": ["**/*", "../types"],
   "types": ["koa", "koa-static", "webpack-dev-middleware"]
 }
