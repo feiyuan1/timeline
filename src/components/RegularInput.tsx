@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import OriginalTextField from '@mui/material/TextField'
 import InputLabel from '@mui/material/InputLabel'
 import OriginalSelect, {
@@ -27,7 +28,13 @@ export const TextField = ({
 }: OriginalTextFieldProps) => {
   const [{ onChange: changeValidate, ...rest }, { update }] =
     useRegularInput(props)
-  const defaultDate = formatDate(Date.now())
+  const [defaultDate, setDefaultDate] = useState('')
+
+  useEffect(() => {
+    if (type === 'date') {
+      setDefaultDate(formatDate(Date.now()))
+    }
+  }, [type])
 
   const handleChange: React.ChangeEventHandler<
     HTMLInputElement | HTMLTextAreaElement
@@ -46,6 +53,7 @@ export const TextField = ({
       onChange(event)
     }
   }
+
   return (
     <OriginalTextField
       onChange={handleChange}
