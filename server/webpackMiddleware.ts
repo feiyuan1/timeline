@@ -24,9 +24,15 @@ const webpackMiddleware = (webpackState: webpack.CustomWebpackState) => {
       }
       webpackState.stats = statsJson
       webpackState.outputFileSystem = fs
-      // mock webpack-cli console log
-      // eslint-disable-next-line no-console
-      console.log('stats json: ', statsJson.warnings)
+      if (statsJson.warnings.length) {
+        logger.mutiError(
+          [
+            {
+              message: `WARNING: webpack compile successed with ${statsJson.warnings.length} WARNINGs`
+            }
+          ].concat(statsJson.warnings)
+        )
+      }
       resolve(0)
     })
   })
