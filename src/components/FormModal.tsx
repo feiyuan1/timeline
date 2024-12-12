@@ -60,8 +60,14 @@ const FormModalInner = ({
   }, [initValue, update])
 
   const handleFormSubmit: React.FormEventHandler<HTMLFormElement> = (event) => {
-    handleSubmit(ref.current)
     event.preventDefault()
+    try {
+      handleSubmit(ref.current)
+    } catch (e) {
+      // 捕获非 promise 异常，否则会刷新页面
+      // eslint-disable-next-line no-console
+      console.error(e)
+    }
   }
 
   return (
