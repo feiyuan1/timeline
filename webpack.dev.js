@@ -10,7 +10,13 @@ module.exports = merge(common(NODE_ENV.DEV), {
   devtool: false,
   devServer: {
     historyApiFallback: true,
-    hot: false
+    hot: false,
+    proxy: [
+      {
+        context: ['/api'],
+        target: 'http://localhost:3001'
+      }
+    ]
   },
   plugins: [
     new HtmlWebpackPlugin({

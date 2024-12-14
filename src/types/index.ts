@@ -1,18 +1,20 @@
 import { NodeType, Type } from '_constants'
 export interface BasicInfo {
-  id: number
+  id: string
   type: Type
   createTime: number
   updateTime: number
   name: string
-  description: string
+  description?: string
 }
 
+// TODO FormLog
 export interface Log extends BasicInfo {
   content: string // 记录内容
   type: Type.log
 }
 
+// TODO FormNode
 export interface LineNode extends BasicInfo {
   logs: Log[]
   key: number | string // 节点关键词，时间戳或者自定义字符串
@@ -25,9 +27,13 @@ export interface Line extends BasicInfo {
   type: Type.line | Type.childLine
 }
 
+export type FormLine = Pick<Line, 'nodeType' | 'name' | 'description'>
+
 export interface LineGroup extends BasicInfo {
   lines: Line[]
   type: Type.lineGroup
 }
+
+export type FormGroup = Pick<LineGroup, 'name' | 'description'>
 
 export type ObjectWithString = Record<string, unknown>

@@ -35,7 +35,6 @@ function createFetchRequest(req: Koa.Request, res: ServerResponse) {
   }
 
   if (req.method !== 'GET' && req.method !== 'HEAD') {
-    // @ts-expect-error after use @types/koa-bodyparser, type of req.body is unknown
     init.body = req.body
   }
 

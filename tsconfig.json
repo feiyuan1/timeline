@@ -1,5 +1,5 @@
 {
-  "exclude": ["./server/**/*"],
+  "exclude": ["./server/**/*", "./backend/**/*"],
   "compilerOptions": {
     "module": "ESNext",
     "moduleResolution": "Bundler",
@@ -30,7 +30,8 @@
       "utils/*": ["./src/utils/*"],
       "types": ["./src/types"],
       "types/*": ["./src/types/*"],
-      "_constants": ["./src/constants.ts"]
+      "_constants": ["./src/constants.ts"],
+      "api/*": ["./src/api/*"]
     },
     "skipLibCheck": true
   }
