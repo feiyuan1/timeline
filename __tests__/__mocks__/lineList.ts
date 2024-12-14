@@ -2,7 +2,7 @@ import { Line, LineGroup } from 'types'
 
 export const list: (Line | LineGroup)[] = [
   {
-    id: 0,
+    id: '0',
     type: 1, // 0 线路 1 线路组 2 子线路 3 节点 4 记录
     createTime: 123,
     updateTime: 123,
@@ -10,7 +10,7 @@ export const list: (Line | LineGroup)[] = [
     description: '梳理历史线',
     lines: [
       {
-        id: 0,
+        id: '0',
         type: 0,
         createTime: 123,
         updateTime: 123,
@@ -19,7 +19,7 @@ export const list: (Line | LineGroup)[] = [
         nodeType: 0, // 0-date 1-custom
         nodes: [
           {
-            id: 0,
+            id: '0',
             type: 3,
             updateTime: 123,
             createTime: 123,
@@ -29,7 +29,7 @@ export const list: (Line | LineGroup)[] = [
             key: 123 // number or string
           },
           {
-            id: 2,
+            id: '2',
             type: 3,
             updateTime: 123,
             createTime: 123,
@@ -39,7 +39,7 @@ export const list: (Line | LineGroup)[] = [
             key: 123 // number or string
           },
           {
-            id: 1,
+            id: '1',
             updateTime: 123,
             type: 3,
             createTime: 123,
@@ -51,7 +51,7 @@ export const list: (Line | LineGroup)[] = [
         ]
       },
       {
-        id: 0,
+        id: '0',
         type: 0,
         createTime: 123,
         updateTime: 1233,
@@ -60,7 +60,7 @@ export const list: (Line | LineGroup)[] = [
         nodeType: 0, // 0-date 1-custom
         nodes: [
           {
-            id: 0,
+            id: '0',
             type: 3,
             updateTime: 123,
             createTime: 123,
@@ -72,7 +72,7 @@ export const list: (Line | LineGroup)[] = [
         ]
       },
       {
-        id: 0,
+        id: '0',
         type: 0,
         createTime: 123,
         updateTime: 1234,
@@ -81,7 +81,7 @@ export const list: (Line | LineGroup)[] = [
         nodeType: 0, // 0-date 1-custom
         nodes: [
           {
-            id: 2,
+            id: '2',
             updateTime: 123,
             createTime: 123,
             type: 3,
@@ -91,7 +91,7 @@ export const list: (Line | LineGroup)[] = [
             key: 123 // number or string
           },
           {
-            id: 1,
+            id: '1',
             updateTime: 123,
             type: 3,
             createTime: 123,
@@ -105,7 +105,7 @@ export const list: (Line | LineGroup)[] = [
     ]
   },
   {
-    id: 0,
+    id: '0',
     type: 0,
     createTime: 123,
     updateTime: 123,
@@ -114,27 +114,7 @@ export const list: (Line | LineGroup)[] = [
     nodeType: 0, // 0-date 1-custom
     nodes: [
       {
-        id: 0,
-        updateTime: 123,
-        type: 3,
-        createTime: 123,
-        name: 'day1',
-        description: 'start...',
-        logs: [],
-        key: 123 // number or string
-      },
-      {
-        id: 2,
-        updateTime: 123,
-        createTime: 123,
-        type: 3,
-        name: 'day1',
-        description: 'start...',
-        logs: [],
-        key: 123 // number or string
-      },
-      {
-        id: 1,
+        id: '0',
         updateTime: 123,
         type: 3,
         createTime: 123,
@@ -146,7 +126,7 @@ export const list: (Line | LineGroup)[] = [
     ]
   },
   {
-    id: 0,
+    id: '0',
     type: 0,
     createTime: 123,
     updateTime: 123,
@@ -156,7 +136,7 @@ export const list: (Line | LineGroup)[] = [
     nodes: []
   },
   {
-    id: 0,
+    id: '0',
     type: 1, // 0 线路 1 线路组 2 子线路 3 节点 4 记录
     createTime: 123,
     updateTime: 123,
