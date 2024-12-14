@@ -21,7 +21,8 @@ module.exports = {
       assets: path.resolve(__dirname, 'src/assets/'),
       utils: path.resolve(__dirname, 'src/utils/'),
       types: path.resolve(__dirname, 'src/types/'),
-      _constants: path.resolve(__dirname, 'src/constants.ts')
+      _constants: path.resolve(__dirname, 'src/constants.ts'),
+      api: path.resolve(__dirname, 'src/api/')
     }
   },
   // TODO 方便调试，可以仅在 dev 环境下开启
