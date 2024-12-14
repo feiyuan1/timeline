@@ -1,0 +1,7 @@
+{
+  "watch": ["./backend"],
+  "ext": "js,ts,json",
+  "execMap": {
+    "js": "npx tsc -p ./backend && node"
+  }
+}

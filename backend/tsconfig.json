@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "noImplicitAny": true,
+    "outDir": "../dist/backend",
+    "skipLibCheck": true
+  },
+  "include": ["**/*", "../types"],
+  "types": ["koa", "koa-static", "koa-bodyparser"]
+}
