@@ -1,27 +1,24 @@
 import Koa = require('koa')
 import webpack = require('webpack')
 const serve = require('koa-static')
-const Router = require('koa-router')
 const path = require('path')
 const fs = require('fs')
 const clientConfig = require(path.resolve('./webpack.config.js'))({}, {})
 const { getSSRMiddleware } = require('./utils/sSRMiddleware')
 const webpackMiddleware = require('./webpackMiddleware')
+const proxy = require('koa-better-http-proxy')
+const logger = require(path.resolve('./serverUtils/log.js'))
 
+// eslint-disable-next-line no-console
+console.log('process.env.NODE_ENV: ', process.env.NODE_ENV)
 const webpackState: webpack.CustomWebpackState = {
   outputFileSystem: fs
 }
-// eslint-disable-next-line no-console
-console.log('process.env.NODE_ENV: ', process.env.NODE_ENV)
-
 const app = new Koa()
 const serverRenderMiddleware = getSSRMiddleware()
-const router = new Router()
-const apiRouter = new Router({ prefix: '/api' })
 
 app.use(async (ctx: Koa.Context, next) => {
-  // eslint-disable-next-line no-console
-  console.log('request path: ', ctx.response.request.path)
+  logger.log('request path: ', ctx.response.request.path)
   await next()
 })
 
@@ -42,7 +39,12 @@ if (process.env.NODE_ENV === 'production') {
   app.use(serverRenderMiddleware)
 }
 
-app.use(apiRouter.routes()).use(apiRouter.allowedMethods())
-app.use(router.routes()).use(router.allowedMethods())
+app.use(async (ctx: Koa.Context, next: Koa.Next) => {
+  if (ctx.path.startsWith('/api')) {
+    const target = 'http://localhost:3001'
+    return proxy(target)(ctx, next)
+  }
+  await next()
+})
 
 module.exports = app
