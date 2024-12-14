@@ -6,8 +6,12 @@ import Box from '@mui/material/Box'
 import MenuItem from '@mui/material/MenuItem'
 import Menu from '@mui/material/Menu'
 import { TextField, Select } from 'components/RegularInput'
-import { NodeType } from '_constants'
+import Alert from 'components/Alert'
 import useToggle from 'utils/useToggle'
+import { addLine } from 'api/line'
+import { addGroup } from 'api/lineGroup'
+import { NodeType } from '_constants'
+import { FormGroup, FormLine } from 'types'
 
 export const options = [
   { label: '时间', key: 'date', value: NodeType.date },
@@ -40,10 +44,15 @@ export const lineProps: Omit<FormModalProps, 'open' | 'handleClose'> = {
       </Select>
     </>
   ),
-  handleSubmit: (value: object) => {
+  handleSubmit: (value: FormLine) => {
     // eslint-disable-next-line no-console
     console.log('submit: ', value)
-    // reload page
+    addLine(value).then((data) => {
+      if (data.code === 0) {
+        Alert.success('保存成功')
+        location.reload()
+      }
+    })
   }
 }
 
@@ -63,10 +72,15 @@ export const groupProps: Omit<FormModalProps, 'open' | 'handleClose'> = {
       <TextField name="description" label="描述" />
     </>
   ),
-  handleSubmit: (value: object) => {
+  handleSubmit: (value: FormGroup) => {
     // eslint-disable-next-line no-console
     console.log('submit: ', value)
-    // reload page
+    addGroup(value).then((data) => {
+      if (data.code === 0) {
+        Alert.success('添加成功')
+        location.reload()
+      }
+    })
   }
 }
 
