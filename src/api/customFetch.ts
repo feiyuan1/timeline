@@ -23,12 +23,20 @@ const customFetch = (url: RequestInfo | URL, config?: Config) => {
   return fetch(resource, options)
     .then((response) => {
       if (!response.ok) {
-        Alert.error(`request ${resource} failed with ${response.status}`)
+        throw response.status
       }
       return response.json()
     })
+    .then((json) => {
+      if (json.code === 0) {
+        return json.data
+      }
+      throw json.msg
+    })
     .catch((err) => {
-      Alert.error(`request ${resource} failed with ${err}`)
+      const errorInfo = `request ${resource} failed with ${err.message}`
+      Alert.error(errorInfo)
+      throw errorInfo
     })
 }
 

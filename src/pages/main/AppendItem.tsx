@@ -47,11 +47,9 @@ export const lineProps: Omit<FormModalProps, 'open' | 'handleClose'> = {
   handleSubmit: (value: FormLine) => {
     // eslint-disable-next-line no-console
     console.log('submit: ', value)
-    addLine(value).then((data) => {
-      if (data.code === 0) {
-        Alert.success('保存成功')
-        location.reload()
-      }
+    addLine(value).then(() => {
+      Alert.success('保存成功')
+      location.reload()
     })
   }
 }
@@ -75,11 +73,9 @@ export const groupProps: Omit<FormModalProps, 'open' | 'handleClose'> = {
   handleSubmit: (value: FormGroup) => {
     // eslint-disable-next-line no-console
     console.log('submit: ', value)
-    addGroup(value).then((data) => {
-      if (data.code === 0) {
-        Alert.success('添加成功')
-        location.reload()
-      }
+    addGroup(value).then(() => {
+      Alert.success('添加成功')
+      location.reload()
     })
   }
 }
