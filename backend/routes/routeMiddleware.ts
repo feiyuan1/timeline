@@ -3,8 +3,8 @@ import struct = require('./struct')
 
 const { dataStruct } = struct
 
-export const responseMiddleware = function <T>() {
-  return async function (ctx: Koa.BeContext<T>, next: Koa.Next) {
+export const responseMiddleware = function <Coll, Content>() {
+  return async function (ctx: Koa.BeContext<Coll>, next: Koa.Next) {
     const { response, error } = ctx
     // intentionally error for both of fe and be
     if (error) {
@@ -13,9 +13,9 @@ export const responseMiddleware = function <T>() {
       await next()
       return
     }
-    const data = response.body as T | undefined | string
+    const data = response.body as Content | undefined | string
     response.set('Content-Type', 'application/json')
-    response.body = JSON.stringify(dataStruct<T>(data && { data }))
+    response.body = JSON.stringify(dataStruct<Content>(data && { data }))
     await next()
   }
 }

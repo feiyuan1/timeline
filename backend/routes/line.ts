@@ -9,8 +9,8 @@ const { responseMiddleware, collectionMiddleware } = routeMiddleware
 const prefix = '/line'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const routeLine = (router: Router<any, Koa.BeContext<types.Line>>) => {
-  router.use(collectionMiddleware<types.Line>('line'))
+const routeLine = (router: Router<any, Koa.BeContext<types.LineD>>) => {
+  router.use(prefix, collectionMiddleware<types.LineD>('line'))
 
   // http://localhost:3000/api/line
   router.post('/line/:id', async (ctx, next) => {
@@ -18,7 +18,7 @@ const routeLine = (router: Router<any, Koa.BeContext<types.Line>>) => {
       request,
       db: { collection }
     } = ctx
-    const data = request.body as types.Line
+    const data = request.body as types.FormLine
     if (!Object.keys(data).length) {
       ctx.error = 'request body is empty, nothing to change'
       await next()
@@ -48,9 +48,7 @@ const routeLine = (router: Router<any, Koa.BeContext<types.Line>>) => {
       db: { collection }
     } = ctx
     const query = request.query || {}
-    const cursor = await collection.find<types.Line>(query)
-    const data = await cursor.toArray()
-    ctx.body = data
+    ctx.body = await collection.find<types.LineD>(query).toArray()
     await next()
   })
 
@@ -63,7 +61,7 @@ const routeLine = (router: Router<any, Koa.BeContext<types.Line>>) => {
     await next()
   })
 
-  router.use(prefix, responseMiddleware<types.Line>())
+  router.use(prefix, responseMiddleware<types.LineD, types.Line>())
 }
 
 module.exports = routeLine

@@ -22,6 +22,10 @@ export interface BasicInfo {
   description: string
 }
 
+export interface BasicInfoWithRefs extends BasicInfo {
+  refs: string[]
+}
+
 export interface Log extends BasicInfo {
   content: string // 记录内容
   type: Type.log
@@ -33,9 +37,19 @@ export interface LineNode extends BasicInfo {
   type: Type.node
 }
 
+export interface LineNodeD extends BasicInfoWithRefs {
+  key: number | string // 节点关键词，时间戳或者自定义字符串
+  type: Type.node
+}
+
 export interface Line extends BasicInfo {
   nodeType: NodeType
   nodes: LineNode[]
+  type: Type.line | Type.childLine
+}
+
+export interface LineD extends BasicInfoWithRefs {
+  nodeType: NodeType
   type: Type.line | Type.childLine
 }
 
@@ -46,5 +60,10 @@ export interface LineGroup extends BasicInfo {
   type: Type.lineGroup
 }
 
+export interface LineGroupD extends BasicInfoWithRefs {
+  type: Type.lineGroup
+}
+
 export type FormGroup = Pick<LineGroup, 'name' | 'description'>
+
 export type ObjectWithString = Record<string, unknown>
