@@ -10,6 +10,7 @@
     "server-fe": "npm run build:server && npx tsc -p ./server && cross-env NODE_ENV=production node ./dist/server/index.js",
     "server-be": "nodemon ./dist/backend/index.js",
     "analyse": "webpack --mode=production --profile --json > stats.json",
+    "symLink": "node ./symLinkFile.js",
     "lint": "npx eslint ./src ./__tests__",
     "lint:fix": "npx eslint ./src ./__tests__ --fix",
     "test": "jest -o"

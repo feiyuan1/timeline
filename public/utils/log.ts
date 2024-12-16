@@ -1,7 +1,7 @@
 const PrettyError = require('pretty-error')
 const pe = new PrettyError()
 
-const error = (err) => {
+const error = (err: Error) => {
   // eslint-disable-next-line no-console
   console.log(pe.render(err))
 }
@@ -9,7 +9,7 @@ module.exports = {
   // eslint-disable-next-line no-console
   log: console.log,
   error,
-  mutiError: (errs) => {
+  mutiError: (errs: Error[]) => {
     errs.forEach(error)
   }
 }

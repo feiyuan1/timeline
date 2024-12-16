@@ -1,9 +1,8 @@
-const path = require('path')
 import Koa = require('koa')
 import Router = require('koa-router')
 import mongodb = require('mongodb')
 const { bodyParser } = require('@koa/bodyparser')
-const logger = require(path.resolve('./serverUtils/log.js'))
+const logger = require('./util')
 const routes = require('./routes')
 
 const { MongoClient, ServerApiVersion } = mongodb

@@ -31,7 +31,8 @@
       "types": ["./src/types"],
       "types/*": ["./src/types/*"],
       "_constants": ["./src/constants.ts"],
-      "api/*": ["./src/api/*"]
+      "api/*": ["./src/api/*"],
+      "public/*": ["./src/public/*"]
     },
     "skipLibCheck": true
   }

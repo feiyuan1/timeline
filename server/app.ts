@@ -7,7 +7,7 @@ const clientConfig = require(path.resolve('./webpack.config.js'))({}, {})
 const { getSSRMiddleware } = require('./utils/sSRMiddleware')
 const webpackMiddleware = require('./webpackMiddleware')
 const proxy = require('koa-better-http-proxy')
-const logger = require(path.resolve('./serverUtils/log.js'))
+const logger = require('./utils/index')
 
 // eslint-disable-next-line no-console
 console.log('process.env.NODE_ENV: ', process.env.NODE_ENV)

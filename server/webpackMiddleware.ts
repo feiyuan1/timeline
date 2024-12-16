@@ -2,7 +2,7 @@ import Koa = require('koa')
 import webpack = require('webpack')
 const path = require('path')
 const fs = require('fs')
-const logger = require(path.resolve('./serverUtils/log.js'))
+const logger = require('./utils/index')
 const clientConfig = require(path.resolve('./webpack.config.js'))({}, {})
 
 const webpackMiddleware = (webpackState: webpack.CustomWebpackState) => {
