@@ -16,8 +16,8 @@ const transformQuery = (query: Config['query']) => {
   return `?${searchParams}`
 }
 
-const customFetch = (url: RequestInfo | URL, config: Config) => {
-  const { query, ...options } = config
+const customFetch = (url: RequestInfo | URL, config?: Config) => {
+  const { query, ...options } = config || {}
   const resource = url + transformQuery(query)
 
   return fetch(resource, options)

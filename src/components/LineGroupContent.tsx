@@ -74,7 +74,7 @@ export const LineGroupContent = ({
   return (
     <Box>
       <CardHeader title={'组/' + name} />
-      {lines.length > 0 && (
+      {lines.length > 0 ? (
         <Box>
           <Tabs
             value={curTab}
@@ -88,6 +88,8 @@ export const LineGroupContent = ({
           </Tabs>
           <LineContent data={lines[curTab]} />
         </Box>
+      ) : (
+        <CardContent>暂未添加时间线</CardContent>
       )}
     </Box>
   )

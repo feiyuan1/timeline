@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
@@ -9,7 +9,7 @@ import AppendItem from './AppendItem'
 import { Line, LineGroup } from 'types'
 import { Type } from '_constants'
 import { getLink } from 'utils/index'
-import { list } from '../../../__tests__/__mocks__/lineList'
+import { getAllList } from 'api/mix'
 
 export const getCardContent = (data: Line | LineGroup) => {
   if (data.type === Type.lineGroup) {
@@ -43,10 +43,17 @@ export const ListItem = ({ data }: { data: Line | LineGroup }) => {
 
 const Main = () => {
   const [currentTab, setTab] = useState(0)
+  const [list, setList] = useState<(Line | LineGroup)[]>([])
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setTab(newValue)
   }
+
+  useEffect(() => {
+    getAllList().then((data) => {
+      setList(data)
+    })
+  }, [])
 
   return (
     <>
