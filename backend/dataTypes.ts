@@ -1,7 +1,7 @@
 import { Type, NodeType } from './public/constants'
-import { BasicInfo } from './public/types'
+import { BasicInfo } from './public/types/index'
 export * from './public/constants'
-export * from './public/types'
+export * from './public/types/index'
 
 export interface BasicInfoWithRefs extends BasicInfo {
   refs: string[]
