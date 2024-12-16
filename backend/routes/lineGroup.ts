@@ -42,13 +42,16 @@ const routeGroup = (router: Router<any, Koa.BeContext<types.LineGroupD>>) => {
     await next()
   })
 
-  router.get(prefix, async (ctx, next) => {
+  router.get(`${prefix}`, async (ctx, next) => {
     const {
       request,
       db: { collection }
     } = ctx
     const query = request.query || {}
-    const cursor = await collection.find<types.LineGroup>(query)
+    const cursor = await collection.aggregate([
+      { $match: query },
+      struct.groupStage
+    ])
     const data = await cursor.toArray()
     ctx.body = data
     await next()
