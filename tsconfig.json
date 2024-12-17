@@ -30,7 +30,7 @@
       "utils/*": ["./src/utils/*"],
       "types": ["./src/types"],
       "types/*": ["./src/types/*"],
-      "_constants": ["./src/constants.ts"],
+      "_constants/*": ["./src/constants/*"],
       "api/*": ["./src/api/*"],
       "public/*": ["./src/public/*"]
     },

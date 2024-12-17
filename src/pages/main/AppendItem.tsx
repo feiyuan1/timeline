@@ -1,84 +1,11 @@
 import { memo, useCallback, useMemo, useState } from 'react'
-import AddIcon from '@mui/icons-material/Add'
-import FormModal, { FormModalProps } from 'components/FormModal'
-import IconButton from '@mui/material/IconButton'
+import FormModal from 'components/FormModal'
 import Box from '@mui/material/Box'
 import MenuItem from '@mui/material/MenuItem'
 import Menu from '@mui/material/Menu'
-import { TextField, Select } from 'components/RegularInput'
-import Alert from 'components/Alert'
 import useToggle from 'utils/useToggle'
-import { addLine } from 'api/line'
-import { addGroup } from 'api/lineGroup'
-import { NodeType } from '_constants'
-import { FormGroup, FormLine } from 'types'
-
-export const options = [
-  { label: '时间', key: 'date', value: NodeType.date },
-  { label: '自定义', key: 'custom', value: NodeType.custom }
-]
-
-export const lineProps: Omit<FormModalProps, 'open' | 'handleClose'> = {
-  initValue: {
-    nodeType: NodeType.date
-  },
-  validations: {
-    name: {
-      required: {
-        value: true,
-        message: '请填写名称'
-      }
-    }
-  },
-  title: '新增线路',
-  children: (
-    <>
-      <TextField name="name" label="名称" />
-      <TextField name="description" label="描述" />
-      <Select name="nodeType" label="时间轴类型" variant="standard">
-        {options.map(({ label, value, key }) => (
-          <MenuItem value={value} key={key}>
-            {label}
-          </MenuItem>
-        ))}
-      </Select>
-    </>
-  ),
-  handleSubmit: (value: FormLine) => {
-    // eslint-disable-next-line no-console
-    console.log('submit: ', value)
-    addLine(value).then(() => {
-      Alert.success('保存成功')
-      location.reload()
-    })
-  }
-}
-
-export const groupProps: Omit<FormModalProps, 'open' | 'handleClose'> = {
-  validations: {
-    name: {
-      required: {
-        value: true,
-        message: '请填写名称'
-      }
-    }
-  },
-  title: '新增线路组',
-  children: (
-    <>
-      <TextField name="name" label="名称" />
-      <TextField name="description" label="描述" />
-    </>
-  ),
-  handleSubmit: (value: FormGroup) => {
-    // eslint-disable-next-line no-console
-    console.log('submit: ', value)
-    addGroup(value).then(() => {
-      Alert.success('添加成功')
-      location.reload()
-    })
-  }
-}
+import { lineProps, groupProps } from '_constants/form'
+import AddButton from 'components/AddButton'
 
 const AppendItem = memo(() => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
@@ -120,12 +47,7 @@ const AppendItem = memo(() => {
 
   return (
     <Box>
-      <IconButton
-        sx={{ position: 'absolute', right: '20px', bottom: '60px' }}
-        onClick={handleAdd}
-      >
-        <AddIcon color="primary" sx={{ fontSize: 40 }} />
-      </IconButton>
+      <AddButton onClick={handleAdd} />
       <Menu
         id="basic-menu"
         anchorEl={anchorEl}

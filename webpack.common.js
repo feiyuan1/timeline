@@ -23,7 +23,7 @@ module.exports = (mode) => {
         assets: path.resolve(__dirname, 'src/assets/'),
         utils: path.resolve(__dirname, 'src/utils/'),
         types: path.resolve(__dirname, 'src/types/'),
-        _constants: path.resolve(__dirname, 'src/constants.ts'),
+        _constants: path.resolve(__dirname, 'src/constants'),
         api: path.resolve(__dirname, 'src/api/'),
         public: path.resolve(__dirname, 'src/public/')
       }

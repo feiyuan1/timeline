@@ -7,7 +7,7 @@ import Card from '@mui/material/Card'
 import LineContent, { LineGroupContent } from 'components/LineGroupContent'
 import AppendItem from './AppendItem'
 import { Line, LineGroup } from 'types'
-import { Type } from '_constants'
+import { Type } from '_constants/index'
 import { getLink } from 'utils/index'
 import { getAllList } from 'api/mix'
 

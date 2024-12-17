@@ -1,4 +1,4 @@
-import { Type } from '_constants'
+import { Type } from '_constants/index'
 import { Line, LineGroup } from 'types'
 
 export const getLink = (data: Line | LineGroup) => {
