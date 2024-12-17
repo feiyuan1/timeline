@@ -4,14 +4,18 @@ import { TextField, Select } from 'components/RegularInput'
 import Alert from 'components/Alert'
 import { addLine } from 'api/line'
 import { addGroup } from 'api/lineGroup'
+import { addNode } from 'api/node'
 import { NodeType } from '_constants/index'
-import { FormGroup, FormLine } from 'types'
+import { FormGroup, FormLine, FormNode } from 'types'
+
 export const options = [
   { label: '时间', key: 'date', value: NodeType.date },
   { label: '自定义', key: 'custom', value: NodeType.custom }
 ]
 
-export const lineProps: Omit<FormModalProps, 'open' | 'handleClose'> = {
+type FormPropsOmitToggle = Omit<FormModalProps, 'open' | 'handleClose'>
+
+export const lineProps: FormPropsOmitToggle = {
   initValue: {
     nodeType: NodeType.date
   },
@@ -47,7 +51,7 @@ export const lineProps: Omit<FormModalProps, 'open' | 'handleClose'> = {
   }
 }
 
-export const groupProps: Omit<FormModalProps, 'open' | 'handleClose'> = {
+export const groupProps: FormPropsOmitToggle = {
   validations: {
     name: {
       required: {
@@ -72,3 +76,45 @@ export const groupProps: Omit<FormModalProps, 'open' | 'handleClose'> = {
     })
   }
 }
+
+export const nodeProps: (props: {
+  lineId: string
+  nodeType: NodeType
+  otherProps?: Partial<FormModalProps>
+}) => FormPropsOmitToggle = ({ nodeType, lineId, otherProps }) => ({
+  validations: {
+    name: {
+      required: {
+        value: true,
+        message: '请填写名称'
+      }
+    },
+    key: {
+      required: {
+        value: true,
+        message: '请填写 key'
+      }
+    }
+  },
+  title: '新增节点',
+  children: (
+    <>
+      <TextField name="name" label="名称" />
+      <TextField name="description" label="描述" />
+      <TextField
+        {...(nodeType === NodeType.date && { type: 'date' })}
+        name="key"
+        label="key"
+      />
+    </>
+  ),
+  handleSubmit: (value: FormNode) => {
+    // eslint-disable-next-line no-console
+    console.log('submit: ', value)
+    addNode(lineId, value).then(() => {
+      Alert.success('添加成功')
+      location.reload()
+    })
+  },
+  ...otherProps
+})
