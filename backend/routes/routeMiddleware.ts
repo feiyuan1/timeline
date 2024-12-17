@@ -9,7 +9,7 @@ export const responseMiddleware = function <Coll, Content>() {
     // intentionally error for both of fe and be
     if (error) {
       response.set('Content-Type', 'application/json')
-      response.body = JSON.stringify(struct.errorStruct({ msg: error }))
+      response.body = JSON.stringify(struct.errorStruct(error))
       await next()
       return
     }

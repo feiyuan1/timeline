@@ -13,7 +13,7 @@ const routeLine = (router: Router<any, Koa.BeContext<types.LineD>>) => {
   router.use(prefix, collectionMiddleware<types.LineD>('line'))
 
   // http://localhost:3000/api/line
-  router.post('/line/:id', async (ctx, next) => {
+  router.post(`${prefix}/:id`, async (ctx, next) => {
     const {
       request,
       db: { collection }
@@ -31,7 +31,7 @@ const routeLine = (router: Router<any, Koa.BeContext<types.LineD>>) => {
     await next()
   })
 
-  router.put('/line', async (ctx, next) => {
+  router.put(prefix, async (ctx, next) => {
     const {
       request,
       db: { collection }
@@ -42,17 +42,19 @@ const routeLine = (router: Router<any, Koa.BeContext<types.LineD>>) => {
     await next()
   })
 
-  router.get('/line', async (ctx, next) => {
+  router.get(prefix, async (ctx, next) => {
     const {
       request,
       db: { collection }
     } = ctx
     const query = request.query || {}
-    ctx.body = await collection.find<types.LineD>(query).toArray()
+    ctx.body = await collection
+      .aggregate<types.LineD>([{ $match: query }, struct.lineStage])
+      .toArray()
     await next()
   })
 
-  router.delete('/line/:id', async (ctx, next) => {
+  router.delete(`${prefix}/:id`, async (ctx, next) => {
     const {
       db: { collection },
       params: { id }

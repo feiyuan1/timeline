@@ -5,25 +5,31 @@ import {
   LineD,
   LineGroupD,
   LineNodeD,
-  Type
+  Type,
+  Code,
+  ErrorStructProps
 } from '../dataTypes'
 
-enum Code {
-  success = 0,
-  error
+const defaultMsg: Partial<Record<Code, string>> = {
+  [Code.requiredError]: 'miss required data',
+  [Code.dataSourceError]: 'data assigned to wrong place'
 }
 
-interface ErrorStructProps {
-  code?: Code
-  msg: string
-}
-export const errorStruct = function ({
-  code = Code.error,
-  msg
-}: ErrorStructProps) {
+export const errorStruct = function (err: ErrorStructProps | Code | string) {
+  if (typeof err === 'object') {
+    return err
+  }
+
+  if (typeof err === 'number') {
+    return {
+      code: err,
+      msg: defaultMsg[err]
+    }
+  }
+
   return {
-    code,
-    msg
+    code: Code.error,
+    err
   }
 }
 

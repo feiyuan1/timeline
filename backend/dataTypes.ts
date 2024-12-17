@@ -22,3 +22,14 @@ export interface LineGroupD extends BasicInfoWithRefs {
 }
 
 export type ObjectWithString = Record<string, unknown>
+
+export enum Code {
+  success = 0,
+  error,
+  requiredError,
+  dataSourceError
+}
+export interface ErrorStructProps {
+  code?: Code
+  msg: string
+}
