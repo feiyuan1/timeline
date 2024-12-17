@@ -9,13 +9,13 @@ import Box from '@mui/material/Box'
 import FormModal from 'components/FormModal'
 import LineContent from 'components/LineGroupContent'
 import Alert from 'components/Alert'
+import { AddButton } from 'components/CustomButton'
 import { LineGroup, FormLine } from 'types'
 import { getLink } from 'utils/index'
 import { getGroup, addChildLine } from 'api/lineGroup'
 import { lineProps as formProps } from '_constants/form'
 import useToggle from 'utils/useToggle'
 import useRequiredParams from 'utils/useRequiredParams'
-import AddButton from 'components/AddButton'
 
 const LineGroup = () => {
   const [openLine, toggleLine] = useToggle()

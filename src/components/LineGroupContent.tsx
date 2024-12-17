@@ -9,9 +9,13 @@ import Chip from '@mui/material/Chip'
 import Stack from '@mui/material/Stack'
 import Divider from '@mui/material/Divider'
 import { Line, LineGroup } from 'types'
+import { formatDate } from 'utils/date'
+import { DeleteButton } from './CustomButton'
+import { deleteLine } from 'api/line'
+import Alert from './Alert'
 
 const LineContent = ({
-  data: { updateTime, nodes },
+  data: { updateTime, nodes, id },
   handleClick
 }: {
   data: Line
@@ -21,41 +25,52 @@ const LineContent = ({
     ...(handleClick && { onClick: handleClick }),
     component: 'div'
   }
-  if (!nodes.length) {
-    return <CardContent {...cardPoprs}>暂无节点</CardContent>
+
+  const del = () => {
+    deleteLine(id).then(() => {
+      Alert.success('删除成功')
+      location.reload()
+    })
   }
 
   return (
-    <CardContent {...cardPoprs}>
-      <Stack
-        direction="row"
-        spacing={1}
-        sx={{ marginBottom: '20px', alignItems: 'center' }}
-        divider={<Divider sx={{ width: 30, borderColor: 'black' }} />}
-      >
-        {nodes.map((node) => (
-          <Box
-            sx={{
-              width: 150,
-              display: 'flex',
-              flexDirection: 'column',
-              rowGap: '10px',
-              alignItems: 'center'
-            }}
-            key={node.id}
+    <CardContent {...cardPoprs} sx={{ position: 'relative' }}>
+      {nodes.length ? (
+        <Box>
+          <Stack
+            direction="row"
+            spacing={1}
+            sx={{ marginBottom: '20px', alignItems: 'center' }}
+            divider={<Divider sx={{ width: 30, borderColor: 'black' }} />}
           >
-            <Chip
-              label={node.updateTime}
-              variant="outlined"
-              sx={{ width: 100 }}
-            />
-            <Typography>{node.name}</Typography>
-          </Box>
-        ))}
-      </Stack>
-      <Typography sx={{ fontSize: 12 }} color="#aaa">
-        创建时间:{updateTime}
-      </Typography>
+            {nodes.map((node) => (
+              <Box
+                sx={{
+                  width: 150,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  rowGap: '10px',
+                  alignItems: 'center'
+                }}
+                key={node.id}
+              >
+                <Chip
+                  label={formatDate(node.updateTime)}
+                  variant="outlined"
+                  sx={{ width: 100 }}
+                />
+                <Typography>{node.name}</Typography>
+              </Box>
+            ))}
+          </Stack>
+          <Typography sx={{ fontSize: 12 }} color="#aaa">
+            创建时间:{formatDate(updateTime)}
+          </Typography>
+        </Box>
+      ) : (
+        '暂无节点'
+      )}
+      <DeleteButton onClick={del} />
     </CardContent>
   )
 }
