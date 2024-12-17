@@ -1,7 +1,7 @@
 import Koa = require('koa')
 import Router = require('koa-router')
 import types = require('../dataTypes')
-const struct = require('./struct')
+import struct = require('./struct')
 import routeMiddleware = require('./routeMiddleware')
 
 const { lineStruct } = struct
