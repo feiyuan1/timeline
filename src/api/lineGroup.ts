@@ -1,4 +1,4 @@
-import { FormGroup, LineGroup } from 'types'
+import { FormGroup, FormLine, LineGroup } from 'types'
 import customFetch from './customFetch'
 
 const prefix = '/api/group'
@@ -12,6 +12,16 @@ export const addGroup = (lineGroup: FormGroup) => {
   return customFetch(prefix, {
     method: 'put',
     body: JSON.stringify(lineGroup),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+}
+
+export const addChildLine = (id: string, line: FormLine) => {
+  return customFetch(`${prefix}/line/${id}`, {
+    method: 'put',
+    body: JSON.stringify(line),
     headers: {
       'Content-Type': 'application/json'
     }

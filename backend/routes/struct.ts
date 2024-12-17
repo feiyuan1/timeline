@@ -40,7 +40,7 @@ export const dataStruct = function <T = 'string'>(struct?: DataStructProps<T>) {
   }
 }
 
-export const lineStruct = function (data: FormLine): LineD {
+export const lineStruct = function (data: FormLine & Partial<LineD>): LineD {
   const now = Date.now()
 
   return {

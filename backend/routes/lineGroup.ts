@@ -42,6 +42,24 @@ const routeGroup = (router: Router<any, Koa.BeContext<types.LineGroupD>>) => {
     await next()
   })
 
+  router.put(`${prefix}/line/:id`, async (ctx, next) => {
+    const {
+      request,
+      db: { collection, dbName, client },
+      params: { id }
+    } = ctx
+    const formLine = request.body as types.FormLine
+    const line = struct.lineStruct({
+      ...formLine,
+      type: types.Type.childLine
+    })
+    await client.db(dbName).collection('line').insertOne(line)
+    const { refs } = await collection.findOne({ id })
+    await collection.updateOne({ id }, { $set: { refs: refs.concat(line.id) } })
+    ctx.body = line
+    await next()
+  })
+
   router.get(`${prefix}`, async (ctx, next) => {
     const {
       request,
