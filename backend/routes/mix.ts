@@ -19,7 +19,10 @@ const routeMix = (router: Router<any, Koa.BeContext<MixTypeD>>) => {
     const db = client.db(dbName)
     const lines = await db
       .collection<types.LineD>('line')
-      .aggregate<types.LineD>([lineStage])
+      .aggregate<types.LineD>([
+        { $match: { type: types.Type.line } },
+        lineStage
+      ])
       .toArray()
     const groups = await db
       .collection<types.LineGroupD>('lineGroup')
