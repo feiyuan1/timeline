@@ -1,4 +1,12 @@
-import { FormGroup, FormLine, LineD, LineGroupD, Type } from '../dataTypes'
+import {
+  FormGroup,
+  FormLine,
+  FormNode,
+  LineD,
+  LineGroupD,
+  LineNodeD,
+  Type
+} from '../dataTypes'
 
 enum Code {
   success = 0,
@@ -60,6 +68,19 @@ export const groupStruct = function (data: FormGroup): LineGroupD {
     createTime: now,
     id: String(now),
     type: Type.lineGroup,
+    refs: [],
+    ...data,
+    updateTime: now
+  }
+}
+
+export const nodeStruct = function (data: FormNode): LineNodeD {
+  const now = Date.now()
+
+  return {
+    createTime: now,
+    id: String(now),
+    type: Type.node,
     refs: [],
     ...data,
     updateTime: now

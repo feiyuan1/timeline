@@ -15,12 +15,13 @@ export interface Log extends BasicInfo {
   type: Type.log
 }
 
-// TODO FormNode
 export interface LineNode extends BasicInfo {
   logs: Log[]
   key: number | string // 节点关键词，时间戳或者自定义字符串
   type: Type.node
 }
+
+export type FormNode = Pick<LineNode, 'key' | 'name' | 'description'>
 
 export interface Line extends BasicInfo {
   nodeType: NodeType
