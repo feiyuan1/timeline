@@ -83,7 +83,6 @@ export const LineGroupContent = ({
   const [curTab, setCurTab] = useState(0)
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setCurTab(newValue)
-    event.stopPropagation()
   }
 
   return (
@@ -98,7 +97,11 @@ export const LineGroupContent = ({
             indicatorColor="secondary"
           >
             {lines.map((line, index) => (
-              <Tab label={line.name} key={index} />
+              <Tab
+                label={line.name}
+                key={index}
+                onClick={(event) => event.stopPropagation()}
+              />
             ))}
           </Tabs>
           <LineContent data={lines[curTab]} />
