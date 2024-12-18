@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
@@ -10,28 +10,18 @@ import FormModal from 'components/FormModal'
 import LineContent from 'components/LineGroupContent'
 import Alert from 'components/Alert'
 import { AddButton } from 'components/CustomButton'
-import { LineGroup, FormLine } from 'types'
 import { getLink } from 'utils/index'
-import { getGroup, addChildLine } from 'api/lineGroup'
-import { lineProps as formProps } from '_constants/form'
 import useToggle from 'utils/useToggle'
 import useRequiredParams from 'utils/useRequiredParams'
+import useLoading from 'utils/useLoading'
+import { LineGroup, FormLine } from 'types'
+import { getGroup, addChildLine } from 'api/lineGroup'
+import { lineProps as formProps } from '_constants/form'
 
-const LineGroup = () => {
+const LineGroup = ({ data: { name, lines } }: { data: LineGroup }) => {
   const [openLine, toggleLine] = useToggle()
-  const [group, setGroup] = useState<LineGroup | null>(null)
-  const [isLoading, setLoading] = useState(true)
   const navigate = useNavigate()
   const { id } = useRequiredParams<{ id: string }>()
-
-  useEffect(() => {
-    getGroup({ id })
-      .then((data) => {
-        setGroup(data[0])
-      })
-      .finally(() => setLoading(false))
-  }, [id])
-
   const lineProps = useMemo(
     () => ({
       ...formProps,
@@ -46,16 +36,6 @@ const LineGroup = () => {
     }),
     [id]
   )
-
-  if (isLoading) {
-    return <div>loading..</div>
-  }
-
-  if (!group) {
-    return <div>error</div>
-  }
-
-  const { name, lines } = group
 
   return (
     <Box>
@@ -86,4 +66,12 @@ const LineGroup = () => {
   )
 }
 
-export default LineGroup
+const LineGroupPage = () => {
+  const { id } = useRequiredParams<{ id: string }>()
+  const initData = () => getGroup({ id }).then((data) => data[0])
+  const elem = useLoading<LineGroup>(initData, { Component: LineGroup })
+
+  return elem
+}
+
+export default LineGroupPage

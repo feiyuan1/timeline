@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
@@ -9,6 +9,7 @@ import AppendItem from './AppendItem'
 import { Line, LineGroup } from 'types'
 import { Type } from '_constants/index'
 import { getLink } from 'utils/index'
+import useLoading from 'utils/useLoading'
 import { getAllList } from 'api/mix'
 
 export const getCardContent = (data: Line | LineGroup) => {
@@ -41,19 +42,11 @@ export const ListItem = ({ data }: { data: Line | LineGroup }) => {
   )
 }
 
-const Main = () => {
+const Main = ({ data: list }: { data: (Line | LineGroup)[] }) => {
   const [currentTab, setTab] = useState(0)
-  const [list, setList] = useState<(Line | LineGroup)[]>([])
-
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setTab(newValue)
   }
-
-  useEffect(() => {
-    getAllList().then((data) => {
-      setList(data)
-    })
-  }, [])
 
   return (
     <>
@@ -68,4 +61,10 @@ const Main = () => {
   )
 }
 
-export default Main
+const MainPage = () => {
+  const elem = useLoading<(Line | LineGroup)[]>(getAllList, { Component: Main })
+
+  return elem
+}
+
+export default MainPage
