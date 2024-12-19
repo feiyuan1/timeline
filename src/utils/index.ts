@@ -16,3 +16,7 @@ export const getLink = (data: Line | LineGroup | LineNode) => {
   }
   throw 'the type of item not be linegroup or line or node'
 }
+
+export const redirectToIndex = () => {
+  location.pathname = ''
+}

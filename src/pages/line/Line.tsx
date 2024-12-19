@@ -11,7 +11,7 @@ import { nodeProps as getNodeProps } from '_constants/form'
 import { deleteLine, getLine } from 'api/line'
 import { Line } from 'types'
 import { formatDate } from 'utils/date'
-import { getLink } from 'utils/index'
+import { getLink, redirectToIndex } from 'utils/index'
 import useLoading from '../../utils/useLoading'
 
 const Line = ({ data: line }: { data: Line }) => {
@@ -22,7 +22,7 @@ const Line = ({ data: line }: { data: Line }) => {
   const del = () => {
     deleteLine(line.id).then(() => {
       Alert.success('删除成功')
-      location.pathname = ''
+      redirectToIndex()
     })
   }
 
