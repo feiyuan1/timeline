@@ -3,14 +3,16 @@ import Router = require('koa-router')
 import types = require('../dataTypes')
 import struct = require('./struct')
 import routeMiddleware = require('./routeMiddleware')
+import constants = require('../constants')
 
+const { colName } = constants
 const { lineStruct } = struct
 const { responseMiddleware, collectionMiddleware } = routeMiddleware
 const prefix = '/line'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const routeLine = (router: Router<any, Koa.BeContext<types.LineD>>) => {
-  router.use(prefix, collectionMiddleware<types.LineD>('line'))
+  router.use(prefix, collectionMiddleware<types.LineD>(colName.line))
 
   // http://localhost:3000/api/line
   router.post(`${prefix}/:id`, async (ctx, next) => {
