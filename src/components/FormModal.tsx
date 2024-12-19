@@ -13,6 +13,7 @@ export type FormModalProps = React.PropsWithChildren<{
   open: boolean
   title: string
   isDoubleCol?: boolean
+  keepMounted?: boolean
   initValue?: ObjectWithString
   actions?: React.ReactNode
   validations?: ObjectWithString
@@ -39,6 +40,7 @@ const FormModalInner = ({
   open,
   title,
   isDoubleCol = true,
+  keepMounted = true,
   children,
   actions,
   initValue = {},
@@ -75,7 +77,7 @@ const FormModalInner = ({
       open={open}
       onClose={handleClose}
       aria-labelledby="form-modal-title"
-      keepMounted
+      keepMounted={keepMounted}
     >
       <Box component="form" sx={style} onSubmit={handleFormSubmit}>
         <Typography id="form-modal-title" variant="h6" component="h2">
