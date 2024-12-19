@@ -1,4 +1,4 @@
-import React, { MouseEventHandler, useRef } from 'react'
+import { MouseEventHandler, ChangeEvent, useState } from 'react'
 import IconButton from '@mui/material/IconButton'
 import AddIcon from '@mui/icons-material/Add'
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined'
@@ -7,7 +7,7 @@ import Checkbox from '@mui/material/Checkbox'
 import Alert from './Alert'
 
 interface IconButtonProps {
-  onClick: React.MouseEventHandler
+  onClick: MouseEventHandler
 }
 
 export const AddButton = ({ onClick }: IconButtonProps) => (
@@ -19,15 +19,26 @@ export const AddButton = ({ onClick }: IconButtonProps) => (
   </IconButton>
 )
 
-export const DeleteButton = ({ onClick }: IconButtonProps) => {
-  const formRef = useRef<HTMLFormElement | null>(null)
+interface DeleteButtonProps extends IconButtonProps {
+  customConfirm?: boolean
+}
+export const DeleteButton = ({ onClick, customConfirm }: DeleteButtonProps) => {
+  const [confirm, setConfirm] = useState(false)
+
   const handleClick: MouseEventHandler = (e) => {
-    if (formRef.current && formRef.current.checkValidity()) {
+    if (customConfirm) {
+      onClick(e)
+      return
+    }
+    if (confirm) {
       onClick(e)
       return
     }
     Alert.info('please check the checkBox around the delete button')
   }
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>, value: boolean) =>
+    setConfirm(value)
 
   return (
     <Box
@@ -41,9 +52,7 @@ export const DeleteButton = ({ onClick }: IconButtonProps) => {
         e.stopPropagation()
       }}
     >
-      <Box component="form" ref={formRef}>
-        <Checkbox required />
-      </Box>
+      {!customConfirm && <Checkbox required onChange={handleChange} />}
       <IconButton onClick={handleClick}>
         <DeleteOutlineOutlinedIcon color="primary" sx={{ fontSize: 40 }} />
       </IconButton>
