@@ -26,10 +26,7 @@ const routeMix = (router: Router<any, Koa.BeContext<MixTypeD>>) => {
       .toArray()
     const groups = await db
       .collection<types.LineGroupD>('lineGroup')
-      .aggregate<types.LineGroupD>([
-        { $match: { id: '1734138365247' } },
-        groupStage
-      ])
+      .aggregate<types.LineGroupD>([groupStage])
       .toArray()
     const result: (types.Line | types.LineGroup)[] = [].concat(groups, lines)
     ctx.body = result
