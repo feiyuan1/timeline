@@ -44,6 +44,6 @@ export const deleteGroup = (
 ) => {
   return customFetch(`${prefix}/${id}`, {
     method: 'delete',
-    query: { deleteLine }
+    query: { deleteLine: Number(deleteLine) }
   })
 }

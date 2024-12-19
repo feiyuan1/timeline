@@ -3,7 +3,10 @@ import Router = require('koa-router')
 import types = require('../dataTypes')
 import struct = require('./struct')
 import routeMiddleware = require('./routeMiddleware')
+import mongodb = require('mongodb')
+import constants = require('../constants')
 
+const { colName } = constants
 const { groupStruct } = struct
 const { responseMiddleware, collectionMiddleware } = routeMiddleware
 const prefix = '/group'
@@ -53,7 +56,7 @@ const routeGroup = (router: Router<any, Koa.BeContext<types.LineGroupD>>) => {
       ...formLine,
       type: types.Type.childLine
     })
-    await client.db(dbName).collection('line').insertOne(line)
+    await client.db(dbName).collection(colName.line).insertOne(line)
     const { refs } = await collection.findOne({ id })
     await collection.updateOne({ id }, { $set: { refs: refs.concat(line.id) } })
     ctx.body = line
@@ -77,19 +80,28 @@ const routeGroup = (router: Router<any, Koa.BeContext<types.LineGroupD>>) => {
 
   router.delete(`${prefix}/:id`, async (ctx, next) => {
     const {
-      db: { collection },
+      db: { collection, dbName, client },
       params: { id },
       query
     } = ctx
     const { refs } = await collection.findOne({ id })
+    const ref: {
+      current: Promise<mongodb.UpdateResult | mongodb.DeleteResult>[]
+    } = {
+      current: []
+    }
+    const delGroup = collection.deleteOne({ id })
     if (refs.length) {
-      if (query.deleteLine) {
-        // delete line
+      const lineColl = client.db(dbName).collection<types.Line>(colName.line)
+      if (Number(query.deleteLine)) {
+        ref.current = refs.map((id) => lineColl.deleteOne({ id }))
       } else {
-        // reset to line
+        ref.current = refs.map((id) =>
+          lineColl.updateOne({ id }, { $set: { type: types.Type.line } })
+        )
       }
     }
-    await collection.deleteOne({ id })
+    await Promise.all(ref.current.concat(delGroup))
     await next()
   })
 
