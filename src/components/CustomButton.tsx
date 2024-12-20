@@ -1,6 +1,7 @@
 import { MouseEventHandler, ChangeEvent, useState } from 'react'
 import IconButton from '@mui/material/IconButton'
 import AddIcon from '@mui/icons-material/Add'
+import AddLinkOutlinedIcon from '@mui/icons-material/AddLinkOutlined'
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined'
 import Box from '@mui/material/Box'
 import Checkbox from '@mui/material/Checkbox'
@@ -16,6 +17,15 @@ export const AddButton = ({ onClick }: IconButtonProps) => (
     onClick={onClick}
   >
     <AddIcon color="primary" sx={{ fontSize: 40 }} />
+  </IconButton>
+)
+
+export const LinkButton = ({ onClick }: IconButtonProps) => (
+  <IconButton
+    sx={{ position: 'absolute', right: '20px', bottom: '100px' }}
+    onClick={onClick}
+  >
+    <AddLinkOutlinedIcon color="primary" sx={{ fontSize: 40 }} />
   </IconButton>
 )
 

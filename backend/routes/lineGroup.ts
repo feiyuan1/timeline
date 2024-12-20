@@ -5,7 +5,9 @@ import struct = require('./struct')
 import routeMiddleware = require('./routeMiddleware')
 import mongodb = require('mongodb')
 import constants = require('../constants')
+const utils = require('../util')
 
+const { isEmpty } = utils
 const { colName } = constants
 const { groupStruct } = struct
 const { responseMiddleware, collectionMiddleware } = routeMiddleware
@@ -60,6 +62,39 @@ const routeGroup = (router: Router<any, Koa.BeContext<types.LineGroupD>>) => {
     const { refs } = await collection.findOne({ id })
     await collection.updateOne({ id }, { $set: { refs: refs.concat(line.id) } })
     ctx.body = line
+    await next()
+  })
+
+  router.post(`${prefix}/line/:id`, async (ctx, next) => {
+    const {
+      request,
+      db: { collection, dbName, client },
+      params: { id }
+    } = ctx
+    const lines = request.body as string[]
+    if (isEmpty(request.body)) {
+      ctx.error = types.Code.dataSourceError
+      await next()
+      return
+    }
+    if (isEmpty(lines)) {
+      ctx.error = {
+        code: types.Code.requiredError,
+        msg: 'lines array length is 0'
+      }
+      await next()
+      return
+    }
+    const lineColl = client.db(dbName).collection(colName.line)
+    const lineUpdates = lines.map((id) =>
+      lineColl.updateOne({ id }, { $set: { type: types.Type.childLine } })
+    )
+    const { refs } = await collection.findOne({ id })
+    const update = collection.updateOne(
+      { id },
+      { $set: { refs: refs.concat(lines) } }
+    )
+    await Promise.all(lineUpdates.concat(update))
     await next()
   })
 

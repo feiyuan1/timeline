@@ -18,6 +18,7 @@ import useLoading from 'utils/useLoading'
 import { LineGroup, FormLine } from 'types'
 import { getGroup, addChildLine, deleteGroup } from 'api/lineGroup'
 import { lineProps as formProps } from '_constants/form'
+import LinkModal from './LineModal'
 
 const LineGroup = ({ data: { name, lines } }: { data: LineGroup }) => {
   const [openLine, toggleLine] = useToggle()
@@ -82,6 +83,7 @@ const LineGroup = ({ data: { name, lines } }: { data: LineGroup }) => {
       </List>
       <FormModal open={openLine} handleClose={toggleLine} {...lineProps} />
       <FormModal open={openDel} handleClose={toggleDel} {...confirmProps} />
+      <LinkModal />
     </Box>
   )
 }

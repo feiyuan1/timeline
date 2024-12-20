@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { MutableRefObject, ReactNode, useEffect, useRef, useState } from 'react'
 import OriginalTextField from '@mui/material/TextField'
 import InputLabel from '@mui/material/InputLabel'
 import OriginalSelect, {
@@ -99,6 +99,11 @@ export const Select = ({
   )
 }
 
+type onChange = (
+  event: React.ChangeEvent<HTMLInputElement>,
+  checked: boolean
+) => void
+
 export const CheckBox = ({
   onChange,
   ...props
@@ -106,10 +111,7 @@ export const CheckBox = ({
   // @ts-expect-error TODO returnType
   const [{ defaultValue }, { update }] = useRegularInput(props)
 
-  const handleChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
-    checked: boolean
-  ) => {
+  const handleChange: onChange = (event, checked) => {
     const { name } = event.target
     update({ [name]: checked })
     if (onChange) {
@@ -124,4 +126,59 @@ export const CheckBox = ({
       {...props}
     />
   )
+}
+
+export interface Item {
+  label: ReactNode
+  value: unknown
+  key: string
+}
+
+interface CheckBoxGroupProps
+  extends Omit<FormControlLabelProps, 'control' | 'onChange' | 'label'> {
+  list: Item[]
+  onChange?: (
+    event: React.ChangeEvent<HTMLInputElement>,
+    checked: boolean,
+    ref: MutableRefObject<unknown[]>
+  ) => void
+  label?: ReactNode
+}
+
+export const CheckBoxGroup = ({
+  list,
+  onChange,
+  ...props
+}: CheckBoxGroupProps & BaseProps) => {
+  const valueRef = useRef<unknown[]>([])
+  const [_, { update }] = useRegularInput(props)
+  const processValue: onChange = (e, checked) => {
+    if (onChange) {
+      onChange(e, checked, valueRef)
+      return
+    }
+    const value = list.find((i) => i.key === e.target.value)!.value
+
+    if (checked) {
+      valueRef.current.push(value)
+      return
+    }
+
+    valueRef.current = valueRef.current.filter((v) => v !== value)
+  }
+
+  const handleChange: onChange = (e, checked) => {
+    processValue(e, checked)
+    update({ [e.target.name]: valueRef.current })
+  }
+
+  return list.map(({ label, key }, index) => (
+    <CheckBox
+      key={key || index}
+      onChange={handleChange}
+      {...props}
+      value={key || index}
+      label={label}
+    />
+  ))
 }
