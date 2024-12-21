@@ -21,8 +21,6 @@ export interface LineGroupD extends BasicInfoWithRefs {
   type: Type.lineGroup
 }
 
-export type ObjectWithString = Record<string, unknown>
-
 export enum Code {
   success = 0,
   error,

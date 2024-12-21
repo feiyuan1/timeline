@@ -7,7 +7,8 @@ import {
   LineNodeD,
   Type,
   Code,
-  ErrorStructProps
+  ErrorStructProps,
+  Line
 } from '../dataTypes'
 
 const defaultMsg: Partial<Record<Code, string>> = {
@@ -66,6 +67,54 @@ export const lineStruct = function (data: FormLine & Partial<LineD>): LineD {
     updateTime: now
   }
 }
+
+type Source<T extends object> = {
+  [key in keyof T]?: string
+}
+
+type Rule<T extends object> = {
+  [key in findNonString<T>]: (v: string) => T[key]
+}
+
+type findNonString<
+  T extends object,
+  U extends keyof T = keyof T
+> = U extends keyof T ? (T[U] extends string ? never : U) : never
+
+const isOtherKey = <T extends object>(
+  key: keyof T,
+  rule: object
+): key is findNonString<T> => {
+  return key in rule
+}
+
+// 如果 rule 没有必要传，该方法没有必要被调用
+export const format = <T extends object>(
+  source: Source<T>,
+  rule: Rule<T>
+): Partial<T> => {
+  const result: Partial<T> = {}
+  const keys = Object.keys(source) as (keyof T)[]
+  keys.forEach((key) => {
+    const value = source[key]
+    if (isOtherKey(key, rule)) {
+      const processor = rule[key]
+      result[key] = processor(value)
+      return
+    }
+    result[key] = value as T[typeof key]
+  })
+
+  return result
+}
+
+const lineRule = {
+  type: Number,
+  nodeType: Number
+}
+
+export const formatLine = (line: Partial<Record<keyof Line, string>>) =>
+  format<Omit<Line, 'createTime' | 'updateTime' | 'nodes'>>(line, lineRule)
 
 export const groupStruct = function (data: FormGroup): LineGroupD {
   const now = Date.now()

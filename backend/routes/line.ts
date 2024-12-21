@@ -49,7 +49,7 @@ const routeLine = (router: Router<any, Koa.BeContext<types.LineD>>) => {
       request,
       db: { collection }
     } = ctx
-    const query = request.query || {}
+    const query = struct.formatLine(request.query || {})
     ctx.body = await collection
       .aggregate<types.LineD>([{ $match: query }, struct.lineStage])
       .toArray()

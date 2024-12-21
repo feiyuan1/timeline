@@ -1,5 +1,7 @@
 import { NodeType, Type } from '../constants'
 
+export type ObjectWithString = Record<string, unknown>
+
 export interface BasicInfo {
   id: string
   type: Type
@@ -37,5 +39,3 @@ export interface LineGroup extends BasicInfo {
 }
 
 export type FormGroup = Pick<LineGroup, 'name' | 'description'>
-
-export type ObjectWithString = Record<string, unknown>
