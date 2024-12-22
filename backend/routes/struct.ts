@@ -79,7 +79,13 @@ type Rule<T extends object> = {
 type findNonString<
   T extends object,
   U extends keyof T = keyof T
-> = U extends keyof T ? (T[U] extends string ? never : U) : never
+> = U extends keyof T
+  ? T[U] extends string
+    ? string extends T[U]
+      ? never
+      : U
+    : U
+  : never
 
 const isOtherKey = <T extends object>(
   key: keyof T,
