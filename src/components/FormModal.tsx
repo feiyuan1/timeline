@@ -45,7 +45,7 @@ const FormModalInner = ({
   actions,
   initValue = {},
   validations,
-  handleClose,
+  handleClose: onClose,
   handleSubmit
 }: FormModalProps) => {
   const { ref, update, validateRef } = useFormContext()
@@ -72,10 +72,18 @@ const FormModalInner = ({
     }
   }
 
+  const handleCloseStop: (event: MouseEvent, reason: string) => void = (
+    event,
+    ...args
+  ) => {
+    event.stopPropagation()
+    onClose(event, ...args)
+  }
+
   return (
     <Modal
       open={open}
-      onClose={handleClose}
+      onClose={handleCloseStop}
       aria-labelledby="form-modal-title"
       keepMounted={keepMounted}
     >
