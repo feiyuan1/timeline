@@ -62,7 +62,9 @@ const Main = ({ data: list }: { data: (Line | LineGroup)[] }) => {
 }
 
 const MainPage = () => {
-  const elem = useLoading<(Line | LineGroup)[]>(getAllList, { Component: Main })
+  const { elem } = useLoading<(Line | LineGroup)[]>(getAllList, {
+    Component: Main
+  })
 
   return elem
 }

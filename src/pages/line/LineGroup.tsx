@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
@@ -18,7 +18,7 @@ import useLoading from 'utils/useLoading'
 import { LineGroup, FormLine } from 'types'
 import { getGroup, addChildLine, deleteGroup } from 'api/lineGroup'
 import { lineProps as formProps } from '_constants/form'
-import LinkModal from './LineModal'
+import LinkModal from './LinkModal'
 
 const LineGroup = ({ data: { name, lines } }: { data: LineGroup }) => {
   const [openLine, toggleLine] = useToggle()
@@ -90,8 +90,11 @@ const LineGroup = ({ data: { name, lines } }: { data: LineGroup }) => {
 
 const LineGroupPage = () => {
   const { id } = useRequiredParams<{ id: string }>()
-  const initData = () => getGroup({ id }).then((data) => data[0])
-  const elem = useLoading<LineGroup>(initData, { Component: LineGroup })
+  const initData = useCallback(
+    () => getGroup({ id }).then((data) => data[0]),
+    [id]
+  )
+  const { elem } = useLoading<LineGroup>(initData, { Component: LineGroup })
 
   return elem
 }

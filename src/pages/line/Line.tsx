@@ -1,3 +1,4 @@
+import { useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import CardContent from '@mui/material/CardContent'
 import Box from '@mui/material/Box'
@@ -57,8 +58,11 @@ const Line = ({ data: line }: { data: Line }) => {
 
 const LinePage = () => {
   const { id } = useRequiredParams<{ id: string }>()
-  const initData = () => getLine({ id }).then((data) => data[0])
-  const elem = useLoading<Line>(initData, { Component: Line })
+  const initData = useCallback(
+    () => getLine({ id }).then((data) => data[0]),
+    [id]
+  )
+  const { elem } = useLoading<Line>(initData, { Component: Line })
 
   return elem
 }

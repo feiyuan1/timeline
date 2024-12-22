@@ -1,4 +1,4 @@
-import { FC, ReactElement, useEffect, useState } from 'react'
+import { FC, ReactElement, useCallback, useEffect, useState } from 'react'
 
 const useLoading = <T,>(
   initData: () => Promise<T>,
@@ -14,33 +14,47 @@ const useLoading = <T,>(
     emptyUI?: ReactElement
   }
 ) => {
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
   const [error, setError] = useState(false)
   const [data, setData] = useState<T | null>(null)
 
-  useEffect(() => {
-    if (!loading) {
-      return
-    }
+  const load = useCallback(() => {
+    setLoading(true)
     initData()
       .then(setData)
       .catch(() => setError(true))
       .finally(() => setLoading(false))
-  }, [initData, loading])
+  }, [initData])
 
-  if (loading) {
-    return loadingUI || 'loading'
+  const reload = useCallback(() => {
+    if (loading) {
+      return
+    }
+    load()
+  }, [loading, load])
+
+  const getElem = () => {
+    if (loading) {
+      return loadingUI || 'loading'
+    }
+
+    if (error) {
+      return errorUI || 'error'
+    }
+
+    if (!data) {
+      return emptyUI || 'empty'
+    }
+
+    return <Component data={data} />
   }
 
-  if (error) {
-    return errorUI || 'error'
-  }
+  useEffect(load, [load])
 
-  if (!data) {
-    return emptyUI || 'empty'
+  return {
+    elem: getElem(),
+    reload
   }
-
-  return <Component data={data} />
 }
 
 export default useLoading

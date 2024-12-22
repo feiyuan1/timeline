@@ -40,7 +40,7 @@ const Component = memo(({ data: list }: { data: Item[] }) =>
 const LinkModal = () => {
   const [openLink, toggleLink] = useToggle()
   const { id } = useRequiredParams<{ id: string }>()
-  const elem = useLoading(initData, { Component })
+  const { elem, reload } = useLoading(initData, { Component })
   const linkLineProps = useMemo(
     () => ({
       title: '引用线路',
@@ -58,10 +58,14 @@ const LinkModal = () => {
     }),
     [id, toggleLink, elem]
   )
+  const handleClick = () => {
+    reload()
+    toggleLink()
+  }
 
   return (
     <>
-      <LinkButton onClick={toggleLink} />
+      <LinkButton onClick={handleClick} />
       <FormModal open={openLink} handleClose={toggleLink} {...linkLineProps} />
     </>
   )
