@@ -11,7 +11,7 @@ const format = (paths, prefix) => {
 const publicPath = ['./public/utils', './public/types', './public/constants.ts']
 const [utilPath, typePath, constPath] = publicPath
 const backend = format(publicPath, './backend')
-const client = format([typePath, constPath], './src')
+const client = format([typePath, constPath, utilPath], './src')
 const server = format([utilPath], './server')
 const ends = [backend, client, server]
 
