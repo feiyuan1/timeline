@@ -13,12 +13,15 @@ import { formatDate } from 'utils/date'
 import { DeleteButton } from './CustomButton'
 import { deleteLine } from 'api/line'
 import Alert from './Alert'
+import DeleteGroupModal from './DeleteGroupModal'
 
 const LineContent = ({
   data: { updateTime, nodes, id },
+  showDel = true,
   handleClick
 }: {
   data: Line
+  showDel?: boolean
   handleClick?: MouseEventHandler<HTMLDivElement>
 }) => {
   const cardPoprs = {
@@ -70,13 +73,14 @@ const LineContent = ({
       ) : (
         '暂无节点'
       )}
-      <DeleteButton onClick={del} />
+      {showDel && <DeleteButton onClick={del} />}
     </CardContent>
   )
 }
 
 export const LineGroupContent = ({
-  data: { name, lines }
+  data: { name, lines },
+  data
 }: {
   data: LineGroup
 }) => {
@@ -86,7 +90,7 @@ export const LineGroupContent = ({
   }
 
   return (
-    <Box>
+    <Box sx={{ position: 'relative' }}>
       <CardHeader title={'组/' + name} />
       {lines.length > 0 ? (
         <Box>
@@ -104,11 +108,12 @@ export const LineGroupContent = ({
               />
             ))}
           </Tabs>
-          <LineContent data={lines[curTab]} />
+          <LineContent data={lines[curTab]} showDel={false} />
         </Box>
       ) : (
         <CardContent>暂未添加时间线</CardContent>
       )}
+      <DeleteGroupModal data={data} />
     </Box>
   )
 }

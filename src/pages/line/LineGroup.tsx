@@ -8,39 +8,22 @@ import Card from '@mui/material/Card'
 import Box from '@mui/material/Box'
 import FormModal from 'components/FormModal'
 import LineContent from 'components/LineGroupContent'
-import { CheckBox } from 'components/RegularInput'
 import Alert from 'components/Alert'
-import { AddButton, DeleteButton } from 'components/CustomButton'
-import { getLink, redirectToIndex } from 'utils/index'
+import { AddButton } from 'components/CustomButton'
+import { getLink } from 'utils/index'
 import useToggle from 'utils/useToggle'
 import useRequiredParams from 'utils/useRequiredParams'
 import useLoading from 'utils/useLoading'
 import { LineGroup, FormLine } from 'types'
-import { getGroup, addChildLine, deleteGroup } from 'api/lineGroup'
+import { getGroup, addChildLine } from 'api/lineGroup'
 import { lineProps as formProps } from '_constants/form'
 import LinkModal from './LinkModal'
+import DeleteGroupModal from 'components/DeleteGroupModal'
 
-const LineGroup = ({ data: { name, lines } }: { data: LineGroup }) => {
+const LineGroup = ({ data: { name, lines }, data }: { data: LineGroup }) => {
   const [openLine, toggleLine] = useToggle()
-  const [openDel, toggleDel] = useToggle()
   const navigate = useNavigate()
   const { id } = useRequiredParams<{ id: string }>()
-  const confirmProps = useMemo(
-    () => ({
-      title: '是否删除组包含的线路',
-      keepMounted: false,
-      children: (
-        <CheckBox name="check" label="删除组包含的线路" labelPlacement="end" />
-      ),
-      handleSubmit: (value: { check: boolean }) => {
-        deleteGroup(id, value.check).then(() => {
-          Alert.success('删除成功')
-          redirectToIndex()
-        })
-      }
-    }),
-    [id]
-  )
   const lineProps = useMemo(
     () => ({
       ...formProps,
@@ -59,7 +42,6 @@ const LineGroup = ({ data: { name, lines } }: { data: LineGroup }) => {
   return (
     <Box>
       <AddButton onClick={() => toggleLine()} />
-      <DeleteButton onClick={toggleDel} customConfirm />
       <List
         aria-labelledby={name}
         subheader={<ListSubheader component="p">{name}</ListSubheader>}
@@ -82,7 +64,7 @@ const LineGroup = ({ data: { name, lines } }: { data: LineGroup }) => {
         })}
       </List>
       <FormModal open={openLine} handleClose={toggleLine} {...lineProps} />
-      <FormModal open={openDel} handleClose={toggleDel} {...confirmProps} />
+      <DeleteGroupModal data={data} />
       <LinkModal />
     </Box>
   )
