@@ -1,4 +1,5 @@
-import { FC, ReactElement, useCallback, useEffect, useState } from 'react'
+import { isEmpty } from 'public/utils'
+import { FC, ReactNode, useCallback, useEffect, useState } from 'react'
 
 const useLoading = <T,>(
   initData: () => Promise<T>,
@@ -9,9 +10,9 @@ const useLoading = <T,>(
     emptyUI
   }: {
     Component: FC<{ data: T }>
-    loadingUI?: ReactElement
-    errorUI?: ReactElement
-    emptyUI?: ReactElement
+    loadingUI?: ReactNode
+    errorUI?: ReactNode
+    emptyUI?: ReactNode
   }
 ) => {
   const [loading, setLoading] = useState(false)
@@ -42,7 +43,7 @@ const useLoading = <T,>(
       return errorUI || 'error'
     }
 
-    if (!data) {
+    if (isEmpty(data)) {
       return emptyUI || 'empty'
     }
 

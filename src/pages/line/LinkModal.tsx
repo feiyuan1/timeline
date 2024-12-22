@@ -33,14 +33,17 @@ const initData = () =>
     )
   })
 
-const Component = memo(({ data: list }: { data: Item[] }) =>
-  list.length ? <CheckBoxGroup name="link" list={list} /> : '暂无可引用的线路'
-)
+const Component = memo(({ data: list }: { data: Item[] }) => (
+  <CheckBoxGroup name="link" list={list} />
+))
 
 const LinkModal = () => {
   const [openLink, toggleLink] = useToggle()
   const { id } = useRequiredParams<{ id: string }>()
-  const { elem, reload } = useLoading(initData, { Component })
+  const { elem, reload } = useLoading(initData, {
+    Component,
+    emptyUI: '暂无可引用的线路'
+  })
   const linkLineProps = useMemo(
     () => ({
       title: '引用线路',
