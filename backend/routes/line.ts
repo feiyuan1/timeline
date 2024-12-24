@@ -4,7 +4,9 @@ import types = require('../dataTypes')
 import struct = require('./struct')
 import routeMiddleware = require('./routeMiddleware')
 import constants = require('../constants')
+import util = require('../util')
 
+const { isEmpty } = util
 const { colName } = constants
 const { lineStruct } = struct
 const { responseMiddleware, collectionMiddleware } = routeMiddleware
@@ -21,8 +23,8 @@ const routeLine = (router: Router<any, Koa.BeContext<types.LineD>>) => {
       db: { collection }
     } = ctx
     const data = request.body as types.FormLine
-    if (!Object.keys(data).length) {
-      ctx.error = 'request body is empty, nothing to change'
+    if (isEmpty(request.body)) {
+      ctx.error = types.Code.dataSourceError
       await next()
       return
     }
