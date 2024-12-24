@@ -19,7 +19,7 @@ const routeNode = (router: Router<any, Koa.BeContext<types.LineNodeD>>) => {
   router.put(prefix, async (ctx, next) => {
     const {
       request,
-      db: { collection, dbName, client }
+      db: { collection, db }
     } = ctx
     const { lineId, ...node } = request.body as types.FormNode & {
       lineId: string
@@ -37,7 +37,7 @@ const routeNode = (router: Router<any, Koa.BeContext<types.LineNodeD>>) => {
       return
     }
 
-    const lineCol = client.db(dbName).collection<types.LineD>(colName.line)
+    const lineCol = db.collection<types.LineD>(colName.line)
     const structedNode = nodeStruct(node)
     const insert = collection.insertOne(structedNode)
     const line = await lineCol.findOne({ id: lineId })

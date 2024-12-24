@@ -16,9 +16,8 @@ type MixTypeD = types.LineD | types.LineGroupD
 const routeMix = (router: Router<any, Koa.BeContext<MixTypeD>>) => {
   router.get(`${prefix}/all`, async (ctx, next) => {
     const {
-      db: { client, dbName }
+      db: { db }
     } = ctx
-    const db = client.db(dbName)
     const lines = await db
       .collection<types.LineD>(colName.line)
       .aggregate<types.LineD>([

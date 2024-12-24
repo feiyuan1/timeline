@@ -50,7 +50,7 @@ const routeGroup = (router: Router<any, Koa.BeContext<types.LineGroupD>>) => {
   router.put(`${prefix}/line/:id`, async (ctx, next) => {
     const {
       request,
-      db: { collection, dbName, client },
+      db: { collection, db },
       params: { id }
     } = ctx
     const formLine = request.body as types.FormLine
@@ -58,7 +58,7 @@ const routeGroup = (router: Router<any, Koa.BeContext<types.LineGroupD>>) => {
       ...formLine,
       type: types.Type.childLine
     })
-    await client.db(dbName).collection(colName.line).insertOne(line)
+    await db.collection(colName.line).insertOne(line)
     const { refs } = await collection.findOne({ id })
     await collection.updateOne({ id }, { $set: { refs: refs.concat(line.id) } })
     ctx.body = line
@@ -68,7 +68,7 @@ const routeGroup = (router: Router<any, Koa.BeContext<types.LineGroupD>>) => {
   router.post(`${prefix}/line/:id`, async (ctx, next) => {
     const {
       request,
-      db: { collection, dbName, client },
+      db: { collection, db },
       params: { id }
     } = ctx
     const lines = request.body as string[]
@@ -85,7 +85,7 @@ const routeGroup = (router: Router<any, Koa.BeContext<types.LineGroupD>>) => {
       await next()
       return
     }
-    const lineColl = client.db(dbName).collection(colName.line)
+    const lineColl = db.collection(colName.line)
     const lineUpdates = lines.map((id) =>
       lineColl.updateOne({ id }, { $set: { type: types.Type.childLine } })
     )
@@ -115,7 +115,7 @@ const routeGroup = (router: Router<any, Koa.BeContext<types.LineGroupD>>) => {
 
   router.delete(`${prefix}/:id`, async (ctx, next) => {
     const {
-      db: { collection, dbName, client },
+      db: { collection, db },
       params: { id },
       query
     } = ctx
@@ -127,7 +127,7 @@ const routeGroup = (router: Router<any, Koa.BeContext<types.LineGroupD>>) => {
     }
     const delGroup = collection.deleteOne({ id })
     if (refs.length) {
-      const lineColl = client.db(dbName).collection<types.Line>(colName.line)
+      const lineColl = db.collection<types.Line>(colName.line)
       if (Number(query.deleteLine)) {
         ref.current = refs.map((id) => lineColl.deleteOne({ id }))
       } else {

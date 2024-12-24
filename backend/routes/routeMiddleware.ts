@@ -23,9 +23,8 @@ export const responseMiddleware = function <Coll, Content>() {
 export const collectionMiddleware = function <T>(colName: string) {
   return async (ctx: Koa.BeContext<T>, next: Koa.Next) => {
     const {
-      db: { client, dbName }
+      db: { db }
     } = ctx
-    const db = client.db(dbName)
     ctx.db.collection = db.collection<T>(colName)
     await next()
   }

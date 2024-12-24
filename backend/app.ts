@@ -13,16 +13,19 @@ const dbMiddleware = async function (ctx: Koa.Context, next: Koa.Next) {
   // Connection URL
   const url =
     'mongodb+srv://balabala:qazwsx123*@timeline-db.yadvr.mongodb.net/?retryWrites=true&w=majority&appName=timeline-db'
+  const dbName = 'timeline'
+  const client = new MongoClient(url, {
+    serverApi: {
+      version: ServerApiVersion.v1,
+      strict: true,
+      deprecationErrors: true
+    }
+  })
 
   ctx.db = {
-    dbName: 'timeline',
-    client: new MongoClient(url, {
-      serverApi: {
-        version: ServerApiVersion.v1,
-        strict: true,
-        deprecationErrors: true
-      }
-    })
+    dbName,
+    client,
+    db: client.db(dbName)
   }
   await next()
 }

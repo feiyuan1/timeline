@@ -8,6 +8,7 @@ declare module 'koa' {
       dbName: string
       client: mongoDB.MongoClient
       collection?: mongoDB.Collection<T>
+      db: mongoDB.Db
     }
     error?: types.ErrorStructProps | types.Code | string
   }
