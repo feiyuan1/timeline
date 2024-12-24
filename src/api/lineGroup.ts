@@ -2,7 +2,7 @@ import { FormGroup, FormLine, LineGroup } from 'types'
 import customFetch from './customFetch'
 
 const prefix = '/api/group'
-export const getGroup = (query?: Partial<LineGroup>) => {
+export const getGroup = (query?: Partial<LineGroup>): Promise<LineGroup[]> => {
   return customFetch(prefix, {
     query
   })

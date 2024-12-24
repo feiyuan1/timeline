@@ -14,6 +14,8 @@ import { Line } from 'types'
 import { formatDate } from 'utils/date'
 import { getLink, redirectToIndex } from 'utils/index'
 import useLoading from '../../utils/useLoading'
+import GroupModal from './GroupModal'
+import { Type } from 'public/constants'
 
 const Line = ({ data: line }: { data: Line }) => {
   const [open, toggle] = useToggle()
@@ -51,6 +53,7 @@ const Line = ({ data: line }: { data: Line }) => {
       )}
       <DeleteButton onClick={del} />
       <AddButton onClick={toggle} />
+      {line.type === Type.line && <GroupModal id={line.id} />}
       <FormModal open={open} handleClose={toggle} {...nodeProps} />
     </Box>
   )

@@ -3,6 +3,7 @@ import IconButton from '@mui/material/IconButton'
 import AddIcon from '@mui/icons-material/Add'
 import AddLinkOutlinedIcon from '@mui/icons-material/AddLinkOutlined'
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined'
+import AddCardOutlinedIcon from '@mui/icons-material/AddCardOutlined'
 import Box from '@mui/material/Box'
 import Checkbox from '@mui/material/Checkbox'
 import Alert from './Alert'
@@ -69,3 +70,12 @@ export const DeleteButton = ({ onClick, customConfirm }: DeleteButtonProps) => {
     </Box>
   )
 }
+
+export const GroupButton = ({ onClick }: IconButtonProps) => (
+  <IconButton
+    sx={{ position: 'absolute', right: '60px', bottom: '100px' }}
+    onClick={onClick}
+  >
+    <AddCardOutlinedIcon color="primary" sx={{ fontSize: 40 }} />
+  </IconButton>
+)

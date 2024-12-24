@@ -1,6 +1,7 @@
 import { MutableRefObject, ReactNode, useEffect, useRef, useState } from 'react'
 import OriginalTextField from '@mui/material/TextField'
 import InputLabel from '@mui/material/InputLabel'
+import FormHelperText from '@mui/material/FormHelperText'
 import OriginalSelect, {
   SelectChangeEvent,
   SelectProps
@@ -9,7 +10,11 @@ import FormControl, { FormControlOwnProps } from '@mui/material/FormControl'
 import FormControlLabel, {
   FormControlLabelProps
 } from '@mui/material/FormControlLabel'
+import Box from '@mui/material/Box'
+import FormLabel from '@mui/material/FormLabel'
 import Checkbox from '@mui/material/Checkbox'
+import Radio from '@mui/material/Radio'
+import RadioGroup from '@mui/material/RadioGroup'
 import useRegularInput from 'utils/useRegularInput'
 import { formatDate } from 'utils/date'
 
@@ -181,4 +186,43 @@ export const CheckBoxGroup = ({
       label={label}
     />
   ))
+}
+
+type RadioGroupProps = {
+  list: Item[]
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>, value: string) => void
+} & Omit<FormControlLabelProps, 'control' | 'label' | 'onChange'>
+
+export const CustomRadioGroup = ({
+  list,
+  onChange,
+  ...props
+}: RadioGroupProps & BaseProps) => {
+  const [
+    { onChange: changeValidate, variant, helperText, error, ...rest },
+    { update }
+  ] = useRegularInput(props)
+
+  const handleChange: RadioGroupProps['onChange'] = (e, value) => {
+    changeValidate(e)
+    if (onChange) {
+      onChange(e, value)
+      return
+    }
+    update({ [e.target.name]: list.find(({ key }) => key === value)!.value })
+  }
+
+  return (
+    <FormControl variant={variant} error={error}>
+      <FormHelperText>{helperText}</FormHelperText>
+      <RadioGroup name={props.name} onChange={handleChange}>
+        {list.map(({ key, label }, index) => (
+          <Box key={key || index}>
+            <Radio {...rest} value={key || index} />
+            <FormLabel>{label}</FormLabel>
+          </Box>
+        ))}
+      </RadioGroup>
+    </FormControl>
+  )
 }
