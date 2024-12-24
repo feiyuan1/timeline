@@ -58,10 +58,14 @@ const routeLine = (router: Router<any, Koa.BeContext<types.LineD>>) => {
 
   router.delete(`${prefix}/:id`, async (ctx, next) => {
     const {
-      db: { collection },
+      db: { collection, dbName, client },
       params: { id }
     } = ctx
-    await collection.deleteOne({ id })
+    const del = collection.deleteOne({ id })
+    const nodeCol = client.db(dbName).collection<types.LineNodeD>(colName.node)
+    const { refs } = await collection.findOne({ id })
+    const delNodes = refs.map((id) => nodeCol.deleteOne({ id }))
+    await Promise.all(delNodes.concat(del))
     await next()
   })
 
