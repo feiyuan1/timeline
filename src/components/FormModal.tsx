@@ -8,6 +8,7 @@ import IconButton from '@mui/material/IconButton'
 import CheckIcon from '@mui/icons-material/Check'
 import { FormProvider, useFormContext } from './FormContext'
 import { ObjectWithString } from 'types'
+import { CustomValidations } from 'types/form'
 
 export type FormModalProps = React.PropsWithChildren<{
   open: boolean
@@ -16,7 +17,7 @@ export type FormModalProps = React.PropsWithChildren<{
   keepMounted?: boolean
   initValue?: ObjectWithString
   actions?: React.ReactNode
-  validations?: ObjectWithString
+  validations?: CustomValidations<ObjectWithString>
   handleSubmit: (value: object) => void
   handleClose: (event: MouseEvent, reason: string) => void
 }>

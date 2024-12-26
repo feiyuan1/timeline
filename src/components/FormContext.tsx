@@ -6,11 +6,14 @@ import {
   MutableRefObject
 } from 'react'
 import { ObjectWithString } from 'types'
+import { CustomValidations } from 'types/form'
 
-export interface FormContextValue {
-  ref: MutableRefObject<ObjectWithString>
-  validateRef: MutableRefObject<ObjectWithString | undefined>
-  update: (data: ObjectWithString) => void
+export interface FormContextValue<
+  P extends ObjectWithString = ObjectWithString
+> {
+  ref: MutableRefObject<Partial<P>>
+  validateRef: MutableRefObject<CustomValidations<P> | undefined>
+  update: (data: Partial<P>) => void
 }
 
 const FormContext = createContext<FormContextValue | null>(null)
@@ -26,7 +29,7 @@ export const useFormContext = () => {
 
 export const FormProvider = ({ children }: PropsWithChildren) => {
   const formDataRef = useRef<ObjectWithString>({})
-  const validateRef = useRef<ObjectWithString>()
+  const validateRef = useRef<CustomValidations<ObjectWithString>>()
   const update = (data: ObjectWithString) =>
     (formDataRef.current = {
       ...formDataRef.current,

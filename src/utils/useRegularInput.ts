@@ -1,62 +1,118 @@
-import { InputBaseProps } from '@mui/material/InputBase'
+import { useState, useMemo, ChangeEventHandler, InvalidEvent } from 'react'
 import { FormControlOwnProps } from '@mui/material/FormControl'
 import { useFormContext, FormContextValue } from 'components/FormContext'
-import { useState, useMemo, ChangeEventHandler } from 'react'
+import { isEmpty } from 'public/utils'
+import { defaultType, ErrorInfo, Validations } from 'types/form'
 
-interface ErrorInfo {
-  error: boolean
-  message?: string
-}
+type ReturnRegular = [
+  {
+    variant: FormControlOwnProps['variant']
+  } & Validate &
+    Partial<Validations>,
+  FormContextValue
+]
 
-type InputProps = Pick<InputBaseProps, 'name' | 'id' | 'error' | 'onChange'>
+/**
+ * support：
+ * 1. defaultValue ×
+ * 2. validator √
+ * 3. formContext √
+ * 4. varient √
+ */
 
-interface RegularInput {
-  (
-    props: InputProps & Required<Pick<InputProps, 'name'>>
-  ): [
-    InputProps &
-      FormControlOwnProps &
-      Required<Pick<InputProps, 'onChange'>> & { helperText?: string },
-    FormContextValue
+const useRegularInput = ({ name }: { name: string }): ReturnRegular => {
+  const formContextValue = useFormContext()
+  const validations = useInputValidations(name)
+  const validate = useInputValidate()
+
+  return [
+    {
+      variant: 'standard',
+      ...validate,
+      ...validations
+    },
+    formContextValue
   ]
 }
 
-/**
- * TODO validateRef stucture
- * TODO returnType
- *
- */
-const useRegularInput: RegularInput = ({ name }) => {
-  const formContextValue = useFormContext()
-  const { ref, validateRef } = formContextValue
-  const [errorInfo, setErrorInfo] = useState<ErrorInfo>({ error: false })
+type ReturnDefaultValue<T extends defaultType = defaultType.normal> =
+  T extends defaultType.checkbox
+    ? { defaultChecked?: boolean }
+    : { defaultValue?: unknown }
+
+const isCheck = (type?: defaultType): type is defaultType.checkbox =>
+  Boolean(type && type === defaultType.checkbox)
+
+interface DefaultValue {
+  (
+    name: string,
+    type: defaultType.checkbox
+  ): ReturnDefaultValue<defaultType.checkbox>
+  (
+    name: string,
+    type?: defaultType.normal
+  ): ReturnDefaultValue<defaultType.normal>
+}
+
+export const useDefaultValue: DefaultValue = (name, type) => {
+  const { ref } = useFormContext()
   const defaultValue = ref.current[name]
+
+  if (defaultValue == null) {
+    return {}
+  }
+
+  if (isCheck(type)) {
+    return { defaultChecked: defaultValue as boolean }
+  }
+
+  return { defaultValue }
+}
+
+export const useInputValidations = (name: string): Partial<Validations> => {
+  const { validateRef } = useFormContext()
   const validations = useMemo(() => {
     if (!validateRef.current || !validateRef.current[name]) {
       return {}
     }
 
     const validations = validateRef.current[name]
-    return Object.keys(validations).reduce(
-      // @ts-expect-error TODO validateRef stucture
-      (result, key) => ({ ...result, [key]: validations[key].value }),
+    return (Object.keys(validations) as (keyof Validations)[]).reduce(
+      (result, key) => ({ ...result, [key]: validations[key]!.value }),
       {}
     )
   }, [name, validateRef])
 
-  const handleChange: ChangeEventHandler<
-    HTMLInputElement | HTMLTextAreaElement
-  > = (event) => {
+  return validations
+}
+export interface Validate {
+  changeValidate: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
+  onInvalid: (event: InvalidEvent<HTMLInputElement>) => void
+  error: ErrorInfo['error']
+  helperText?: ErrorInfo['message']
+}
+
+export const useInputValidate = (): Validate => {
+  const {
+    validateRef: { current }
+  } = useFormContext()
+  const [errorInfo, setErrorInfo] = useState<ErrorInfo>({ error: false })
+
+  const changeValidate: Validate['changeValidate'] = (event) => {
+    const validations = current?.[event.target.name]
+    if (!event.target.validity || isEmpty(current) || isEmpty(validations)) {
+      return
+    }
+
     const {
-      name,
       validity: { valid, valueMissing }
-    } = event.target as HTMLInputElement
+    } = event.target
+
     if (!valid) {
       if (valueMissing) {
         setErrorInfo({
           error: true,
-          // @ts-expect-error TODO validateRef stucture
-          message: validateRef.current[name]['required'].message
+          message: validations['required']!.message
         })
       }
     } else {
@@ -64,33 +120,30 @@ const useRegularInput: RegularInput = ({ name }) => {
     }
   }
 
-  const handleInvalid: React.FormEventHandler<HTMLInputElement> = (event) => {
+  const handleInvalid: Validate['onInvalid'] = (event) => {
     event.preventDefault()
+    const validations = current?.[event.target.name]
+
+    if (!validations) {
+      return
+    }
+
     const {
-      name,
       validity: { valueMissing }
-    } = event.target as HTMLInputElement
+    } = event.target
     if (valueMissing) {
       setErrorInfo({
         error: true,
-        // @ts-expect-error TODO validateRef stucture
-        message: validateRef.current[name]['required'].message
+        message: validations['required']!.message
       })
     }
   }
 
-  return [
-    {
-      variant: 'standard',
-      ...(defaultValue != null && { defaultValue }),
-      error: errorInfo.error,
-      helperText: errorInfo.message,
-      onChange: handleChange,
-      onInvalid: handleInvalid,
-      ...validations
-    },
-    formContextValue
-  ]
+  return {
+    error: errorInfo.error,
+    helperText: errorInfo.message,
+    changeValidate,
+    onInvalid: handleInvalid
+  }
 }
-
 export default useRegularInput

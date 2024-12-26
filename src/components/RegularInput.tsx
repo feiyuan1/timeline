@@ -1,22 +1,33 @@
-import { MutableRefObject, ReactNode, useEffect, useRef, useState } from 'react'
+import {
+  ChangeEvent,
+  MutableRefObject,
+  ReactNode,
+  useEffect,
+  useRef,
+  useState
+} from 'react'
 import OriginalTextField from '@mui/material/TextField'
 import InputLabel from '@mui/material/InputLabel'
 import FormHelperText from '@mui/material/FormHelperText'
-import OriginalSelect, {
-  SelectChangeEvent,
-  SelectProps
-} from '@mui/material/Select'
+import OriginalSelect, { SelectProps } from '@mui/material/Select'
 import FormControl, { FormControlOwnProps } from '@mui/material/FormControl'
 import FormControlLabel, {
   FormControlLabelProps
 } from '@mui/material/FormControlLabel'
 import Box from '@mui/material/Box'
 import FormLabel from '@mui/material/FormLabel'
-import Checkbox from '@mui/material/Checkbox'
+import Checkbox, { CheckboxProps } from '@mui/material/Checkbox'
 import Radio from '@mui/material/Radio'
-import RadioGroup from '@mui/material/RadioGroup'
-import useRegularInput from 'utils/useRegularInput'
+import RadioGroup, { RadioGroupProps } from '@mui/material/RadioGroup'
+import useRegularInput, {
+  useDefaultValue,
+  useInputValidate,
+  useInputValidations,
+  Validate
+} from 'utils/useRegularInput'
+import { useFormContext } from './FormContext'
 import { formatDate } from 'utils/date'
+import { defaultType } from 'types/form'
 
 type BaseProps = {
   name: string
@@ -31,8 +42,10 @@ export const TextField = ({
   type,
   ...props
 }: OriginalTextFieldProps) => {
-  const [{ onChange: changeValidate, ...rest }, { update }] =
-    useRegularInput(props)
+  const [{ changeValidate, ...rest }, { update }] = useRegularInput({
+    name: props.name
+  })
+  const defaultValue = useDefaultValue(props.name)
   const [defaultDate, setDefaultDate] = useState('')
 
   useEffect(() => {
@@ -64,9 +77,29 @@ export const TextField = ({
       onChange={handleChange}
       type={type}
       {...(type === 'date' && { defaultValue: defaultDate })}
+      {...defaultValue}
       {...rest}
       {...props}
     />
+  )
+}
+
+interface ControlErrorHelper {
+  (
+    props: FormControlOwnProps & Omit<Validate, 'error' | 'changeValidate'>
+  ): ReactNode
+}
+export const ControlErrorHelper: ControlErrorHelper = ({
+  error,
+  helperText,
+  children,
+  ...props
+}) => {
+  return (
+    <FormControl error={error} {...props}>
+      {children}
+      <FormHelperText>{helperText}</FormHelperText>
+    </FormControl>
   )
 }
 
@@ -74,32 +107,38 @@ export const Select = ({
   children,
   onChange,
   label,
+  name,
   ...props
 }: SelectWithControlProps) => {
-  // @ts-expect-error TODO returnType
-  const [{ defaultValue }, { update }] = useRegularInput(props)
+  const [{ changeValidate, helperText, error, ...rest }, { update }] =
+    useRegularInput({ name })
+  const defaultValue = useDefaultValue(name)
   const handleChange = (
-    event: SelectChangeEvent<unknown>,
+    event: ChangeEvent<HTMLInputElement>,
     elem: React.ReactNode
   ) => {
     const { name, value } = event.target
     update({ [name]: value })
+    changeValidate(event)
     if (onChange) {
       onChange(event, elem)
     }
   }
+
   return (
-    <FormControl variant="standard">
+    <FormControl variant="standard" error={error}>
       <InputLabel id="select-label">{label}</InputLabel>
       <OriginalSelect
         labelId="select-label"
         onChange={handleChange}
         label={label}
-        defaultValue={defaultValue}
+        {...defaultValue}
         {...props}
+        {...rest}
       >
         {children}
       </OriginalSelect>
+      <FormHelperText>{helperText}</FormHelperText>
     </FormControl>
   )
 }
@@ -109,27 +148,36 @@ type onChange = (
   checked: boolean
 ) => void
 
-export const CheckBox = ({
-  onChange,
-  ...props
-}: Omit<FormControlLabelProps, 'control'> & BaseProps) => {
-  // @ts-expect-error TODO returnType
-  const [{ defaultValue }, { update }] = useRegularInput(props)
+export type CustomCheckboxProps = CheckboxProps &
+  BaseProps & { labelProps: Omit<FormControlLabelProps, 'control'> }
+
+export const CustomCheckbox = (
+  { onChange, labelProps, ...props }: CustomCheckboxProps,
+  control: FormControlOwnProps
+) => {
+  const [{ changeValidate, ...rest }, { update }] = useRegularInput({
+    name: props.name
+  })
+  const defaultChecked = useDefaultValue(props.name, defaultType.checkbox)
 
   const handleChange: onChange = (event, checked) => {
     const { name } = event.target
     update({ [name]: checked })
+    changeValidate(event)
     if (onChange) {
       onChange(event, checked)
     }
   }
 
   return (
-    <FormControlLabel
-      control={<Checkbox defaultChecked={defaultValue} />}
-      onChange={handleChange}
-      {...props}
-    />
+    <ControlErrorHelper {...rest} {...control}>
+      <FormControlLabel
+        control={
+          <Checkbox {...defaultChecked} {...props} onChange={handleChange} />
+        }
+        {...labelProps}
+      />
+    </ControlErrorHelper>
   )
 }
 
@@ -156,7 +204,7 @@ export const CheckBoxGroup = ({
   ...props
 }: CheckBoxGroupProps & BaseProps) => {
   const valueRef = useRef<unknown[]>([])
-  const [_, { update }] = useRegularInput(props)
+  const { update } = useFormContext()
   const processValue: onChange = (e, checked) => {
     if (onChange) {
       onChange(e, checked, valueRef)
@@ -178,32 +226,30 @@ export const CheckBoxGroup = ({
   }
 
   return list.map(({ label, key }, index) => (
-    <CheckBox
+    <FormControlLabel
       key={key || index}
+      control={<Checkbox value={key || index} />}
       onChange={handleChange}
-      {...props}
-      value={key || index}
       label={label}
+      {...props}
     />
   ))
 }
 
-type RadioGroupProps = {
+type CustomRadioGroupProps = {
   list: Item[]
   onChange?: (event: React.ChangeEvent<HTMLInputElement>, value: string) => void
-} & Omit<FormControlLabelProps, 'control' | 'label' | 'onChange'>
+} & RadioGroupProps
 
-export const CustomRadioGroup = ({
-  list,
-  onChange,
-  ...props
-}: RadioGroupProps & BaseProps) => {
-  const [
-    { onChange: changeValidate, variant, helperText, error, ...rest },
-    { update }
-  ] = useRegularInput(props)
+export const CustomRadioGroup = (
+  { list, onChange, ...props }: CustomRadioGroupProps & BaseProps,
+  controls?: FormControlOwnProps
+) => {
+  const { changeValidate, ...rest } = useInputValidate()
+  const validations = useInputValidations(props.name)
+  const { update } = useFormContext()
 
-  const handleChange: RadioGroupProps['onChange'] = (e, value) => {
+  const handleChange: CustomRadioGroupProps['onChange'] = (e, value) => {
     changeValidate(e)
     if (onChange) {
       onChange(e, value)
@@ -213,16 +259,15 @@ export const CustomRadioGroup = ({
   }
 
   return (
-    <FormControl variant={variant} error={error}>
-      <FormHelperText>{helperText}</FormHelperText>
-      <RadioGroup name={props.name} onChange={handleChange}>
+    <ControlErrorHelper {...rest} {...controls}>
+      <RadioGroup onChange={handleChange} {...props}>
         {list.map(({ key, label }, index) => (
           <Box key={key || index}>
-            <Radio {...rest} value={key || index} />
+            <Radio {...validations} value={key || index} />
             <FormLabel>{label}</FormLabel>
           </Box>
         ))}
       </RadioGroup>
-    </FormControl>
+    </ControlErrorHelper>
   )
 }
