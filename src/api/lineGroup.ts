@@ -38,6 +38,16 @@ export const linkList = (id: string, lines: string[]) => {
   })
 }
 
+export const unlinkList = (id: string, lines: string[]) => {
+  return customFetch(`${prefix}/unline/${id}`, {
+    method: 'post',
+    body: JSON.stringify(lines),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+}
+
 export const updateGroup = (id: LineGroup['id'], lineGroup: FormGroup) => {
   return customFetch(`${prefix}/${id}`, {
     method: 'post',

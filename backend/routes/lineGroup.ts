@@ -98,6 +98,39 @@ const routeGroup = (router: Router<any, Koa.BeContext<types.LineGroupD>>) => {
     await next()
   })
 
+  router.post(`${prefix}/unline/:id`, async (ctx, next) => {
+    const {
+      request,
+      db: { collection, db },
+      params: { id }
+    } = ctx
+    const lines = request.body as string[]
+    if (isEmpty(request.body)) {
+      ctx.error = types.Code.dataSourceError
+      await next()
+      return
+    }
+    if (isEmpty(lines)) {
+      ctx.error = {
+        code: types.Code.requiredError,
+        msg: 'lines array length is 0'
+      }
+      await next()
+      return
+    }
+    const lineColl = db.collection(colName.line)
+    const lineUpdates = lines.map((id) =>
+      lineColl.updateOne({ id }, { $set: { type: types.Type.line } })
+    )
+    const { refs } = await collection.findOne({ id })
+    const update = collection.updateOne(
+      { id },
+      { $set: { refs: refs.filter((line) => !lines.includes(line)) } }
+    )
+    await Promise.all(lineUpdates.concat(update))
+    await next()
+  })
+
   router.get(`${prefix}`, async (ctx, next) => {
     const {
       request,

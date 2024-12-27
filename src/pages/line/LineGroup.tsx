@@ -10,15 +10,16 @@ import FormModal from 'components/FormModal'
 import LineContent from 'components/LineGroupContent'
 import Alert from 'components/Alert'
 import { AddButton } from 'components/CustomButton'
+import DeleteGroupModal from 'components/DeleteGroupModal'
 import { getLink } from 'utils/index'
 import useToggle from 'utils/useToggle'
 import useRequiredParams from 'utils/useRequiredParams'
 import useLoading from 'utils/useLoading'
+import { isEmpty } from 'public/utils'
 import { LineGroup, FormLine } from 'types'
 import { getGroup, addChildLine } from 'api/lineGroup'
 import { lineProps as formProps } from '_constants/form'
-import LinkModal from './LinkModal'
-import DeleteGroupModal from 'components/DeleteGroupModal'
+import LinkModal, { UnlinkModal } from './LinkModal'
 
 const LineGroup = ({ data: { name, lines }, data }: { data: LineGroup }) => {
   const [openLine, toggleLine] = useToggle()
@@ -66,6 +67,7 @@ const LineGroup = ({ data: { name, lines }, data }: { data: LineGroup }) => {
       <FormModal open={openLine} handleClose={toggleLine} {...lineProps} />
       <DeleteGroupModal data={data} />
       <LinkModal />
+      {!isEmpty(lines) && <UnlinkModal lines={lines} />}
     </Box>
   )
 }

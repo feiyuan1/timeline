@@ -1,11 +1,11 @@
 import { memo, useMemo } from 'react'
 import Link from '@mui/material/Link'
 import { CheckBoxGroup, Item } from 'components/RegularInput'
-import { LinkButton } from 'components/CustomButton'
+import { LinkButton, UnlinkButton } from 'components/CustomButton'
 import Alert from 'components/Alert'
 import FormModal from 'components/FormModal'
 import { Line } from 'types'
-import { linkList } from 'api/lineGroup'
+import { linkList, unlinkList } from 'api/lineGroup'
 import { getLine } from 'api/line'
 import { Type } from 'public/constants'
 import { getLink, redirectToIndex } from 'utils/index'
@@ -70,6 +70,39 @@ const LinkModal = () => {
     <>
       <LinkButton onClick={handleClick} />
       <FormModal open={openLink} handleClose={toggleLink} {...linkLineProps} />
+    </>
+  )
+}
+
+export const UnlinkModal = ({ lines }: { lines: Line[] }) => {
+  const [openLink, toggleLink] = useToggle()
+  const { id } = useRequiredParams<{ id: string }>()
+  const list = useMemo(() => {
+    return lines.map(({ id, name }) => ({ key: id, value: id, label: name }))
+  }, [lines])
+
+  const unlinkProps = useMemo(
+    () => ({
+      title: '解绑线路',
+      children: <CheckBoxGroup name="unlink" list={list} />,
+      handleSubmit: ({ unlink }: { unlink: string[] }) => {
+        if (!unlink?.length) {
+          Alert.info('nothing to checked')
+          return
+        }
+        unlinkList(id, unlink).then(() => {
+          toggleLink()
+          redirectToIndex()
+        })
+      }
+    }),
+    [id, toggleLink, list]
+  )
+
+  return (
+    <>
+      <UnlinkButton onClick={toggleLink} />
+      <FormModal open={openLink} handleClose={toggleLink} {...unlinkProps} />
     </>
   )
 }
