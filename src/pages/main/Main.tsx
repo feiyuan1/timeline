@@ -5,6 +5,7 @@ import Tab from '@mui/material/Tab'
 import CardHeader from '@mui/material/CardHeader'
 import Card from '@mui/material/Card'
 import LineContent, { LineGroupContent } from 'components/LineGroupContent'
+import PageContainer from 'components/PageContainer'
 import AppendItem from './AppendItem'
 import { Line, LineGroup } from 'types'
 import { Type } from '_constants/index'
@@ -66,7 +67,7 @@ const MainPage = () => {
     Component: Main
   })
 
-  return elem
+  return <PageContainer>{elem}</PageContainer>
 }
 
 export default MainPage

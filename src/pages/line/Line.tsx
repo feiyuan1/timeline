@@ -6,6 +6,7 @@ import Typography from '@mui/material/Typography'
 import { AddButton, DeleteButton } from 'components/CustomButton'
 import FormModal from 'components/FormModal'
 import Alert from 'components/Alert'
+import PageContainer from 'components/PageContainer'
 import useRequiredParams from 'utils/useRequiredParams'
 import useToggle from 'utils/useToggle'
 import { nodeProps as getNodeProps } from '_constants/form'
@@ -67,7 +68,7 @@ const LinePage = () => {
   )
   const { elem } = useLoading<Line>(initData, { Component: Line })
 
-  return elem
+  return <PageContainer>{elem}</PageContainer>
 }
 
 export default LinePage

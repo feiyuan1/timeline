@@ -11,6 +11,8 @@ import LineContent from 'components/LineGroupContent'
 import Alert from 'components/Alert'
 import { AddButton } from 'components/CustomButton'
 import DeleteGroupModal from 'components/DeleteGroupModal'
+import PageContainer from 'components/PageContainer'
+import LinkModal, { UnlinkModal } from './LinkModal'
 import { getLink } from 'utils/index'
 import useToggle from 'utils/useToggle'
 import useRequiredParams from 'utils/useRequiredParams'
@@ -19,7 +21,6 @@ import { isEmpty } from 'public/utils'
 import { LineGroup, FormLine } from 'types'
 import { getGroup, addChildLine } from 'api/lineGroup'
 import { lineProps as formProps } from '_constants/form'
-import LinkModal, { UnlinkModal } from './LinkModal'
 
 const LineGroup = ({ data: { name, lines }, data }: { data: LineGroup }) => {
   const [openLine, toggleLine] = useToggle()
@@ -42,7 +43,6 @@ const LineGroup = ({ data: { name, lines }, data }: { data: LineGroup }) => {
 
   return (
     <Box>
-      <AddButton onClick={() => toggleLine()} />
       <List
         aria-labelledby={name}
         subheader={<ListSubheader component="p">{name}</ListSubheader>}
@@ -65,6 +65,7 @@ const LineGroup = ({ data: { name, lines }, data }: { data: LineGroup }) => {
         })}
       </List>
       <FormModal open={openLine} handleClose={toggleLine} {...lineProps} />
+      <AddButton onClick={() => toggleLine()} />
       <DeleteGroupModal data={data} />
       <LinkModal />
       {!isEmpty(lines) && <UnlinkModal lines={lines} />}
@@ -80,7 +81,7 @@ const LineGroupPage = () => {
   )
   const { elem } = useLoading<LineGroup>(initData, { Component: LineGroup })
 
-  return elem
+  return <PageContainer>{elem}</PageContainer>
 }
 
 export default LineGroupPage
