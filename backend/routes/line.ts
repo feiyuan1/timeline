@@ -6,7 +6,7 @@ import routeMiddleware = require('./routeMiddleware')
 import constants = require('../constants')
 import util = require('../util')
 
-const { isEmpty } = util
+const { isEmpty, formatLine } = util
 const { colName } = constants
 const { lineStruct } = struct
 const { responseMiddleware, collectionMiddleware } = routeMiddleware
@@ -51,7 +51,7 @@ const routeLine = (router: Router<any, Koa.BeContext<types.LineD>>) => {
       request,
       db: { collection }
     } = ctx
-    const query = struct.formatLine(request.query || {})
+    const query = formatLine(request.query || {})
     ctx.body = await collection
       .aggregate<types.LineD>([{ $match: query }, struct.lineStage])
       .toArray()

@@ -7,7 +7,7 @@ import utils = require('../util')
 import constants = require('../constants')
 
 const { colName } = constants
-const { isEveryEmpty } = utils
+const { isEveryEmpty, formatNode } = utils
 const { nodeStruct } = struct
 const { responseMiddleware, collectionMiddleware } = routeMiddleware
 const prefix = '/node'
@@ -15,6 +15,66 @@ const prefix = '/node'
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const routeNode = (router: Router<any, Koa.BeContext<types.LineNodeD>>) => {
   router.use(prefix, collectionMiddleware<types.LineNodeD>(colName.node))
+
+  router.get(prefix, async (ctx, next) => {
+    const {
+      query,
+      db: { collection }
+    } = ctx
+
+    if (utils.isEmpty(query)) {
+      ctx.error = types.Code.dataSourceError
+      await next()
+      return
+    }
+
+    ctx.body = await collection
+      .aggregate([{ $match: formatNode(query) }, struct.nodeStage])
+      .toArray()
+
+    await next()
+  })
+
+  router.delete(prefix, async (ctx, next) => {
+    const {
+      query,
+      db: { collection }
+    } = ctx
+
+    if (utils.isEmpty(query)) {
+      ctx.error = types.Code.dataSourceError
+      await next()
+      return
+    }
+
+    if (utils.isEmpty(query.id)) {
+      ctx.error = types.Code.requiredError
+      await next()
+      return
+    }
+
+    await collection.deleteOne(query)
+    await next()
+  })
+
+  router.get(prefix, async (ctx, next) => {
+    const {
+      query,
+      db: { collection }
+    } = ctx
+
+    if (utils.isEmpty(query)) {
+      ctx.error = types.Code.dataSourceError
+      await next()
+      return
+    }
+
+    ctx.body = await collection
+      .aggregate([{ $match: formatNode(query) }, struct.nodeStage])
+      .toArray()
+
+    await next()
+  })
 
   router.put(prefix, async (ctx, next) => {
     const {

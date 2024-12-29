@@ -1,4 +1,4 @@
-import { FormNode } from 'types'
+import { FormNode, LineNode } from 'types'
 import customFetch from './customFetch'
 
 const prefix = '/api/node'
@@ -10,4 +10,12 @@ export const addNode = (lineId: string, node: FormNode) => {
       'Content-Type': 'application/json'
     }
   })
+}
+
+export const getNode = (query?: Partial<LineNode>) => {
+  return customFetch(prefix, { query })
+}
+
+export const deleteNode = (id: string) => {
+  return customFetch(prefix, { method: 'delete', query: { id } })
 }

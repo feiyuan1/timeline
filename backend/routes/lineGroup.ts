@@ -131,7 +131,7 @@ const routeGroup = (router: Router<any, Koa.BeContext<types.LineGroupD>>) => {
     await next()
   })
 
-  router.get(`${prefix}`, async (ctx, next) => {
+  router.get(prefix, async (ctx, next) => {
     const {
       request,
       db: { collection }
