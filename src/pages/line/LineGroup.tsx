@@ -1,10 +1,4 @@
 import { useCallback, useMemo } from 'react'
-import { useNavigate } from 'react-router-dom'
-import List from '@mui/material/List'
-import ListItem from '@mui/material/ListItem'
-import ListSubheader from '@mui/material/ListSubheader'
-import CardHeader from '@mui/material/CardHeader'
-import Card from '@mui/material/Card'
 import Box from '@mui/material/Box'
 import FormModal from 'components/FormModal'
 import LineContent from 'components/LineGroupContent'
@@ -12,19 +6,20 @@ import Alert from 'components/Alert'
 import { AddButton } from 'components/CustomButton'
 import DeleteGroupModal from 'components/DeleteGroupModal'
 import PageContainer from 'components/PageContainer'
+import CustomList, { customListItem } from 'components/List'
 import LinkModal, { UnlinkModal } from './LinkModal'
-import { getLink } from 'utils/index'
 import useToggle from 'utils/useToggle'
 import useRequiredParams from 'utils/useRequiredParams'
 import useLoading from 'utils/useLoading'
 import { isEmpty } from 'public/utils'
-import { LineGroup, FormLine } from 'types'
+import { LineGroup, FormLine, Line } from 'types'
 import { getGroup, addChildLine } from 'api/lineGroup'
 import { lineProps as formProps } from '_constants/form'
 
+const Item = customListItem({ Content: LineContent })
+
 const LineGroup = ({ data: { name, lines }, data }: { data: LineGroup }) => {
   const [openLine, toggleLine] = useToggle()
-  const navigate = useNavigate()
   const { id } = useRequiredParams<{ id: string }>()
   const lineProps = useMemo(
     () => ({
@@ -43,27 +38,7 @@ const LineGroup = ({ data: { name, lines }, data }: { data: LineGroup }) => {
 
   return (
     <Box>
-      <List
-        aria-labelledby={name}
-        subheader={<ListSubheader component="p">{name}</ListSubheader>}
-      >
-        {lines.map((line, index) => {
-          const handleClick = () => {
-            navigate(getLink(line))
-          }
-          return (
-            <ListItem key={index}>
-              <Card
-                sx={{ width: '100%', '&:hover': { cursor: 'pointer' } }}
-                onClick={handleClick}
-              >
-                <CardHeader title={line.name} />
-                <LineContent data={line} />
-              </Card>
-            </ListItem>
-          )
-        })}
-      </List>
+      <CustomList<Line> list={lines} label={name} Item={Item} />
       <FormModal open={openLine} handleClose={toggleLine} {...lineProps} />
       <AddButton onClick={() => toggleLine()} />
       <DeleteGroupModal data={data} />
