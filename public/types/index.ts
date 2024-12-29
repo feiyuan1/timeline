@@ -11,11 +11,12 @@ export interface BasicInfo {
   description?: string
 }
 
-// TODO FormLog
 export interface Log extends BasicInfo {
   content: string // 记录内容
   type: Type.log
 }
+
+export type FormLog = Pick<Log, 'content' | 'name' | 'description'>
 
 export interface LineNode extends BasicInfo {
   logs: Log[]
@@ -39,3 +40,5 @@ export interface LineGroup extends BasicInfo {
 }
 
 export type FormGroup = Pick<LineGroup, 'name' | 'description'>
+
+export type Contents = Log | LineNode | LineGroup | Line

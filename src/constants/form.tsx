@@ -6,7 +6,8 @@ import { addLine } from 'api/line'
 import { addGroup } from 'api/lineGroup'
 import { addNode } from 'api/node'
 import { NodeType } from '_constants/index'
-import { FormGroup, FormLine, FormNode } from 'types'
+import { FormGroup, FormLine, FormLog, FormNode } from 'types'
+import { addLog } from 'api/log'
 
 export const options = [
   { label: '时间', key: 'date', value: NodeType.date },
@@ -112,6 +113,43 @@ export const nodeProps: (props: {
     // eslint-disable-next-line no-console
     console.log('submit: ', value)
     addNode(lineId, value).then(() => {
+      Alert.success('添加成功')
+      location.reload()
+    })
+  },
+  ...otherProps
+})
+
+export const logProps: (props: {
+  nodeId: string
+  otherProps?: Partial<FormModalProps>
+}) => FormPropsOmitToggle = ({ nodeId, otherProps }) => ({
+  validations: {
+    name: {
+      required: {
+        value: true,
+        message: '请填写名称'
+      }
+    },
+    content: {
+      required: {
+        value: true,
+        message: '请填写内容'
+      }
+    }
+  },
+  title: '新增记录',
+  children: (
+    <>
+      <TextField name="name" label="名称" />
+      <TextField name="description" label="描述" />
+      <TextField name="content" label="内容" multiline />
+    </>
+  ),
+  handleSubmit: (value: FormLog) => {
+    // eslint-disable-next-line no-console
+    console.log('submit: ', value)
+    addLog(nodeId, value).then(() => {
       Alert.success('添加成功')
       location.reload()
     })
