@@ -24,14 +24,11 @@ const LineGroup = ({ data: { name, lines }, data }: { data: LineGroup }) => {
   const lineProps = useMemo(
     () => ({
       ...formProps,
-      handleSubmit: (value: FormLine) => {
-        // eslint-disable-next-line no-console
-        console.log('submit: ', value)
+      handleSubmit: (value: FormLine) =>
         addChildLine(id, value).then(() => {
           Alert.success('保存成功')
           location.reload()
         })
-      }
     }),
     [id]
   )

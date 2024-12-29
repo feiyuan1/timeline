@@ -1,4 +1,4 @@
-import React, { useEffect, memo } from 'react'
+import React, { useEffect, memo, useState } from 'react'
 import Modal from '@mui/material/Modal'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
@@ -18,7 +18,7 @@ export type FormModalProps = React.PropsWithChildren<{
   initValue?: ObjectWithString
   actions?: React.ReactNode
   validations?: CustomValidations<ObjectWithString>
-  handleSubmit: (value: object) => void
+  handleSubmit: (value: object) => Promise<unknown> | void
   handleClose: (event: MouseEvent, reason: string) => void
 }>
 
@@ -50,6 +50,7 @@ const FormModalInner = ({
   handleSubmit
 }: FormModalProps) => {
   const { ref, update, validateRef } = useFormContext()
+  const [disable, setDisable] = useState(false)
 
   useEffect(() => {
     if (!validations) {
@@ -64,13 +65,12 @@ const FormModalInner = ({
 
   const handleFormSubmit: React.FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault()
-    try {
-      handleSubmit(ref.current)
-    } catch (e) {
-      // 捕获非 promise 异常，否则会刷新页面
+    setDisable(true)
+    Promise.resolve(handleSubmit)
+      .then((submit) => submit(ref.current))
       // eslint-disable-next-line no-console
-      console.error(e)
-    }
+      .catch(console.error)
+      .finally(() => setDisable(false))
   }
 
   const handleCloseStop: (event: MouseEvent, reason: string) => void = (
@@ -114,7 +114,7 @@ const FormModalInner = ({
             }}
           >
             {actions || (
-              <IconButton type="submit" sx={{ height: 56 }}>
+              <IconButton type="submit" sx={{ height: 56 }} disabled={disable}>
                 <CheckIcon color="primary" sx={{ fontSize: 40 }} />
               </IconButton>
             )}

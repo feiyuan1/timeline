@@ -20,12 +20,11 @@ const DeleteGroupModal = ({ data: { id, name } }: { data: LineGroup }) => {
       title: '即将删除线路组：' + name,
       keepMounted: false,
       children: <CustomCheckbox name="check" labelProps={labelProps} />,
-      handleSubmit: (value: { check: boolean }) => {
+      handleSubmit: async (value: { check: boolean }) =>
         deleteGroup(id, value.check).then(() => {
           Alert.success('删除成功')
           redirectToIndex()
         })
-      }
     }),
     [id, name]
   )

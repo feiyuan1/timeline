@@ -42,14 +42,11 @@ export const lineProps: FormPropsOmitToggle = {
       </Select>
     </>
   ),
-  handleSubmit: (value: FormLine) => {
-    // eslint-disable-next-line no-console
-    console.log('submit: ', value)
+  handleSubmit: async (value: FormLine) =>
     addLine(value).then(() => {
       Alert.success('保存成功')
       location.reload()
     })
-  }
 }
 
 export const groupProps: FormPropsOmitToggle = {
@@ -68,14 +65,11 @@ export const groupProps: FormPropsOmitToggle = {
       <TextField name="description" label="描述" />
     </>
   ),
-  handleSubmit: (value: FormGroup) => {
-    // eslint-disable-next-line no-console
-    console.log('submit: ', value)
+  handleSubmit: async (value: FormGroup) =>
     addGroup(value).then(() => {
       Alert.success('添加成功')
       location.reload()
     })
-  }
 }
 
 export const nodeProps: (props: {
@@ -109,14 +103,11 @@ export const nodeProps: (props: {
       />
     </>
   ),
-  handleSubmit: (value: FormNode) => {
-    // eslint-disable-next-line no-console
-    console.log('submit: ', value)
+  handleSubmit: async (value: FormNode) =>
     addNode(lineId, value).then(() => {
       Alert.success('添加成功')
       location.reload()
-    })
-  },
+    }),
   ...otherProps
 })
 
@@ -146,13 +137,10 @@ export const logProps: (props: {
       <TextField name="content" label="内容" multiline />
     </>
   ),
-  handleSubmit: (value: FormLog) => {
-    // eslint-disable-next-line no-console
-    console.log('submit: ', value)
+  handleSubmit: async (value: FormLog) =>
     addLog(nodeId, value).then(() => {
       Alert.success('添加成功')
       location.reload()
-    })
-  },
+    }),
   ...otherProps
 })

@@ -25,12 +25,11 @@ const DeleteForm = ({ data: { name, id } }: { data: LineNode }) => {
       },
       keepMounted: false,
       children: <CustomCheckbox name="check" labelProps={labelProps} />,
-      handleSubmit: () => {
+      handleSubmit: () =>
         deleteNode(id).then(() => {
           Alert.success('删除成功')
           redirectToIndex()
         })
-      }
     }),
     [id, name]
   )

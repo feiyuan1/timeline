@@ -63,9 +63,8 @@ const GroupModal = ({ id }: { id: string }) => {
     emptyUI
   })
 
-  const handleSubmit = (data: { [name]: string }) => {
+  const handleSubmit = async (data: { [name]: string }) =>
     linkList(data[name], [id]).then(toggleGroup)
-  }
 
   const handleClick = () => {
     reload()

@@ -48,12 +48,12 @@ const LinkModal = () => {
     () => ({
       title: '引用线路',
       children: elem,
-      handleSubmit: ({ link }: { link: string[] }) => {
+      handleSubmit: async ({ link }: { link: string[] }) => {
         if (!link?.length) {
           Alert.info('nothing to checked')
           return
         }
-        linkList(id, link).then(() => {
+        return linkList(id, link).then(() => {
           toggleLink()
           redirectToIndex()
         })
@@ -85,12 +85,12 @@ export const UnlinkModal = ({ lines }: { lines: Line[] }) => {
     () => ({
       title: '解绑线路',
       children: <CheckBoxGroup name="unlink" list={list} />,
-      handleSubmit: ({ unlink }: { unlink: string[] }) => {
+      handleSubmit: async ({ unlink }: { unlink: string[] }) => {
         if (!unlink?.length) {
           Alert.info('nothing to checked')
           return
         }
-        unlinkList(id, unlink).then(() => {
+        return unlinkList(id, unlink).then(() => {
           toggleLink()
           redirectToIndex()
         })
