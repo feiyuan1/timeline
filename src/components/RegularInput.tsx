@@ -155,10 +155,10 @@ export const CustomCheckbox = (
   { onChange, labelProps, ...props }: CustomCheckboxProps,
   control: FormControlOwnProps
 ) => {
-  const [{ changeValidate, ...rest }, { update }] = useRegularInput({
-    name: props.name
-  })
+  const validations = useInputValidations(props.name)
+  const { changeValidate, ...validate } = useInputValidate()
   const defaultChecked = useDefaultValue(props.name, defaultType.checkbox)
+  const { update } = useFormContext()
 
   const handleChange: onChange = (event, checked) => {
     const { name } = event.target
@@ -170,11 +170,12 @@ export const CustomCheckbox = (
   }
 
   return (
-    <ControlErrorHelper {...rest} {...control}>
+    <ControlErrorHelper {...validate} {...control}>
       <FormControlLabel
         control={
           <Checkbox {...defaultChecked} {...props} onChange={handleChange} />
         }
+        {...validations}
         {...labelProps}
       />
     </ControlErrorHelper>
