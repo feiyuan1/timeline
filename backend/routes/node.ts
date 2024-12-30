@@ -57,25 +57,6 @@ const routeNode = (router: Router<any, Koa.BeContext<types.LineNodeD>>) => {
     await next()
   })
 
-  router.get(prefix, async (ctx, next) => {
-    const {
-      query,
-      db: { collection }
-    } = ctx
-
-    if (utils.isEmpty(query)) {
-      ctx.error = types.Code.dataSourceError
-      await next()
-      return
-    }
-
-    ctx.body = await collection
-      .aggregate([{ $match: formatNode(query) }, struct.nodeStage])
-      .toArray()
-
-    await next()
-  })
-
   router.put(prefix, async (ctx, next) => {
     const {
       request,
