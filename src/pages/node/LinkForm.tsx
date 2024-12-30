@@ -1,19 +1,29 @@
 import { useCallback } from 'react'
+import Link from '@mui/material/Link'
 import Alert from 'components/Alert'
 import { LinkButton } from 'components/CustomButton'
 import { CheckBoxGroup, Item } from 'components/RegularInput'
 import useLoading from 'utils/useLoading'
 import useToggleFormModal from 'utils/useFormModal'
+import { getLink } from 'utils/index'
 import { getAggreateLogs, linkLogs } from 'api/node'
 
 const initData = (id: string): Promise<Item[]> =>
   getAggreateLogs(id).then((data) =>
-    data.map(({ id, name, include: defaultSelect }) => ({
-      key: id,
-      value: id,
-      label: name,
-      ...(defaultSelect && { defaultSelect })
-    }))
+    data.map(({ include: defaultSelect, ...log }) => {
+      const { id, name } = log
+
+      return {
+        key: id,
+        value: id,
+        label: (
+          <Link component="a" target="__blank" href={getLink(log)}>
+            {name}
+          </Link>
+        ),
+        ...(defaultSelect && { defaultSelect })
+      }
+    })
   )
 
 const props = {

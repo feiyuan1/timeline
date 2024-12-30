@@ -1,9 +1,9 @@
 import { Type } from '_constants/index'
-import { Line, LineGroup, LineNode, Log } from 'types'
+import { Contents } from 'types'
 
 export const isLine = (type: Type) => [Type.line, Type.childLine].includes(type)
 
-export const getLink = (data: Line | LineGroup | LineNode | Log) => {
+export const getLink = (data: Contents) => {
   const { id, type } = data
   if (type === Type.lineGroup) {
     return '/line-group/' + id
