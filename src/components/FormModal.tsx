@@ -102,7 +102,11 @@ const FormModalInner = ({
           direction={isDoubleCol ? 'row' : 'column'}
           sx={{ alignItems: 'center' }}
         >
-          <Stack direction="column" sx={{ flex: 2 }} spacing={2}>
+          <Stack
+            direction="column"
+            sx={{ flex: 2, maxHeight: '300px', overflow: 'auto' }}
+            spacing={2}
+          >
             {children}
           </Stack>
           <Box

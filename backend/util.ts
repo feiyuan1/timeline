@@ -73,3 +73,14 @@ export const formatNode = (node: Partial<Record<keyof LineNode, string>>) =>
 
 export const formatLog = (node: Partial<Record<keyof LineNode, string>>) =>
   format<omitGeneral<Log>>(node, generalRule)
+
+export const diffRefs = <T>(olds: T[], news: T[]): [T[], T[]] => {
+  if (!olds.length || !news.length) {
+    return [olds, news]
+  }
+
+  const dels = olds.filter((item) => !news.includes(item))
+  const adds = news.filter((item) => !olds.includes(item))
+
+  return [dels, adds]
+}

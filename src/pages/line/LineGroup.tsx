@@ -6,11 +6,10 @@ import { AddButton } from 'components/CustomButton'
 import DeleteGroupModal from 'components/DeleteGroupModal'
 import PageContainer from 'components/PageContainer'
 import CustomList, { customListItem } from 'components/List'
-import LinkModal, { UnlinkModal } from './LinkModal'
+import LinkModal from './LinkModal'
 import useRequiredParams from 'utils/useRequiredParams'
 import useLoading from 'utils/useLoading'
 import useToggleFormModal from 'utils/useFormModal'
-import { isEmpty } from 'public/utils'
 import { LineGroup, FormLine, Line } from 'types'
 import { getGroup, addChildLine } from 'api/lineGroup'
 import { lineProps as formProps } from '_constants/form'
@@ -39,7 +38,6 @@ const LineGroup = ({ data: { name, lines }, data }: { data: LineGroup }) => {
       <AddButton onClick={toggle} />
       <DeleteGroupModal data={data} />
       <LinkModal />
-      {!isEmpty(lines) && <UnlinkModal lines={lines} />}
     </Box>
   )
 }

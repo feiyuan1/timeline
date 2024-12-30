@@ -4,7 +4,6 @@ import AddIcon from '@mui/icons-material/Add'
 import AddLinkOutlinedIcon from '@mui/icons-material/AddLinkOutlined'
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined'
 import AddCardOutlinedIcon from '@mui/icons-material/AddCardOutlined'
-import LinkOffOutlinedIcon from '@mui/icons-material/LinkOffOutlined'
 import Box from '@mui/material/Box'
 import Checkbox from '@mui/material/Checkbox'
 import Alert from './Alert'
@@ -78,14 +77,5 @@ export const GroupButton = ({ onClick }: IconButtonProps) => (
     onClick={onClick}
   >
     <AddCardOutlinedIcon color="primary" sx={{ fontSize: 40 }} />
-  </IconButton>
-)
-
-export const UnlinkButton = ({ onClick }: IconButtonProps) => (
-  <IconButton
-    sx={{ position: 'absolute', right: '60px', bottom: '140px' }}
-    onClick={onClick}
-  >
-    <LinkOffOutlinedIcon color="primary" sx={{ fontSize: 40 }} />
   </IconButton>
 )

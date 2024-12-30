@@ -1,5 +1,7 @@
-import { FormGroup, FormLine, LineGroup } from 'types'
+import { FormGroup, FormLine, LineGroup, LineWithinGroup } from 'types'
 import customFetch from './customFetch'
+import { getLine } from './line'
+import { Type } from 'public/constants'
 
 const prefix = '/api/group'
 export const getGroup = (query?: Partial<LineGroup>): Promise<LineGroup[]> => {
@@ -28,20 +30,22 @@ export const addChildLine = (id: string, line: FormLine) => {
   })
 }
 
-export const linkList = (id: string, lines: string[]) => {
-  return customFetch(`${prefix}/line/${id}`, {
-    method: 'post',
-    body: JSON.stringify(lines),
-    headers: {
-      'Content-Type': 'application/json'
-    }
+export const getAggregateLine = async (
+  id: string
+): Promise<LineWithinGroup[]> => {
+  const line = getLine({ type: Type.line })
+  const group = getGroup({ id }).then((group) => group[0].lines)
+  return Promise.all([line, group]).then(([lines, includedLines]) => {
+    return lines.concat(
+      includedLines.map((item) => ({ ...item, include: true }))
+    )
   })
 }
 
-export const unlinkList = (id: string, lines: string[]) => {
-  return customFetch(`${prefix}/unline/${id}`, {
+export const linkList = (id: string, lines: string[]) => {
+  return customFetch(`${prefix}/line/${id}`, {
     method: 'post',
-    body: JSON.stringify(lines),
+    body: JSON.stringify({ lines }),
     headers: {
       'Content-Type': 'application/json'
     }

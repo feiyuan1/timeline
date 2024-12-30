@@ -5,9 +5,9 @@ import struct = require('./struct')
 import routeMiddleware = require('./routeMiddleware')
 import mongodb = require('mongodb')
 import constants = require('../constants')
-const utils = require('../util')
+import utils = require('../util')
 
-const { isEmpty } = utils
+const { isEmpty, diffRefs } = utils
 const { colName } = constants
 const { groupStruct } = struct
 const { responseMiddleware, collectionMiddleware } = routeMiddleware
@@ -71,63 +71,28 @@ const routeGroup = (router: Router<any, Koa.BeContext<types.LineGroupD>>) => {
       db: { collection, db },
       params: { id }
     } = ctx
-    const lines = request.body as string[]
+    const body = request.body as { lines: string[] }
     if (isEmpty(request.body)) {
       ctx.error = types.Code.dataSourceError
       await next()
       return
     }
-    if (isEmpty(lines)) {
-      ctx.error = {
-        code: types.Code.requiredError,
-        msg: 'lines array length is 0'
-      }
+    if (!body.lines) {
+      ctx.error = types.Code.requiredError
       await next()
       return
     }
     const lineColl = db.collection(colName.line)
-    const lineUpdates = lines.map((id) =>
+    const { refs } = await collection.findOne({ id })
+    const [dels, adds] = diffRefs<string>(refs, body.lines)
+    const addUpdates = adds.map((id) =>
       lineColl.updateOne({ id }, { $set: { type: types.Type.childLine } })
     )
-    const { refs } = await collection.findOne({ id })
-    const update = collection.updateOne(
-      { id },
-      { $set: { refs: refs.concat(lines) } }
-    )
-    await Promise.all(lineUpdates.concat(update))
-    await next()
-  })
-
-  router.post(`${prefix}/unline/:id`, async (ctx, next) => {
-    const {
-      request,
-      db: { collection, db },
-      params: { id }
-    } = ctx
-    const lines = request.body as string[]
-    if (isEmpty(request.body)) {
-      ctx.error = types.Code.dataSourceError
-      await next()
-      return
-    }
-    if (isEmpty(lines)) {
-      ctx.error = {
-        code: types.Code.requiredError,
-        msg: 'lines array length is 0'
-      }
-      await next()
-      return
-    }
-    const lineColl = db.collection(colName.line)
-    const lineUpdates = lines.map((id) =>
+    const delUpdates = dels.map((id) =>
       lineColl.updateOne({ id }, { $set: { type: types.Type.line } })
     )
-    const { refs } = await collection.findOne({ id })
-    const update = collection.updateOne(
-      { id },
-      { $set: { refs: refs.filter((line) => !lines.includes(line)) } }
-    )
-    await Promise.all(lineUpdates.concat(update))
+    const update = collection.updateOne({ id }, { $set: { refs: body.lines } })
+    await Promise.all(addUpdates.concat(update, delUpdates))
     await next()
   })
 
@@ -137,12 +102,10 @@ const routeGroup = (router: Router<any, Koa.BeContext<types.LineGroupD>>) => {
       db: { collection }
     } = ctx
     const query = request.query || {}
-    const cursor = await collection.aggregate([
-      { $match: query },
-      struct.groupStage
-    ])
-    const data = await cursor.toArray()
-    ctx.body = data
+    ctx.body = await collection
+      .aggregate([{ $match: query }, struct.groupStage])
+      .toArray()
+
     await next()
   })
 
