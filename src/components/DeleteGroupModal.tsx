@@ -1,10 +1,9 @@
 import { useMemo } from 'react'
-import FormModal from './FormModal'
 import Alert from './Alert'
 import { DeleteButton } from './CustomButton'
 import { CustomCheckbox, CustomCheckboxProps } from './RegularInput'
-import useToggle from 'utils/useToggle'
 import { redirectToIndex } from 'utils/index'
+import useToggleFormModal from 'utils/useFormModal'
 import { deleteGroup } from 'api/lineGroup'
 import { LineGroup } from 'types'
 
@@ -14,7 +13,7 @@ const labelProps: CustomCheckboxProps['labelProps'] = {
 }
 
 const DeleteGroupModal = ({ data: { id, name } }: { data: LineGroup }) => {
-  const [openDel, toggleDel] = useToggle()
+  const [toggle, FormModal] = useToggleFormModal()
   const confirmProps = useMemo(
     () => ({
       title: '即将删除线路组：' + name,
@@ -31,8 +30,8 @@ const DeleteGroupModal = ({ data: { id, name } }: { data: LineGroup }) => {
 
   return (
     <>
-      <DeleteButton onClick={toggleDel} customConfirm />
-      <FormModal open={openDel} handleClose={toggleDel} {...confirmProps} />
+      <DeleteButton onClick={toggle} customConfirm />
+      <FormModal {...confirmProps} />
     </>
   )
 }

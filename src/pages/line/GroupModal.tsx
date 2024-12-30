@@ -1,11 +1,10 @@
 import Link from '@mui/material/Link'
 import { GroupButton } from 'components/CustomButton'
-import FormModal from 'components/FormModal'
-import useToggle from 'utils/useToggle'
 import { getGroup, linkList } from 'api/lineGroup'
 import useLoading from 'utils/useLoading'
 import { CustomRadioGroup, Item } from 'components/RegularInput'
 import { getLink } from 'utils/index'
+import useToggleFormModal from 'utils/useFormModal'
 
 const name = 'add-group'
 
@@ -57,29 +56,24 @@ const groupProps = {
 }
 
 const GroupModal = ({ id }: { id: string }) => {
-  const [openGroup, toggleGroup] = useToggle()
+  const [toggle, FormModal] = useToggleFormModal()
   const { elem, reload } = useLoading(initData, {
     Component,
     emptyUI
   })
 
   const handleSubmit = async (data: { [name]: string }) =>
-    linkList(data[name], [id]).then(toggleGroup)
+    linkList(data[name], [id]).then(toggle)
 
   const handleClick = () => {
     reload()
-    toggleGroup()
+    toggle()
   }
 
   return (
     <>
       <GroupButton onClick={handleClick} />
-      <FormModal
-        open={openGroup}
-        handleClose={toggleGroup}
-        {...groupProps}
-        handleSubmit={handleSubmit}
-      >
+      <FormModal {...groupProps} handleSubmit={handleSubmit}>
         {elem}
       </FormModal>
     </>

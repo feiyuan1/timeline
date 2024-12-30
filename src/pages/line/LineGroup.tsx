@@ -1,6 +1,5 @@
 import { useCallback, useMemo } from 'react'
 import Box from '@mui/material/Box'
-import FormModal from 'components/FormModal'
 import LineContent from 'components/LineGroupContent'
 import Alert from 'components/Alert'
 import { AddButton } from 'components/CustomButton'
@@ -8,9 +7,9 @@ import DeleteGroupModal from 'components/DeleteGroupModal'
 import PageContainer from 'components/PageContainer'
 import CustomList, { customListItem } from 'components/List'
 import LinkModal, { UnlinkModal } from './LinkModal'
-import useToggle from 'utils/useToggle'
 import useRequiredParams from 'utils/useRequiredParams'
 import useLoading from 'utils/useLoading'
+import useToggleFormModal from 'utils/useFormModal'
 import { isEmpty } from 'public/utils'
 import { LineGroup, FormLine, Line } from 'types'
 import { getGroup, addChildLine } from 'api/lineGroup'
@@ -19,7 +18,7 @@ import { lineProps as formProps } from '_constants/form'
 const Item = customListItem({ Content: LineContent })
 
 const LineGroup = ({ data: { name, lines }, data }: { data: LineGroup }) => {
-  const [openLine, toggleLine] = useToggle()
+  const [toggle, FormModal] = useToggleFormModal()
   const { id } = useRequiredParams<{ id: string }>()
   const lineProps = useMemo(
     () => ({
@@ -36,8 +35,8 @@ const LineGroup = ({ data: { name, lines }, data }: { data: LineGroup }) => {
   return (
     <Box>
       <CustomList<Line> list={lines} label={name} Item={Item} />
-      <FormModal open={openLine} handleClose={toggleLine} {...lineProps} />
-      <AddButton onClick={() => toggleLine()} />
+      <FormModal {...lineProps} />
+      <AddButton onClick={toggle} />
       <DeleteGroupModal data={data} />
       <LinkModal />
       {!isEmpty(lines) && <UnlinkModal lines={lines} />}

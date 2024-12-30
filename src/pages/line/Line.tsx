@@ -4,22 +4,21 @@ import CardContent from '@mui/material/CardContent'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import { AddButton, DeleteButton } from 'components/CustomButton'
-import FormModal from 'components/FormModal'
 import Alert from 'components/Alert'
 import PageContainer from 'components/PageContainer'
 import useRequiredParams from 'utils/useRequiredParams'
-import useToggle from 'utils/useToggle'
 import { nodeProps as getNodeProps } from '_constants/form'
 import { deleteLine, getLine } from 'api/line'
 import { Line } from 'types'
 import { formatDate } from 'utils/date'
 import { getLink, redirectToIndex } from 'utils/index'
-import useLoading from '../../utils/useLoading'
+import useLoading from 'utils/useLoading'
+import useToggleFormModal from 'utils/useFormModal'
 import GroupModal from './GroupModal'
 import { Type } from 'public/constants'
 
 const Line = ({ data: line }: { data: Line }) => {
-  const [open, toggle] = useToggle()
+  const [toggle, FormModal] = useToggleFormModal()
   const navigate = useNavigate()
   const nodeProps = getNodeProps({ lineId: line.id, nodeType: line.nodeType })
   const { nodes, name, description } = line
@@ -55,7 +54,7 @@ const Line = ({ data: line }: { data: Line }) => {
       <DeleteButton onClick={del} />
       <AddButton onClick={toggle} />
       {line.type === Type.line && <GroupModal id={line.id} />}
-      <FormModal open={open} handleClose={toggle} {...nodeProps} />
+      <FormModal {...nodeProps} />
     </Box>
   )
 }
