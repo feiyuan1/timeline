@@ -16,6 +16,15 @@ const prefix = '/log'
 const routeLog = (router: Router<any, Koa.BeContext<types.Log>>) => {
   router.use(prefix, collectionMiddleware<types.Log>(colName.log))
 
+  router.get(prefix, async (ctx, next) => {
+    const {
+      query,
+      db: { collection }
+    } = ctx
+    ctx.body = await collection.find(query).toArray()
+    await next()
+  })
+
   router.put(prefix, async (ctx, next) => {
     const {
       request,

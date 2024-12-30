@@ -12,6 +12,6 @@ export const addLog = (nodeId: string, log: FormLog) => {
   })
 }
 
-export const getLog = (query?: Partial<Log>) => {
+export const getLog = (query?: Partial<Log>): Promise<Log[]> => {
   return customFetch(prefix, { query })
 }
