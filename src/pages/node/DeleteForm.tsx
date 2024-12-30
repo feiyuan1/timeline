@@ -1,17 +1,16 @@
 import { useMemo } from 'react'
 import Alert from 'components/Alert'
 import { DeleteButton } from 'components/CustomButton'
-import FormModal from 'components/FormModal'
 import { CustomCheckbox } from 'components/RegularInput'
-import useToggle from 'utils/useToggle'
 import { LineNode } from 'types'
 import { deleteNode } from 'api/node'
 import { redirectToIndex } from 'utils/index'
+import useToggleFormModal from './useFormModal'
 
 const labelProps = { label: '确认删除节点' }
 
 const DeleteForm = ({ data: { name, id } }: { data: LineNode }) => {
-  const [open, toggle] = useToggle()
+  const [toggle, FormModal] = useToggleFormModal()
   const delProps = useMemo(
     () => ({
       title: '即将删除线路节点：' + name,
@@ -37,7 +36,7 @@ const DeleteForm = ({ data: { name, id } }: { data: LineNode }) => {
   return (
     <>
       <DeleteButton onClick={toggle} customConfirm />
-      <FormModal open={open} handleClose={toggle} {...delProps} />
+      <FormModal {...delProps} />
     </>
   )
 }

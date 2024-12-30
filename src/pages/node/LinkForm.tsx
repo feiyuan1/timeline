@@ -1,11 +1,10 @@
 import { useCallback } from 'react'
 import Alert from 'components/Alert'
 import { LinkButton } from 'components/CustomButton'
-import FormModal from 'components/FormModal'
 import { CheckBoxGroup, Item } from 'components/RegularInput'
 import useLoading from 'utils/useLoading'
-import useToggle from 'utils/useToggle'
 import { getAggreateLogs, linkLogs } from 'api/node'
+import useToggleFormModal from './useFormModal'
 
 const initData = (id: string): Promise<Item[]> =>
   getAggreateLogs(id).then((data) =>
@@ -29,7 +28,7 @@ const Component = ({ data }: { data: Item[] }) => (
 )
 
 const LinkForm = ({ id }: { id: string }) => {
-  const [open, toggle] = useToggle()
+  const [toggle, FormModal] = useToggleFormModal()
   const getLogList = useCallback(() => initData(id), [id])
   const { elem, reload } = useLoading(getLogList, {
     Component,
@@ -53,12 +52,7 @@ const LinkForm = ({ id }: { id: string }) => {
   return (
     <>
       <LinkButton onClick={handleClick} />
-      <FormModal
-        open={open}
-        handleClose={toggle}
-        handleSubmit={handleSubmit}
-        {...props}
-      >
+      <FormModal handleSubmit={handleSubmit} {...props}>
         {elem}
       </FormModal>
     </>

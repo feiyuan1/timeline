@@ -1,7 +1,6 @@
 import { useCallback, useMemo } from 'react'
 import Stack from '@mui/material/Stack'
 import { AddButton } from 'components/CustomButton'
-import FormModal from 'components/FormModal'
 import CustomList, { Content, customListItem, Item } from 'components/List'
 import PageContainer from 'components/PageContainer'
 import DeleteForm from './DeleteForm'
@@ -9,10 +8,10 @@ import LinkForm from './LinkForm'
 import { formatDate } from 'utils/date'
 import useLoading from 'utils/useLoading'
 import useRequiredParams from 'utils/useRequiredParams'
-import useToggle from 'utils/useToggle'
 import { logProps as getLogProps } from '_constants/form'
 import { getNode } from 'api/node'
 import { LineNode, Log } from 'types'
+import useToggleFormModal from './useFormModal'
 
 const Content: Content<Log> = ({ data }) => (
   <Stack
@@ -30,7 +29,7 @@ const Node = ({
 }: {
   data: LineNode
 }) => {
-  const [open, toggle] = useToggle()
+  const [toggle, FormModal] = useToggleFormModal()
   const logProps = useMemo(() => getLogProps({ nodeId: id }), [id])
   const key = useMemo(() => {
     if (typeof originalKey === 'string') {
@@ -44,7 +43,7 @@ const Node = ({
       key:{key}
       <CustomList<Log> Item={Item} list={logs} label={name} />
       <AddButton onClick={toggle} />
-      <FormModal open={open} handleClose={toggle} {...logProps} />
+      <FormModal {...logProps} />
       <DeleteForm data={data} />
       <LinkForm id={id} />
     </>
