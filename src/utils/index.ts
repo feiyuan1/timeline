@@ -15,7 +15,7 @@ export const getLink = (data: Line | LineGroup | LineNode | Log) => {
     return '/node/' + id
   }
   if (type === Type.log) {
-    return ''
+    return '/log/' + id
   }
   throw 'the type of item not be linegroup or line or node'
 }
