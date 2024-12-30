@@ -48,10 +48,10 @@ const LinkForm = ({ id }: { id: string }) => {
     ({ selectedLogs }: { selectedLogs: string[] }) => {
       linkLogs(id, selectedLogs).then(() => {
         Alert.success('修改成功')
-        reload()
+        location.reload()
       })
     },
-    [id, reload]
+    [id]
   )
 
   const handleClick = () => {
