@@ -5,6 +5,7 @@ import FormModal from 'components/FormModal'
 import CustomList, { Content, customListItem, Item } from 'components/List'
 import PageContainer from 'components/PageContainer'
 import DeleteForm from './DeleteForm'
+import LinkForm from './LinkForm'
 import { formatDate } from 'utils/date'
 import useLoading from 'utils/useLoading'
 import useRequiredParams from 'utils/useRequiredParams'
@@ -45,6 +46,7 @@ const Node = ({
       <AddButton onClick={toggle} />
       <FormModal open={open} handleClose={toggle} {...logProps} />
       <DeleteForm data={data} />
+      <LinkForm id={id} />
     </>
   )
 }

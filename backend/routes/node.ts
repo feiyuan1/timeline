@@ -35,6 +35,57 @@ const routeNode = (router: Router<any, Koa.BeContext<types.LineNodeD>>) => {
     await next()
   })
 
+  router.get(`${prefix}/agg-log/:id`, async (ctx, next) => {
+    const {
+      db: { collection, db },
+      params: { id }
+    } = ctx
+    if (utils.isEmpty(id)) {
+      ctx.error = types.Code.requiredError
+      await next()
+      return
+    }
+    const { refs } = await collection.findOne({ id })
+    const logs = await db.collection(colName.log).find().toArray()
+    ctx.body = logs.map((log) => {
+      if (refs.includes(log.id)) {
+        return { ...log, include: true }
+      }
+      return log
+    })
+    await next()
+  })
+
+  router.post(`${prefix}/link-logs/:id`, async (ctx, next) => {
+    const {
+      params: { id },
+      db: { collection },
+      request
+    } = ctx
+    const body = request.body as { selectedLogs: string[] }
+
+    if (utils.isEmpty(body)) {
+      ctx.error = types.Code.dataSourceError
+      await next()
+      return
+    }
+    if (!body.selectedLogs) {
+      ctx.error = types.Code.requiredError
+      await next()
+      return
+    }
+
+    await collection.updateOne(
+      { id },
+      {
+        $set: {
+          refs: body.selectedLogs
+        }
+      }
+    )
+    await next()
+  })
+
   router.delete(prefix, async (ctx, next) => {
     const {
       query,
