@@ -186,6 +186,7 @@ export interface Item {
   label: ReactNode
   value: unknown
   key: string
+  defaultSelect?: boolean
 }
 
 interface CheckBoxGroupProps
@@ -206,6 +207,17 @@ export const CheckBoxGroup = ({
 }: CheckBoxGroupProps & BaseProps) => {
   const valueRef = useRef<unknown[]>([])
   const { update } = useFormContext()
+
+  useEffect(() => {
+    list.reduce((result, item) => {
+      if (!item.defaultSelect) {
+        return result
+      }
+      result?.push(item.value)
+      return result
+    }, valueRef.current)
+  }, [list])
+
   const processValue: onChange = (e, checked) => {
     if (onChange) {
       onChange(e, checked, valueRef)
@@ -226,10 +238,10 @@ export const CheckBoxGroup = ({
     update({ [e.target.name]: valueRef.current })
   }
 
-  return list.map(({ label, key }, index) => (
+  return list.map(({ label, key, defaultSelect }, index) => (
     <FormControlLabel
       key={key || index}
-      control={<Checkbox value={key || index} />}
+      control={<Checkbox value={key || index} defaultChecked={defaultSelect} />}
       onChange={handleChange}
       label={label}
       {...props}
