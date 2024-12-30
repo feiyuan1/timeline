@@ -8,10 +8,10 @@ import LinkForm from './LinkForm'
 import { formatDate } from 'utils/date'
 import useLoading from 'utils/useLoading'
 import useRequiredParams from 'utils/useRequiredParams'
+import useToggleFormModal from 'utils/useFormModal'
 import { logProps as getLogProps } from '_constants/form'
 import { getNode } from 'api/node'
 import { LineNode, Log } from 'types'
-import useToggleFormModal from './useFormModal'
 
 const Content: Content<Log> = ({ data }) => (
   <Stack

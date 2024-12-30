@@ -5,7 +5,7 @@ import { CustomCheckbox } from 'components/RegularInput'
 import { LineNode } from 'types'
 import { deleteNode } from 'api/node'
 import { redirectToIndex } from 'utils/index'
-import useToggleFormModal from './useFormModal'
+import useToggleFormModal from 'utils/useFormModal'
 
 const labelProps = { label: '确认删除节点' }
 

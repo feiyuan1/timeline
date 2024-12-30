@@ -3,8 +3,8 @@ import Alert from 'components/Alert'
 import { LinkButton } from 'components/CustomButton'
 import { CheckBoxGroup, Item } from 'components/RegularInput'
 import useLoading from 'utils/useLoading'
+import useToggleFormModal from 'utils/useFormModal'
 import { getAggreateLogs, linkLogs } from 'api/node'
-import useToggleFormModal from './useFormModal'
 
 const initData = (id: string): Promise<Item[]> =>
   getAggreateLogs(id).then((data) =>
