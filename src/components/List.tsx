@@ -1,5 +1,6 @@
 import { ReactNode } from 'react'
 import { useNavigate } from 'react-router-dom'
+import Stack from '@mui/material/Stack'
 import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
 import ListSubheader from '@mui/material/ListSubheader'
@@ -7,7 +8,7 @@ import Card from '@mui/material/Card'
 import CardHeader from '@mui/material/CardHeader'
 import CardContent from '@mui/material/CardContent'
 import { getLink } from 'utils/index'
-import { Contents } from 'types'
+import { Contents, Log } from 'types'
 
 export interface Item<T> {
   (props: { index: number; data: T }): ReactNode
@@ -68,5 +69,13 @@ export const customListItem =
       </ListItem>
     )
   }
+
+const Content: Content<Log> = ({ data }) => (
+  <Stack component="p" sx={{ whiteSpace: 'pre-wrap' }}>
+    {data.content}
+  </Stack>
+)
+
+export const LogItem: Item<Log> = customListItem({ Content })
 
 export default CustomList

@@ -1,7 +1,6 @@
 import { useCallback, useMemo } from 'react'
-import Stack from '@mui/material/Stack'
 import { AddButton } from 'components/CustomButton'
-import CustomList, { Content, customListItem, Item } from 'components/List'
+import CustomList, { LogItem } from 'components/List'
 import PageContainer from 'components/PageContainer'
 import DeleteForm from './DeleteForm'
 import LinkForm from './LinkForm'
@@ -12,16 +11,6 @@ import useToggleFormModal from 'utils/useFormModal'
 import { logProps as getLogProps } from '_constants/form'
 import { getNode } from 'api/node'
 import { LineNode, Log } from 'types'
-
-const Content: Content<Log> = ({ data }) => (
-  <Stack
-    dangerouslySetInnerHTML={{ __html: data.content }}
-    component="p"
-    sx={{ whiteSpace: 'pre-wrap' }}
-  />
-)
-
-const Item: Item<Log> = customListItem({ Content })
 
 const Node = ({
   data: { id, name, logs, key: originalKey },
@@ -41,7 +30,7 @@ const Node = ({
   return (
     <>
       key:{key}
-      <CustomList<Log> Item={Item} list={logs} label={name} />
+      <CustomList<Log> Item={LogItem} list={logs} label={name} />
       <AddButton onClick={toggle} />
       <FormModal {...logProps} />
       <DeleteForm data={data} />
