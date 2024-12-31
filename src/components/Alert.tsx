@@ -1,6 +1,17 @@
+import { createRoot } from 'react-dom/client'
 import Alert, { AlertProps } from '@mui/material/Alert'
 import Snackbar from '@mui/material/Snackbar'
-import { createRoot, Root } from 'react-dom/client'
+
+interface CustomAlertProps {
+  message: Message
+  onClose: (key: number) => void
+}
+
+interface Message extends Partial<AlertProps> {
+  key: number
+  text: string
+}
+type CustomAlertMessage = Omit<Message, 'key'> | string
 
 const once = function <T>(fn: () => T): () => T {
   let instance: T | null = null
@@ -13,29 +24,45 @@ const once = function <T>(fn: () => T): () => T {
   }
 }
 
-const getRoot = once(() => {
+const getMessageManager = once(() => {
   const domNode = document.getElementById('root') as HTMLElement
   const container = document.createElement('div')
   container.id = 'Alert-for-timeline'
   domNode.appendChild(container)
-  return container
+  const root = createRoot(container)
+  const messages: { current: Message[] } = { current: [] }
+  const update = (newMessages: Message[]) => {
+    messages.current = newMessages
+    render()
+  }
+  const addMsg = (message: Message) => {
+    update(messages.current.concat(message))
+  }
+  const deleteMsg = (key: number) => {
+    update(messages.current.filter((msg) => msg.key !== key))
+  }
+  const render = () =>
+    root.render(
+      messages.current.map((msg) => (
+        <CustomAlert message={msg} onClose={deleteMsg} key={msg.key} />
+      ))
+    )
+  return { render, update, messages, addMsg }
 })
 
-interface CustomAlertProps extends Partial<AlertProps> {
-  text: string
-}
-
 const CustomAlert = ({
-  unmount,
-  severity,
-  text
-}: CustomAlertProps & { unmount: Root['unmount'] }) => {
+  message: { severity, text, key },
+  onClose
+}: CustomAlertProps) => {
   return (
     <Snackbar
       open={true}
       autoHideDuration={3000}
       anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-      onClose={unmount}
+      onClose={() => {
+        onClose(key)
+      }}
+      key={key}
     >
       <Alert severity={severity} sx={{ width: '100%' }}>
         {text}
@@ -44,52 +71,31 @@ const CustomAlert = ({
   )
 }
 
-const getProps = (props: CustomAlertProps | string) => {
+const getProps = (props: CustomAlertMessage) => {
   if (typeof props === 'string') {
     return { text: props }
   }
   return props
 }
 
-const info = (props: CustomAlertProps | string) => {
-  const container = getRoot()
-  const root = createRoot(container)
-
-  root.render(
-    <CustomAlert
-      unmount={root.unmount.bind(root)}
-      severity="info"
-      {...getProps(props)}
-    />
-  )
+const generalAlert = (
+  props: CustomAlertMessage,
+  natural?: Partial<AlertProps>
+) => {
+  const { addMsg } = getMessageManager()
+  addMsg({ ...getProps(props), ...natural, key: Date.now() })
 }
 
-const success = (props: CustomAlertProps | string) => {
-  const container = getRoot()
-  const root = createRoot(container)
-  root.render(
-    <CustomAlert
-      unmount={root.unmount.bind(root)}
-      severity="success"
-      {...getProps(props)}
-    />
-  )
+const info = (props: CustomAlertMessage) => {
+  generalAlert(props, { severity: 'info' })
 }
 
-const error = (props: CustomAlertProps | string) => {
-  const container = getRoot()
-  const root = createRoot(container)
-  root.render(
-    <CustomAlert
-      unmount={root.unmount.bind(root)}
-      severity="error"
-      {...getProps(props)}
-    />
-  )
+const error = (props: CustomAlertMessage) => {
+  generalAlert(props, { severity: 'error' })
 }
 
 export default {
   info,
-  success,
+  success: generalAlert,
   error
 }
