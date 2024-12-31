@@ -1,4 +1,5 @@
 import { MouseEventHandler, useState } from 'react'
+import { useNavigate } from 'react-router'
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 import CardHeader from '@mui/material/CardHeader'
@@ -10,6 +11,7 @@ import Stack from '@mui/material/Stack'
 import Divider from '@mui/material/Divider'
 import { Line, LineGroup } from 'types'
 import { formatDate } from 'utils/date'
+import { getLink } from 'utils/index'
 import { DeleteButton } from './CustomButton'
 import { deleteLine } from 'api/line'
 import Alert from './Alert'
@@ -24,6 +26,7 @@ const LineContent = ({
   showDel?: boolean
   handleClick?: MouseEventHandler<HTMLDivElement>
 }) => {
+  const navigate = useNavigate()
   const cardPoprs = {
     ...(handleClick && { onClick: handleClick }),
     component: 'div'
@@ -61,6 +64,10 @@ const LineContent = ({
                   label={formatDate(node.updateTime)}
                   variant="outlined"
                   sx={{ width: 100 }}
+                  onClick={(event) => {
+                    event.stopPropagation()
+                    navigate(getLink(node))
+                  }}
                 />
                 <Typography>{node.name}</Typography>
               </Box>
