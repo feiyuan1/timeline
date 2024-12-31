@@ -1,13 +1,18 @@
-import { useCallback, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 
 const useToggle = (init?: boolean) => {
   const [status, setStatus] = useState(init || false)
 
-  const toggle = useCallback(() => {
-    setStatus(!status)
-  }, [status])
-
-  const result = useMemo(() => [status, toggle] as const, [status, toggle])
+  const result = useMemo(
+    () =>
+      [
+        status,
+        () => {
+          setStatus(!status)
+        }
+      ] as const,
+    [status]
+  )
 
   return result
 }
