@@ -1,50 +1,29 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
-import CardHeader from '@mui/material/CardHeader'
-import Card from '@mui/material/Card'
-import LineContent, { LineGroupContent } from 'components/LineGroupContent'
 import PageContainer from 'components/PageContainer'
 import AppendItem from './AppendItem'
-import { Line, LineGroup } from 'types'
-import { Type } from '_constants/index'
-import { getLink } from 'utils/index'
+import { LogTab, MixTab } from './MainTab'
+import { Line, LineGroup, Log } from 'types'
 import useLoading from 'utils/useLoading'
 import { getAllList } from 'api/mix'
+import { getLog } from 'api/log'
+import { TabKey, tabs } from './constants'
 
-export const getCardContent = (data: Line | LineGroup) => {
-  if (data.type === Type.lineGroup) {
-    return <LineGroupContent data={data} />
+type MainData = [(Line | LineGroup)[], Log[]]
+
+type TabContentProps = { data: MainData; current: TabKey }
+
+const TabContent = ({ data: [list, logs], current }: TabContentProps) => {
+  if (current === TabKey.log) {
+    return <LogTab data={logs} />
   }
 
-  return (
-    <>
-      <CardHeader title={data.name} />
-      <LineContent data={data} />
-    </>
-  )
+  return <MixTab data={list} />
 }
 
-export const ListItem = ({ data }: { data: Line | LineGroup }) => {
-  const navigate = useNavigate()
-  const cardContent = getCardContent(data)
-  const handleHref = () => {
-    navigate(getLink(data))
-  }
-
-  return (
-    <Card
-      sx={{ marginBottom: '20px', '&:hover': { cursor: 'pointer' } }}
-      onClick={handleHref}
-    >
-      {cardContent}
-    </Card>
-  )
-}
-
-const Main = ({ data: list }: { data: (Line | LineGroup)[] }) => {
-  const [currentTab, setTab] = useState(0)
+const Main = ({ data }: { data: MainData }) => {
+  const [currentTab, setTab] = useState<TabKey>(TabKey.mix)
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setTab(newValue)
   }
@@ -52,18 +31,19 @@ const Main = ({ data: list }: { data: (Line | LineGroup)[] }) => {
   return (
     <>
       <Tabs value={currentTab} onChange={handleChange}>
-        <Tab label="all" />
+        {tabs.map(({ label, key }) => (
+          <Tab label={label} key={key} />
+        ))}
       </Tabs>
-      {list.map((item, index) => (
-        <ListItem data={item} key={index} />
-      ))}
+      <TabContent data={data} current={currentTab} />
       <AppendItem />
     </>
   )
 }
+const initData = () => Promise.all([getAllList(), getLog()])
 
 const MainPage = () => {
-  const { elem } = useLoading<(Line | LineGroup)[]>(getAllList, {
+  const { elem } = useLoading<MainData>(initData, {
     Component: Main
   })
 

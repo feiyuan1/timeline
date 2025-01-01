@@ -6,7 +6,8 @@ import {
   screen
 } from '@testing-library/react'
 import { BrowserRouter as Router } from 'react-router-dom'
-import Main, { getCardContent, ListItem } from 'pages/main/Main'
+import Main from 'pages/main/Main'
+import { getCardContent, MixItem } from 'pages/main/MainTab'
 import { list } from './__mocks__/lineList'
 import { Line, LineGroup } from 'types'
 import LineContent, { LineGroupContent } from 'components/LineGroupContent'
@@ -51,7 +52,7 @@ describe('ListItem interaction', () => {
     const data = list[1] as Line
     const { container } = render(
       <Router>
-        <ListItem data={data} />
+        <MixItem data={data} />
       </Router>
     )
     const card = container.querySelector<HTMLDivElement>('.MuiCard-root')
