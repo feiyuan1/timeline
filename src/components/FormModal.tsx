@@ -15,7 +15,7 @@ export type FormModalProps = React.PropsWithChildren<{
   title: string
   isDoubleCol?: boolean
   keepMounted?: boolean
-  initValue?: ObjectWithString
+  initValue?: object
   actions?: React.ReactNode
   validations?: CustomValidations<ObjectWithString>
   handleSubmit: (value: object) => Promise<unknown> | void
