@@ -8,7 +8,7 @@ import constants = require('../constants')
 
 const { colName } = constants
 const { isEveryEmpty } = utils
-const { logStruct } = struct
+const { initLog } = struct
 const { responseMiddleware, collectionMiddleware } = routeMiddleware
 const prefix = '/log'
 
@@ -47,7 +47,7 @@ const routeLog = (router: Router<any, Koa.BeContext<types.Log>>) => {
     }
 
     const nodeCol = db.collection<types.LineNodeD>(colName.node)
-    const structedLog = logStruct(log)
+    const structedLog = initLog(log)
     const insert = collection.insertOne(structedLog)
     const line = await nodeCol.findOne({ id: nodeId })
     const update = nodeCol.updateOne(
@@ -57,6 +57,27 @@ const routeLog = (router: Router<any, Koa.BeContext<types.Log>>) => {
       }
     )
     await Promise.all([insert, update])
+    await next()
+  })
+
+  router.post(`${prefix}/:id`, async (ctx, next) => {
+    const {
+      request,
+      params: { id },
+      db: { collection }
+    } = ctx
+    const log = request.body as types.Log
+    if (utils.isEmpty(request.body)) {
+      ctx.error = types.Code.dataSourceError
+      await next()
+      return
+    }
+    if (isEveryEmpty([log.name, log.content])) {
+      ctx.error = types.Code.requiredError
+      await next()
+      return
+    }
+    collection.updateOne({ id }, { $set: struct.logStrcut(log) })
     await next()
   })
 

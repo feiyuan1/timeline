@@ -15,3 +15,13 @@ export const addLog = (nodeId: string, log: FormLog) => {
 export const getLog = (query?: Partial<Log>): Promise<Log[]> => {
   return customFetch(prefix, { query })
 }
+
+export const updateLog = (id: string, data: Partial<Log>) => {
+  return customFetch(`${prefix}/${id}`, {
+    method: 'post',
+    body: JSON.stringify(data),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+}

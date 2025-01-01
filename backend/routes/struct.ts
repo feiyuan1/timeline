@@ -11,6 +11,7 @@ import {
   Log,
   FormLog
 } from '../dataTypes'
+import { pick } from '../util'
 
 const defaultMsg: Partial<Record<Code, string>> = {
   [Code.requiredError]: 'miss required data',
@@ -95,7 +96,7 @@ export const nodeStruct = function (data: FormNode): LineNodeD {
   }
 }
 
-export const logStruct = function (data: FormLog): Log {
+export const initLog = function (data: FormLog): Log {
   const now = Date.now()
 
   return {
@@ -103,6 +104,19 @@ export const logStruct = function (data: FormLog): Log {
     id: String(now),
     type: Type.log,
     ...data,
+    updateTime: now
+  }
+}
+
+export const logStrcut = function (data: Partial<Log>): Partial<Log> {
+  const now = Date.now()
+
+  return {
+    ...pick<Partial<Log>, keyof FormLog>(data, [
+      'content',
+      'description',
+      'name'
+    ]),
     updateTime: now
   }
 }

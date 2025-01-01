@@ -84,3 +84,20 @@ export const diffRefs = <T>(olds: T[], news: T[]): [T[], T[]] => {
 
   return [dels, adds]
 }
+
+/**
+ * 目的：从 data 中挑选出用户可更改的字段，避免非预期的更新其他字段
+ */
+export const pick = <T extends object, K extends keyof T>(
+  data: T,
+  keys: K[]
+): Partial<Pick<T, K>> => {
+  const result: Partial<Pick<T, K>> = {}
+
+  return keys.reduce((result, key) => {
+    if (data[key] != null) {
+      result[key] = data[key]
+    }
+    return result
+  }, result)
+}
