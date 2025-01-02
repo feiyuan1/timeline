@@ -111,10 +111,10 @@ export const nodeProps: (props: {
   ...otherProps
 })
 
-export const logProps: (props: {
-  nodeId: string
+export const logProps: (props?: {
+  nodeId?: string
   otherProps?: Partial<FormModalProps>
-}) => FormPropsOmitToggle = ({ nodeId, otherProps }) => ({
+}) => FormPropsOmitToggle = (props) => ({
   validations: {
     name: {
       required: {
@@ -138,9 +138,9 @@ export const logProps: (props: {
     </>
   ),
   handleSubmit: async (value: FormLog) =>
-    addLog(nodeId, value).then(() => {
+    addLog({ nodeId: props?.nodeId, log: value }).then(() => {
       Alert.success('添加成功')
       location.reload()
     }),
-  ...otherProps
+  ...props?.otherProps
 })

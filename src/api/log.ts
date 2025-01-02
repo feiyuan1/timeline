@@ -2,10 +2,10 @@ import { FormLog, Log } from 'types'
 import customFetch from './customFetch'
 
 const prefix = '/api/log'
-export const addLog = (nodeId: string, log: FormLog) => {
+export const addLog = (props: { nodeId?: string; log: FormLog }) => {
   return customFetch(prefix, {
     method: 'put',
-    body: JSON.stringify({ nodeId, ...log }),
+    body: JSON.stringify(props),
     headers: {
       'Content-Type': 'application/json'
     }

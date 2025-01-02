@@ -30,8 +30,9 @@ const routeLog = (router: Router<any, Koa.BeContext<types.Log>>) => {
       request,
       db: { collection, db }
     } = ctx
-    const { nodeId, ...log } = request.body as types.FormLog & {
-      nodeId: string
+    const { nodeId, log } = request.body as {
+      nodeId?: string
+      log: types.FormLog
     }
 
     if (utils.isEmpty(request.body)) {
@@ -40,7 +41,7 @@ const routeLog = (router: Router<any, Koa.BeContext<types.Log>>) => {
       return
     }
 
-    if (isEveryEmpty([nodeId, log])) {
+    if (utils.isEmpty(log)) {
       ctx.error = types.Code.requiredError
       await next()
       return
@@ -49,11 +50,16 @@ const routeLog = (router: Router<any, Koa.BeContext<types.Log>>) => {
     const nodeCol = db.collection<types.LineNodeD>(colName.node)
     const structedLog = initLog(log)
     const insert = collection.insertOne(structedLog)
-    const line = await nodeCol.findOne({ id: nodeId })
+    if (!nodeId) {
+      await insert
+      await next()
+      return
+    }
+    const node = await nodeCol.findOne({ id: nodeId })
     const update = nodeCol.updateOne(
       { id: nodeId },
       {
-        $set: { refs: line.refs.concat(structedLog.id) }
+        $set: { refs: node.refs.concat(structedLog.id) }
       }
     )
     await Promise.all([insert, update])
