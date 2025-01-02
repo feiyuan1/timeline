@@ -2,7 +2,6 @@ import { useState } from 'react'
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 import PageContainer from 'components/PageContainer'
-import AppendItem from './AppendItem'
 import { LogTab, MixTab } from './MainTab'
 import { Line, LineGroup, Log } from 'types'
 import useLoading from 'utils/useLoading'
@@ -36,7 +35,6 @@ const Main = ({ data }: { data: MainData }) => {
         ))}
       </Tabs>
       <TabContent data={data} current={currentTab} />
-      <AppendItem />
     </>
   )
 }
