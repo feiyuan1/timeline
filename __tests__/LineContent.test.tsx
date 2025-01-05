@@ -13,7 +13,7 @@ const renderLineContent = (props: {
 }
 
 describe('test LineContent UI', () => {
-  const data = list[1] as Line
+  const data = list[1]
 
   it('nodes', () => {
     const { container } = renderLineContent({ data })
@@ -48,7 +48,7 @@ describe('test LineContent UI', () => {
 
 describe('test LineContent UI edge cases', () => {
   it('test nodes.length === 0', () => {
-    const data = list[2] as Line
+    const data = list[2]
     const { container } = renderLineContent({ data })
     expect(container).toHaveTextContent('暂无节点')
   })
@@ -56,7 +56,7 @@ describe('test LineContent UI edge cases', () => {
 
 describe('test LineContent interaction', () => {
   it('call click handler', () => {
-    const data = list[1] as Line
+    const data = list[1]
     const handleClick = jest.fn()
     const { container } = renderLineContent({ data, handleClick })
     const content = container.querySelector<HTMLDivElement>(
@@ -88,7 +88,7 @@ const renderLineGroup = (data: LineGroup) => {
 }
 
 describe('test LineGroupContent UI', () => {
-  const data = list[0] as LineGroup
+  const data = list[0]
   it('header', () => {
     const { container } = renderLineGroup(data)
     const header = container.querySelector<HTMLDivElement>(
@@ -146,7 +146,7 @@ const matchContent = (contentData: Line, container: HTMLElement) => {
 }
 
 describe('test LineGroupContent with logic', () => {
-  const data = list[0] as LineGroup
+  const data = list[0]
   const targetIndex = 1
   it('tab selected default state', () => {
     // the first tab was selected
@@ -182,7 +182,7 @@ describe('test LineGroupContent with logic', () => {
 describe('LineGroupContent edge cases', () => {
   it('list length equal to 0', () => {
     // the tabs should not be in the doucment
-    const data = list[3] as LineGroup
+    const data = list[3]
     const { queryByRole } = renderLineGroup(data)
     expect(queryByRole('tablist')).toBeFalsy()
   })
