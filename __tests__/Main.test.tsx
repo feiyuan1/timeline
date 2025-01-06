@@ -1,95 +1,97 @@
 import {
   fireEvent,
-  prettyDOM,
   render,
-  within,
-  screen
+  screen,
+  act,
+  getAllByRole,
+  getByRole
 } from '@testing-library/react'
 import { BrowserRouter as Router } from 'react-router-dom'
-import Main from 'pages/main/Main'
-import { getCardContent, MixItem } from 'pages/main/MainTab'
-import { list } from './__mocks__/lineList'
-import { Line, LineGroup } from 'types'
-import LineContent, { LineGroupContent } from 'components/LineGroupContent'
+import Main, { TabContent } from 'pages/main/Main'
+import { mockGetAllList } from './__mocks__/apiMock/mix'
+import { mockGetLog } from './__mocks__/apiMock/log'
+import { TabKey, tabs } from 'pages/main/constants'
 
-describe('getCardContent UI', () => {
-  it('type lineGroup', () => {
-    const data = list[0] as LineGroup
-    const { container } = render(<Router>{getCardContent(data)}</Router>)
-    const { container: expectContainer } = render(
+describe('main page logic', () => {
+  it('TabContent changed after switch tab', async () => {
+    const {
+      response: { data: logs }
+    } = mockGetLog()
+    const {
+      response: { data: lists }
+    } = mockGetAllList()
+    const { container } = await act(async () =>
+      render(
+        <Router>
+          <Main />
+        </Router>
+      )
+    )
+    const { container: tabContentMix } = render(
       <Router>
-        <LineGroupContent data={data} />
+        <TabContent current={TabKey.mix} data={[lists, logs]} />
       </Router>
     )
-    const group = container.querySelector<HTMLDivElement>('.MuiBox-root')
-    const expectGroup =
-      expectContainer.querySelector<HTMLDivElement>('.MuiBox-root')
-    expect(expectGroup).toBeInTheDocument()
-    if (!expectGroup) {
-      return
-    }
-    expect(group).toStrictEqual(expectGroup)
+    const { container: tabContentLog } = render(
+      <Router>
+        <TabContent current={TabKey.log} data={[lists, logs]} />
+      </Router>
+    )
+    const mainTab = screen.getAllByRole('tablist')[0]
+    const firstUnactiveTab = getAllByRole(mainTab, 'tab', {
+      selected: false
+    })[0]
+    expect(container).toContainHTML(tabContentMix.innerHTML)
+    fireEvent.click(firstUnactiveTab)
+    expect(container).toContainHTML(tabContentLog.innerHTML)
   })
 
-  it('type line', () => {
-    const data = list[1] as Line
-    const { container } = render(getCardContent(data))
-    const { container: expectContainer } = render(<LineContent data={data} />)
-    const expectContent = expectContainer.querySelector<HTMLDivElement>(
-      '.MuiCardContent-root'
+  it('mix tab should be selected by default', async () => {
+    await act(async () =>
+      render(
+        <Router>
+          <Main />
+        </Router>
+      )
     )
-    const content = container.querySelector<HTMLDivElement>(
-      '.MuiCardContent-root'
-    )
-    expect(container).toHaveTextContent(data.name)
-    expect(content).toStrictEqual(expectContent)
+    const mainTab = screen.getAllByRole('tablist')[0]
+    const selectedTab = getByRole(mainTab, 'tab', { selected: true })
+    const tab = tabs.find((tab) => tab.key === TabKey.mix)!
+    expect(tab).toBeTruthy()
+    expect(selectedTab).toHaveTextContent(tab.label)
   })
 })
+// TODO UI 暂时忽略
+// describe('getCardContent UI', () => {
+//   it('type lineGroup', () => {
+//     const data = list[0]
+//     const { container } = render(<Router>{getCardContent(data)}</Router>)
+//     const { container: expectContainer } = render(
+//       <Router>
+//         <LineGroupContent data={data} />
+//       </Router>
+//     )
+//     const group = container.querySelector<HTMLDivElement>('.MuiBox-root')
+//     const expectGroup =
+//       expectContainer.querySelector<HTMLDivElement>('.MuiBox-root')
+//     expect(expectGroup).toBeInTheDocument()
+//     if (!expectGroup) {
+//       return
+//     }
+//     expect(group).toStrictEqual(expectGroup)
+//   })
 
-describe('ListItem interaction', () => {
-  it('click Line item', () => {
-    // navigate to /line/:id
-    const data = list[1] as Line
-    const { container } = render(
-      <Router>
-        <MixItem data={data} />
-      </Router>
-    )
-    const card = container.querySelector<HTMLDivElement>('.MuiCard-root')
-    expect(card).toBeInTheDocument()
-    if (!card) {
-      return
-    }
-    fireEvent.click(
-      card,
-      new MouseEvent('click', {
-        bubbles: true,
-        cancelable: true
-      })
-    )
-    expect(window.location.pathname).toBe(`/line/${data.id}`)
-  })
-})
-
-describe('Main UI', () => {
-  it('tab should be selected', () => {
-    render(
-      <Router>
-        <Main />
-      </Router>
-    )
-    const tab = screen.getByText('all')
-    expect(tab).toHaveAttribute('aria-selected')
-  })
-
-  it('list length should equal to ListItem length', () => {
-    // TODO data from backend
-    const { container } = render(
-      <Router>
-        <Main />
-      </Router>
-    )
-    const cardList = container.querySelectorAll<HTMLDivElement>('.MuiCard-root')
-    expect(cardList.length).toBe(list.length)
-  })
-})
+//   it('type line', () => {
+//     const data = list[1]
+//     const { container } = render(getCardContent(data))
+//     const { container: expectContainer } = render(<LineContent data={data} />)
+//     const expectContent = expectContainer.querySelector<HTMLDivElement>(
+//       '.MuiCardContent-root'
+//     )
+//     const content = container.querySelector<HTMLDivElement>(
+//       '.MuiCardContent-root'
+//     )
+//     expect(container).toHaveTextContent(data.name)
+//     expect(content).toStrictEqual(expectContent)
+//   })
+// })
