@@ -19,4 +19,13 @@ fetchMock.config = Object.assign(fetchMock.config, {
   fetch
 })
 
+afterAll(() => {
+  fetchMock.clearHistory()
+  fetchMock.removeRoutes()
+})
+
+afterEach(() => {
+  fetchMock.clearHistory()
+})
+
 module.exports = async function () {}

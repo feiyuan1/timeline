@@ -13,13 +13,14 @@ import { mockGetLog } from './__mocks__/apiMock/log'
 import { TabKey, tabs } from 'pages/main/constants'
 
 describe('main page logic', () => {
+  const {
+    response: { data: logs }
+  } = mockGetLog()
+  const {
+    response: { data: lists }
+  } = mockGetAllList()
+
   it('TabContent changed after switch tab', async () => {
-    const {
-      response: { data: logs }
-    } = mockGetLog()
-    const {
-      response: { data: lists }
-    } = mockGetAllList()
     const { container } = await act(async () =>
       render(
         <Router>
