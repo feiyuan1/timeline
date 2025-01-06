@@ -65,7 +65,9 @@ export const TextField = ({
           ? (event.target as HTMLInputElement).valueAsNumber
           : value
     })
-    changeValidate(event)
+    if (changeValidate) {
+      changeValidate(event)
+    }
 
     if (onChange) {
       onChange(event)
@@ -119,7 +121,9 @@ export const Select = ({
   ) => {
     const { name, value } = event.target
     update({ [name]: value })
-    changeValidate(event)
+    if (changeValidate) {
+      changeValidate(event)
+    }
     if (onChange) {
       onChange(event, elem)
     }

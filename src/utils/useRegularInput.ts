@@ -1,14 +1,21 @@
-import { useState, useMemo, ChangeEventHandler, InvalidEvent } from 'react'
+import {
+  useState,
+  useMemo,
+  ChangeEventHandler,
+  InvalidEvent,
+  useCallback
+} from 'react'
 import { FormControlOwnProps } from '@mui/material/FormControl'
 import { useFormContext, FormContextValue } from 'components/FormContext'
 import { isEmpty } from 'public/utils'
 import { defaultType, ErrorInfo, Validations } from 'types/form'
 
+interface RegularProps {
+  variant: FormControlOwnProps['variant']
+}
+
 type ReturnRegular = [
-  {
-    variant: FormControlOwnProps['variant']
-  } & Validate &
-    Partial<Validations>,
+  RegularProps & Partial<Validate> & Partial<Validations>,
   FormContextValue
 ]
 
@@ -20,14 +27,21 @@ type ReturnRegular = [
  * 4. varient √
  */
 
+const regularProps: RegularProps = {
+  variant: 'standard'
+}
+
 const useRegularInput = ({ name }: { name: string }): ReturnRegular => {
   const formContextValue = useFormContext()
   const validations = useInputValidations(name)
   const validate = useInputValidate()
 
+  if (isEmpty(validations)) {
+    return [regularProps, formContextValue]
+  }
   return [
     {
-      variant: 'standard',
+      ...regularProps,
       ...validate,
       ...validations
     },
@@ -98,52 +112,66 @@ export const useInputValidate = (): Validate => {
   } = useFormContext()
   const [errorInfo, setErrorInfo] = useState<ErrorInfo>({ error: false })
 
-  const changeValidate: Validate['changeValidate'] = (event) => {
-    const validations = current?.[event.target.name]
-    if (!event.target.validity || isEmpty(current) || isEmpty(validations)) {
-      return
-    }
+  const changeValidate: Validate['changeValidate'] = useCallback(
+    (event) => {
+      const validations = current?.[event.target.name]
+      if (!event.target.validity || isEmpty(current) || isEmpty(validations)) {
+        return
+      }
 
-    const {
-      validity: { valid, valueMissing }
-    } = event.target
+      const {
+        validity: { valid, valueMissing }
+      } = event.target
 
-    if (!valid) {
-      if (valueMissing) {
+      if (!valid) {
+        if (valueMissing) {
+          setErrorInfo({
+            error: true,
+            message: validations['required']!.message
+          })
+        }
+      } else {
+        setErrorInfo({ error: false })
+      }
+    },
+    [current]
+  )
+
+  const handleInvalid: Validate['onInvalid'] = useCallback(
+    (event) => {
+      event.preventDefault()
+      const validations = current?.[event.target.name]
+
+      if (!validations) {
+        return
+      }
+
+      const {
+        validity: { valueMissing }
+      } = event.target
+      if (
+        valueMissing &&
+        errorInfo.message !== validations['required']!.message
+      ) {
         setErrorInfo({
           error: true,
           message: validations['required']!.message
         })
       }
-    } else {
-      setErrorInfo({ error: false })
-    }
-  }
+    },
+    [current, errorInfo]
+  )
 
-  const handleInvalid: Validate['onInvalid'] = (event) => {
-    event.preventDefault()
-    const validations = current?.[event.target.name]
+  const validate = useMemo(
+    () => ({
+      error: errorInfo.error,
+      helperText: errorInfo.message,
+      changeValidate,
+      onInvalid: handleInvalid
+    }),
+    [errorInfo, changeValidate, handleInvalid]
+  )
 
-    if (!validations) {
-      return
-    }
-
-    const {
-      validity: { valueMissing }
-    } = event.target
-    if (valueMissing) {
-      setErrorInfo({
-        error: true,
-        message: validations['required']!.message
-      })
-    }
-  }
-
-  return {
-    error: errorInfo.error,
-    helperText: errorInfo.message,
-    changeValidate,
-    onInvalid: handleInvalid
-  }
+  return validate
 }
 export default useRegularInput

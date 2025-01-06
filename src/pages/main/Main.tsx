@@ -13,7 +13,10 @@ type MainData = [(Line | LineGroup)[], Log[]]
 
 type TabContentProps = { data: MainData; current: TabKey }
 
-const TabContent = ({ data: [list, logs], current }: TabContentProps) => {
+export const TabContent = ({
+  data: [list, logs],
+  current
+}: TabContentProps) => {
   if (current === TabKey.log) {
     return <LogTab data={logs} />
   }
