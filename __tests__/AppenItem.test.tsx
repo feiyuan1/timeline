@@ -8,10 +8,10 @@ import {
   waitFor
 } from '@testing-library/react'
 import fetchMock from 'fetch-mock'
-import { lineProps } from '_constants/form'
 import AppendItem from 'pages/main/AppendItem'
-import { mockAddLine } from './__mocks__/apiMock/line'
 import { renderWithRoot } from './utils'
+import { lineProps } from '_constants/form'
+import { mockAddLine } from './__mocks__/apiMock/line'
 
 const showMenu = (container: HTMLElement) => {
   // TODO 因为存在 test case: AddButton is visible in initial state => 这里还需要再次校验吗？
@@ -69,7 +69,7 @@ describe('AppendItem UI', () => {
     expect(prettyDOM(modal)).toMatchSnapshot()
   })
 
-  it('LineGroupModal', () => {})
+  it('TODO LineGroupModal UI', () => {})
 })
 
 describe('AppendItem interaction', () => {
