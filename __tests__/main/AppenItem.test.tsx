@@ -9,9 +9,9 @@ import {
 } from '@testing-library/react'
 import fetchMock from 'fetch-mock'
 import AppendItem from 'pages/main/AppendItem'
-import { renderWithRoot } from './utils'
+import { renderWithRoot } from '../utils'
 import { lineProps } from '_constants/form'
-import { mockAddLine } from './__mocks__/apiMock/line'
+import { mockAddLine } from '../__mocks__/apiMock/line'
 
 const showMenu = (container: HTMLElement) => {
   // TODO 因为存在 test case: AddButton is visible in initial state => 这里还需要再次校验吗？
