@@ -91,5 +91,7 @@
 
 ## 测试
 
-1. 在项目根目录下 /**tests** 中添加测试用例&mockdata
+1. 在项目根目录下 `/__tests__` 中添加测试用例&mockdata
 2. npm run test
+3. webpack.dev.js 增加 plugin 支持每次编译完毕后重新执行测试用例
+4. 更多见 `__tests__/README.md`
