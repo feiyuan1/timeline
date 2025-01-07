@@ -2,10 +2,16 @@ import {
   fireEvent,
   getAllByRole,
   getByText,
+  prettyDOM,
   render,
-  screen
+  screen,
+  waitFor
 } from '@testing-library/react'
+import fetchMock from 'fetch-mock'
+import { lineProps } from '_constants/form'
 import AppendItem from 'pages/main/AppendItem'
+import { mockAddLine } from './__mocks__/apiMock/line'
+import { renderWithRoot } from './utils'
 
 const showMenu = (container: HTMLElement) => {
   // TODO 因为存在 test case: AddButton is visible in initial state => 这里还需要再次校验吗？
@@ -21,6 +27,14 @@ const showMenu = (container: HTMLElement) => {
   )
   // TODO 因为存在 test case：click IconButton and Menu should be shouwn => 这里还需要再次校验吗？
   return screen.getByRole('presentation')
+}
+
+const showModal = (index: number) => {
+  const { container } = renderWithRoot(<AppendItem />)
+  const menu = showMenu(container)
+  const button = getAllByRole(menu, 'menuitem')[index]
+  fireEvent.click(button)
+  return screen.queryByRole('presentation')
 }
 
 describe('AppendItem UI', () => {
@@ -47,7 +61,14 @@ describe('AppendItem UI', () => {
     expect(getByText(menu, '线路')).toBeInTheDocument()
     expect(getByText(menu, '线路组')).toBeInTheDocument()
   })
-  it('LineModal', () => {})
+  it('LineModal UI', () => {
+    // TODO 因为存在 test case：click add line button in menu => 这里是否需要再次确认 modal 不是 menu 呢？
+    const modal = showModal(0)!
+    const { title } = lineProps
+    expect(modal).toHaveTextContent(title)
+    expect(prettyDOM(modal)).toMatchSnapshot()
+  })
+
   it('LineGroupModal', () => {})
 })
 
@@ -59,20 +80,38 @@ describe('AppendItem interaction', () => {
   })
 
   it('click add line button in menu', () => {
-    //  Menu should be closed; LineModal is visible
+    const modal = showModal(0)
+    expect(modal).toBeTruthy()
+    expect(modal).not.toHaveClass('MuiMenu-root')
+    // TODO 是否需要&如何区分 lineModal & groupModal?
   })
+
   it('click add lineGroup button in menu', () => {
-    //  Menu should be closed; LineGroupModal is visible
+    const modal = showModal(1)
+    expect(modal).toBeTruthy()
+    expect(modal).not.toHaveClass('MuiMenu-root')
   })
 })
 
 describe('AppendItem logic', () => {
-  it('Menu is hidden by default', () => {
+  it('Menu&LineModal&LineGroupModal is hidden by default', () => {
     render(<AppendItem />)
-    const menu = screen.queryByRole('presentation')
-    expect(menu).toBe(null)
+    const presentation = screen.queryByRole('presentation')
+    expect(presentation).toBe(null)
   })
+})
 
-  it('LineModal is hidden by default', () => {})
-  it('LineGroupModal is hidden by default', () => {})
+describe('LineModal logic', () => {
+  const { name } = mockAddLine()
+  it('submit to fetch addLine api', async () => {
+    // TODO location.reload =>> navigation not implemented
+    // TODO 是我的测试用例有问题吗？这里我希望触发 promise.then 回调的执行，并且不报错
+    // TODO 如何捕获回调中的异步错误
+    const modal = showModal(0)!
+    const button = modal.querySelector('button')!
+    const nameInput = modal.querySelector('input')!
+    fireEvent.change(nameInput, { target: { value: 'testName' } })
+    fireEvent.submit(button)
+    await waitFor(() => expect(fetchMock.callHistory.called(name)).toBeTruthy())
+  })
 })

@@ -1,0 +1,171 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AppendItem UI LineModal UI 1`] = `
+"[36m<div[39m
+  [33maria-labelledby[39m=[32m"form-modal-title"[39m
+  [33mclass[39m=[32m"MuiModal-root css-1g04pbp-MuiModal-root"[39m
+  [33mrole[39m=[32m"presentation"[39m
+[36m>[39m
+  [36m<div[39m
+    [33maria-hidden[39m=[32m"true"[39m
+    [33mclass[39m=[32m"MuiBackdrop-root MuiModal-backdrop css-4nmryk-MuiBackdrop-root-MuiModal-backdrop"[39m
+    [33mstyle[39m=[32m"opacity: 1; webkit-transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"[39m
+  [36m/>[39m
+  [36m<div[39m
+    [33mdata-testid[39m=[32m"sentinelStart"[39m
+    [33mtabindex[39m=[32m"0"[39m
+  [36m/>[39m
+  [36m<form[39m
+    [33mclass[39m=[32m"MuiBox-root css-1wnsr1i"[39m
+    [33mtabindex[39m=[32m"-1"[39m
+  [36m>[39m
+    [36m<h2[39m
+      [33mclass[39m=[32m"MuiTypography-root MuiTypography-h6 css-1miy0lu-MuiTypography-root"[39m
+      [33mid[39m=[32m"form-modal-title"[39m
+    [36m>[39m
+      [0m新增线路[0m
+    [36m</h2>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"MuiStack-root css-1sos3zc-MuiStack-root"[39m
+    [36m>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"MuiStack-root css-nohnhc-MuiStack-root"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"MuiFormControl-root MuiTextField-root css-1xp5r68-MuiFormControl-root-MuiTextField-root"[39m
+        [36m>[39m
+          [36m<label[39m
+            [33mclass[39m=[32m"MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-standard MuiFormLabel-colorPrimary Mui-required MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-standard css-2hy7sk-MuiFormLabel-root-MuiInputLabel-root"[39m
+            [33mdata-shrink[39m=[32m"false"[39m
+            [33mfor[39m=[32m":ra:"[39m
+            [33mid[39m=[32m":ra:-label"[39m
+          [36m>[39m
+            [0m名称[0m
+            [36m<span[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"MuiFormLabel-asterisk MuiInputLabel-asterisk css-1ljffdk-MuiFormLabel-asterisk"[39m
+            [36m>[39m
+              [0m [0m
+              [0m*[0m
+            [36m</span>[39m
+          [36m</label>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-formControl css-5h82ro-MuiInputBase-root-MuiInput-root"[39m
+          [36m>[39m
+            [36m<input[39m
+              [33maria-invalid[39m=[32m"false"[39m
+              [33mclass[39m=[32m"MuiInputBase-input MuiInput-input css-1yrc8ca-MuiInputBase-input-MuiInput-input"[39m
+              [33mid[39m=[32m":ra:"[39m
+              [33mname[39m=[32m"name"[39m
+              [33mrequired[39m=[32m""[39m
+              [33mtype[39m=[32m"text"[39m
+              [33mvalue[39m=[32m""[39m
+            [36m/>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"MuiFormControl-root MuiTextField-root css-1xp5r68-MuiFormControl-root-MuiTextField-root"[39m
+        [36m>[39m
+          [36m<label[39m
+            [33mclass[39m=[32m"MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-standard MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-standard css-2hy7sk-MuiFormLabel-root-MuiInputLabel-root"[39m
+            [33mdata-shrink[39m=[32m"false"[39m
+            [33mfor[39m=[32m":rb:"[39m
+            [33mid[39m=[32m":rb:-label"[39m
+          [36m>[39m
+            [0m描述[0m
+          [36m</label>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-formControl css-5h82ro-MuiInputBase-root-MuiInput-root"[39m
+          [36m>[39m
+            [36m<input[39m
+              [33maria-invalid[39m=[32m"false"[39m
+              [33mclass[39m=[32m"MuiInputBase-input MuiInput-input css-1yrc8ca-MuiInputBase-input-MuiInput-input"[39m
+              [33mid[39m=[32m":rb:"[39m
+              [33mname[39m=[32m"description"[39m
+              [33mtype[39m=[32m"text"[39m
+              [33mvalue[39m=[32m""[39m
+            [36m/>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"MuiFormControl-root css-1iw3t7y-MuiFormControl-root"[39m
+        [36m>[39m
+          [36m<label[39m
+            [33mclass[39m=[32m"MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-standard MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-standard css-1ew92b2-MuiFormLabel-root-MuiInputLabel-root"[39m
+            [33mdata-shrink[39m=[32m"true"[39m
+            [33mid[39m=[32m"select-label"[39m
+          [36m>[39m
+            [0m时间轴类型[0m
+          [36m</label>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-formControl css-j218zi-MuiInputBase-root-MuiInput-root-MuiSelect-root"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33maria-controls[39m=[32m":rc:"[39m
+              [33maria-expanded[39m=[32m"false"[39m
+              [33maria-haspopup[39m=[32m"listbox"[39m
+              [33maria-labelledby[39m=[32m"select-label"[39m
+              [33mclass[39m=[32m"MuiSelect-select MuiSelect-standard MuiInputBase-input MuiInput-input css-5lvf42-MuiSelect-select-MuiInputBase-input-MuiInput-input"[39m
+              [33mrole[39m=[32m"combobox"[39m
+              [33mtabindex[39m=[32m"0"[39m
+            [36m>[39m
+              [0m时间[0m
+            [36m</div>[39m
+            [36m<input[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33maria-invalid[39m=[32m"false"[39m
+              [33mclass[39m=[32m"MuiSelect-nativeInput css-j0riat-MuiSelect-nativeInput"[39m
+              [33mtabindex[39m=[32m"-1"[39m
+              [33mvalue[39m=[32m"0"[39m
+            [36m/>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiSelect-iconStandard css-1gpuzre-MuiSvgIcon-root-MuiSelect-icon"[39m
+              [33mdata-testid[39m=[32m"ArrowDropDownIcon"[39m
+              [33mfocusable[39m=[32m"false"[39m
+              [33mviewBox[39m=[32m"0 0 24 24"[39m
+            [36m>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M7 10l5 5 5-5z"[39m
+              [36m/>[39m
+            [36m</svg>[39m
+          [36m</div>[39m
+          [36m<p[39m
+            [33mclass[39m=[32m"MuiFormHelperText-root MuiFormHelperText-sizeMedium MuiFormHelperText-filled css-18y2hez-MuiFormHelperText-root"[39m
+          [36m/>[39m
+        [36m</div>[39m
+      [36m</div>[39m
+      [36m<div[39m
+        [33maria-orientation[39m=[32m"vertical"[39m
+        [33mclass[39m=[32m"MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical css-5vyl5u-MuiDivider-root"[39m
+        [33mrole[39m=[32m"separator"[39m
+      [36m/>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"MuiBox-root css-txdpd1"[39m
+      [36m>[39m
+        [36m<button[39m
+          [33mclass[39m=[32m"MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-1te2h75-MuiButtonBase-root-MuiIconButton-root"[39m
+          [33mtabindex[39m=[32m"0"[39m
+          [33mtype[39m=[32m"submit"[39m
+        [36m>[39m
+          [36m<svg[39m
+            [33maria-hidden[39m=[32m"true"[39m
+            [33mclass[39m=[32m"MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium css-q6abum-MuiSvgIcon-root"[39m
+            [33mdata-testid[39m=[32m"CheckIcon"[39m
+            [33mfocusable[39m=[32m"false"[39m
+            [33mviewBox[39m=[32m"0 0 24 24"[39m
+          [36m>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"[39m
+            [36m/>[39m
+          [36m</svg>[39m
+        [36m</button>[39m
+      [36m</div>[39m
+    [36m</div>[39m
+  [36m</form>[39m
+  [36m<div[39m
+    [33mdata-testid[39m=[32m"sentinelEnd"[39m
+    [33mtabindex[39m=[32m"0"[39m
+  [36m/>[39m
+[36m</div>[39m"
+`;
