@@ -12,6 +12,20 @@ import { mockGetAllList } from './__mocks__/apiMock/mix'
 import { mockGetLog } from './__mocks__/apiMock/log'
 import { TabKey, tabs } from 'pages/main/constants'
 
+const renderMain = async () => {
+  const promise = Promise.resolve()
+  const main = render(
+    <Router>
+      <Main />
+    </Router>
+  )
+  // Main 在初始化过程中加载数据完毕后更新状态, 这里是在等待状态更新完毕
+  await act(async () => {
+    await promise
+  })
+
+  return main
+}
 describe('main page logic', () => {
   const {
     response: { data: logs }
@@ -21,14 +35,7 @@ describe('main page logic', () => {
   } = mockGetAllList()
 
   it('TabContent changed after switch tab', async () => {
-    // 这里包裹 act 是因为 Main 在初始化过程中加载数据完毕后更新状态
-    const { container } = await act(async () =>
-      render(
-        <Router>
-          <Main />
-        </Router>
-      )
-    )
+    const { container } = await renderMain()
     const { container: tabContentMix } = render(
       <Router>
         <TabContent current={TabKey.mix} data={[lists, logs]} />
@@ -49,14 +56,7 @@ describe('main page logic', () => {
   })
 
   it('mix tab should be selected by default', async () => {
-    // 这里包裹 act 是因为 Main 在初始化过程中加载数据完毕后更新状态
-    await act(async () =>
-      render(
-        <Router>
-          <Main />
-        </Router>
-      )
-    )
+    const { container } = await renderMain()
     const mainTab = screen.getAllByRole('tablist')[0]
     const selectedTab = getByRole(mainTab, 'tab', { selected: true })
     const tab = tabs.find((tab) => tab.key === TabKey.mix)!
