@@ -62,6 +62,6 @@ describe('FormModal logic', () => {
     expect(button).not.toBeDisabled()
     fireEvent.submit(form)
     expect(button).toBeDisabled()
-    waitFor(() => expect(button).not.toBeDisabled())
+    await waitFor(() => expect(button).not.toBeDisabled())
   })
 })
