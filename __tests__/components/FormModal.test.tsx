@@ -41,12 +41,10 @@ describe('FormModal interaction', () => {
     })
     fireEvent.input(nameInput, { target: { value: formData.name } })
     const form = modal.querySelector('form')!
-    fireEvent.submit(form)
-    waitFor(() =>
-      expect(formProps.handleSubmit).toHaveBeenCalledWith({
-        name: formData.name
-      })
-    )
+    await act(async () => fireEvent.submit(form))
+    expect(formProps.handleSubmit).toHaveBeenCalledWith({
+      name: formData.name
+    })
   })
 })
 
@@ -59,7 +57,7 @@ describe('FormModal logic', () => {
     })
     fireEvent.input(nameInput, { target: { value: formData.name } })
     const form = modal.querySelector('form')!
-    // TODO 应该用更准确的方式来定位 submit button
+    // TODO should use a better way to get submit button
     const button = screen.getByRole('button')
     expect(button).not.toBeDisabled()
     fireEvent.submit(form)
