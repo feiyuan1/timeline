@@ -24,13 +24,13 @@ const TestFormModal = () => (
 
 describe('TextField UI', () => {
   it('label correct', async () => {
-    await act(async () => render(<TestFormModal />))
+    render(<TestFormModal />)
     const label = screen.queryByLabelText('name', { exact: false })
     expect(label).toBeTruthy()
   })
 
   it('input correct', async () => {
-    await act(async () => render(<TestFormModal />))
+    render(<TestFormModal />)
     const nameInput = screen.queryByRole('textbox', {
       name: 'name'
     })
@@ -40,7 +40,7 @@ describe('TextField UI', () => {
 
 describe('TextField interaction', () => {
   it('input value correct', async () => {
-    await act(async () => render(<TestFormModal />))
+    render(<TestFormModal />)
     const nameInput = screen.getByRole('textbox', {
       name: 'name'
     })
@@ -51,7 +51,7 @@ describe('TextField interaction', () => {
 
 describe('TextField logic', () => {
   it('miss required input should give an error to user when submit', async () => {
-    await act(async () => render(<TestFormModal />))
+    render(<TestFormModal />)
     const modal = screen.getByRole('presentation')
     const form = modal.querySelector('form')!
     const nameInput = screen.getByRole('textbox', {
@@ -62,7 +62,7 @@ describe('TextField logic', () => {
   })
 
   it('miss required input should give an error to user when change input', async () => {
-    await act(async () => render(<TestFormModal />))
+    render(<TestFormModal />)
     const nameInput = screen.getByRole('textbox', {
       name: 'name'
     })

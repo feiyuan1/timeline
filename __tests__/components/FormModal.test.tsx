@@ -26,7 +26,7 @@ const TestFormModal = () => (
 
 describe('FormModal UI', () => {
   it('title correct', async () => {
-    await act(async () => render(<TestFormModal />))
+    render(<TestFormModal />)
     const title = screen.getByRole('heading', { level: 2 })
     expect(title).toHaveAttribute('id', 'form-modal-title')
   })
@@ -34,7 +34,7 @@ describe('FormModal UI', () => {
 
 describe('FormModal interaction', () => {
   it('click submit button to call submit api', async () => {
-    await act(async () => render(<TestFormModal />))
+    render(<TestFormModal />)
     const modal = screen.getByRole('presentation')
     const nameInput = screen.getByRole('textbox', {
       name: 'name'
@@ -50,7 +50,7 @@ describe('FormModal interaction', () => {
 
 describe('FormModal logic', () => {
   it('click submit button and it should be disabled until submit handler finished', async () => {
-    await act(async () => render(<TestFormModal />))
+    render(<TestFormModal />)
     const modal = screen.getByRole('presentation')
     const nameInput = screen.getByRole('textbox', {
       name: 'name'

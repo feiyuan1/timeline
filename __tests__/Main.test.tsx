@@ -21,6 +21,7 @@ describe('main page logic', () => {
   } = mockGetAllList()
 
   it('TabContent changed after switch tab', async () => {
+    // 这里包裹 act 是因为 Main 在初始化过程中加载数据完毕后更新状态
     const { container } = await act(async () =>
       render(
         <Router>
@@ -48,6 +49,7 @@ describe('main page logic', () => {
   })
 
   it('mix tab should be selected by default', async () => {
+    // 这里包裹 act 是因为 Main 在初始化过程中加载数据完毕后更新状态
     await act(async () =>
       render(
         <Router>
