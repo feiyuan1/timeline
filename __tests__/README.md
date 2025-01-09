@@ -10,6 +10,16 @@
 
 client 端代码更新后，会重新执行代码影响到的测试用例，**出现异常，即使纠正**
 
+## with @testing-library/react
+
+> references from the author: https://kentcdodds.com/blog/common-mistakes-with-react-testing-library
+
+- render function already wrapped in act =>> wrapping in act manually is unnecessary
+- consider to use getByRole first
+- wrapping any interaction which contains update state action in act
+- in the same test case, consider use rerender api rather than render multiple times
+- ...
+
 ## 其他
 
 - 暂时没有 UI 上的 test cases
@@ -37,3 +47,9 @@ client 端代码更新后，会重新执行代码影响到的测试用例，**�
 # 执行测试用例
 
 `npx jest fileName`
+
+# tips
+
+## using @testing-library/react
+
+- waitFor api should be await result, otherwise cannot get corret test result(the assertion will be always passed)
