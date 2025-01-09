@@ -1,12 +1,5 @@
 import { BrowserRouter as Router } from 'react-router-dom'
-import {
-  fireEvent,
-  render,
-  screen,
-  act,
-  getAllByRole,
-  getByRole
-} from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import { TabContent } from 'pages/main/Main'
 import { TabKey } from 'pages/main/constants'
 import { LogTab, MixItem, MixTab } from 'pages/main/MainTab'
@@ -52,7 +45,7 @@ describe('LogTab logic', () => {
       </Router>
     )
     const cardList = container.querySelectorAll<HTMLDivElement>('.MuiCard-root')
-    expect(cardList.length).toBe(logs.length)
+    expect(cardList).toHaveLength(logs.length)
   })
 
   it('TODO click submit button fire mock fetch add log api', () => {})

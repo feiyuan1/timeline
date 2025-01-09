@@ -56,7 +56,7 @@ describe('main page logic', () => {
   })
 
   it('mix tab should be selected by default', async () => {
-    const { container } = await renderMain()
+    await renderMain()
     const mainTab = screen.getAllByRole('tablist')[0]
     const selectedTab = getByRole(mainTab, 'tab', { selected: true })
     const tab = tabs.find((tab) => tab.key === TabKey.mix)!

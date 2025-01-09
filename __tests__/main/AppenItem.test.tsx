@@ -2,7 +2,6 @@ import {
   fireEvent,
   getAllByRole,
   getByText,
-  prettyDOM,
   render,
   screen,
   waitFor
@@ -57,7 +56,7 @@ describe('AppendItem UI', () => {
     const { container } = render(<AppendItem />)
     const menu = showMenu(container)!
     const menuList = getAllByRole(menu, 'menuitem')
-    expect(menuList.length).toBe(2)
+    expect(menuList).toHaveLength(2)
     expect(getByText(menu, '线路')).toBeInTheDocument()
     expect(getByText(menu, '线路组')).toBeInTheDocument()
   })
@@ -66,7 +65,7 @@ describe('AppendItem UI', () => {
     const modal = showModal(0)!
     const { title } = lineProps
     expect(modal).toHaveTextContent(title)
-    expect(prettyDOM(modal)).toMatchSnapshot()
+    expect(modal).toMatchSnapshot()
   })
 
   it('TODO LineGroupModal UI', () => {})

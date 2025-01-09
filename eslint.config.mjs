@@ -5,10 +5,14 @@ import pluginReact from 'eslint-plugin-react'
 import pluginReactHook from 'eslint-plugin-react-hooks'
 import PluginPrettier from 'eslint-plugin-prettier/recommended'
 import pluginJest from 'eslint-plugin-jest'
+import pluginTestingLibrary from 'eslint-plugin-testing-library'
 
 export default [
   {
-    files: ['src/**/*.{js,mjs,cjs,ts,jsx,tsx}'],
+    files: [
+      'src/**/*.{js,mjs,cjs,ts,jsx,tsx}',
+      '__tests__/**/*.test.{ts,js,tsx}'
+    ],
     plugins: {
       'react-hooks': pluginReactHook
     },
@@ -40,8 +44,8 @@ export default [
   },
   PluginPrettier,
   {
-    files: ['__tests__/**/*.test.(ts|js|tsx)', 'jest-setup.js'],
-    plugins: { jest: pluginJest },
+    files: ['__tests__/**/*.test.{ts,js,tsx}', 'jest-setup.js'],
+    plugins: { jest: pluginJest, 'testing-library': pluginTestingLibrary },
     languageOptions: {
       globals: pluginJest.environments.globals.globals
     },
@@ -50,7 +54,11 @@ export default [
       'jest/no-focused-tests': 'error',
       'jest/no-identical-title': 'error',
       'jest/prefer-to-have-length': 'warn',
-      'jest/valid-expect': 'error'
+      'jest/valid-expect': 'error',
+      'testing-library/await-async-queries': 'error',
+      'testing-library/no-await-sync-queries': 'error',
+      'testing-library/no-debugging-utils': 'warn',
+      'testing-library/no-dom-import': 'off'
     }
   }
 ]

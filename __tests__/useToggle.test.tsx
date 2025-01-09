@@ -7,7 +7,7 @@ describe('useToggle logic', () => {
       result: { current: result }
     } = renderHook(useToggle)
     expect(result instanceof Array).toBeTruthy()
-    expect(result.length).toBe(2)
+    expect(result).toHaveLength(2)
     const [status, toggle] = result
     expect(typeof status).toBe('boolean')
     expect(typeof toggle).toBe('function')
