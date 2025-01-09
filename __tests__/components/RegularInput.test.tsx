@@ -1,6 +1,7 @@
 import { act, fireEvent, render, screen } from '@testing-library/react'
 import FormModal from 'components/FormModal'
 import { TextField } from 'components/RegularInput'
+import { getInput } from '../utils'
 
 const formProps = {
   title: 'title',
@@ -25,25 +26,21 @@ const TestFormModal = () => (
 describe('TextField UI', () => {
   it('label correct', async () => {
     render(<TestFormModal />)
-    const label = screen.queryByLabelText('name', { exact: false })
-    expect(label).toBeTruthy()
+    const label = screen.getByLabelText('name', { exact: false })
+    expect(label).toBeInTheDocument()
   })
 
   it('input correct', async () => {
     render(<TestFormModal />)
-    const nameInput = screen.queryByRole('textbox', {
-      name: 'name'
-    })
-    expect(nameInput).toBeTruthy()
+    const nameInput = await getInput('name')
+    expect(nameInput).toBeInTheDocument()
   })
 })
 
 describe('TextField interaction', () => {
   it('input value correct', async () => {
     render(<TestFormModal />)
-    const nameInput = screen.getByRole('textbox', {
-      name: 'name'
-    })
+    const nameInput = await getInput('name')
     fireEvent.input(nameInput, { target: { value: formData.name } })
     expect(nameInput).toHaveValue(formData.name)
   })
@@ -54,18 +51,14 @@ describe('TextField logic', () => {
     render(<TestFormModal />)
     const modal = screen.getByRole('presentation')
     const form = modal.querySelector('form')!
-    const nameInput = screen.getByRole('textbox', {
-      name: 'name'
-    })
-    fireEvent.submit(form)
+    const nameInput = await getInput('name')
+    await act(async () => fireEvent.submit(form))
     expect(nameInput).toBeInvalid()
   })
 
   it('miss required input should give an error to user when change input', async () => {
     render(<TestFormModal />)
-    const nameInput = screen.getByRole('textbox', {
-      name: 'name'
-    })
+    const nameInput = await getInput('name')
     fireEvent.input(nameInput, { target: { value: formData.name } })
     expect(nameInput).not.toBeInvalid()
     fireEvent.input(nameInput, { target: { value: '' } })
