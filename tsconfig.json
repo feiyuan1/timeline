@@ -19,7 +19,8 @@
       "react",
       "jest",
       "@testing-library/jest-dom",
-      "koa-bodyparser"
+      "koa-bodyparser",
+      "fetch-mock"
     ],
     "lib": ["dom", "dom.iterable", "esnext"],
     "downlevelIteration": true,
