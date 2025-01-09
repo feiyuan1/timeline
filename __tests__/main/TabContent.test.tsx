@@ -48,11 +48,11 @@ describe('LogTab logic', () => {
     expect(cardList).toHaveLength(logs.length)
   })
 
-  it('TODO click submit button fire mock fetch add log api', () => {})
+  // it('TODO click submit button fire mock fetch add log api', () => {})
 })
 
 describe('LogTab interaction', () => {
-  it('TODO click add button to show modal', () => {})
+  // it('TODO click add button to show modal', () => {})
 })
 
 describe('MixTab interaction', () => {

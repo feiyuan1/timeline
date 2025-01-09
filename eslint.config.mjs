@@ -50,11 +50,9 @@ export default [
       globals: pluginJest.environments.globals.globals
     },
     rules: {
-      'jest/no-disabled-tests': 'warn',
-      'jest/no-focused-tests': 'error',
-      'jest/no-identical-title': 'error',
-      'jest/prefer-to-have-length': 'warn',
-      'jest/valid-expect': 'error',
+      ...pluginJest.configs['flat/recommended'].rules,
+      'jest/no-mocks-import': 'off',
+      'jest/no-commented-out-tests': 'off',
       'testing-library/await-async-queries': 'error',
       'testing-library/no-await-sync-queries': 'error',
       'testing-library/no-debugging-utils': 'warn',

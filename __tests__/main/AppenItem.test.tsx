@@ -68,7 +68,7 @@ describe('AppendItem UI', () => {
     expect(modal).toMatchSnapshot()
   })
 
-  it('TODO LineGroupModal UI', () => {})
+  // it('TODO LineGroupModal UI', () => {})
 })
 
 describe('AppendItem interaction', () => {
