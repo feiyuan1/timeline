@@ -1,16 +1,5 @@
-import { fireEvent, render, renderHook } from '@testing-library/react'
+import { act, renderHook } from '@testing-library/react'
 import useToggle from 'utils/useToggle'
-
-const T = () => {
-  const [status, toggle] = useToggle()
-
-  return (
-    <>
-      {status && <span>flag</span>}
-      <button onClick={toggle}>toggle</button>
-    </>
-  )
-}
 
 describe('useToggle logic', () => {
   it('call hook should return an array with 2 items', () => {
@@ -48,28 +37,24 @@ describe('useToggle logic', () => {
     expect(status).toBeFalsy()
   })
   it('call toggle can change status', async () => {
-    const { getByRole, queryByText } = render(<T />)
-    expect(queryByText('flag')).toBeFalsy()
-    const button = getByRole('button')
-    expect(button).toHaveTextContent('toggle')
-    fireEvent(
-      button,
-      new MouseEvent('click', {
-        bubbles: true,
-        cancelable: true
-      })
-    )
-    expect(queryByText('flag')).toBeInTheDocument()
+    const {
+      result,
+      result: {
+        current: [initStatus, toggle]
+      }
+    } = renderHook(useToggle)
+    await act(async () => toggle())
+    expect(!initStatus).toEqual(result.current[0])
   })
   it('recalled hook with same props returned same toggle', () => {
     const {
       result: {
         current: [_, toggle]
       },
+      result,
       rerender
     } = renderHook(useToggle)
-    const temp = toggle
     rerender()
-    expect(toggle === temp).toBeTruthy()
+    expect(toggle).toBe(result.current[1])
   })
 })
