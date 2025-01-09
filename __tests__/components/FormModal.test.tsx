@@ -1,7 +1,6 @@
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import FormModal from 'components/FormModal'
 import { TextField } from 'components/RegularInput'
-import { getInput } from '../utils'
 
 const formProps = {
   title: 'title',
@@ -40,13 +39,15 @@ describe('FormModal interaction', () => {
   it('click submit button to call submit api', async () => {
     render(<TestFormModal />)
     const modal = screen.getByRole('presentation')
-    const nameInput = await getInput('name')
+    const nameInput = await screen.findByRole('textbox', { name: 'name' })
     fireEvent.input(nameInput, { target: { value: formData.name } })
     const form = modal.querySelector('form')!
-    await act(async () => fireEvent.submit(form))
-    expect(formProps.handleSubmit).toHaveBeenCalledWith({
-      name: formData.name
-    })
+    fireEvent.submit(form)
+    await waitFor(async () =>
+      expect(formProps.handleSubmit).toHaveBeenCalledWith({
+        name: formData.name
+      })
+    )
   })
 })
 
@@ -54,10 +55,10 @@ describe('FormModal logic', () => {
   it('click submit button and it should be disabled until submit handler finished', async () => {
     render(<TestFormModal />)
     const modal = screen.getByRole('presentation')
-    const nameInput = await getInput('name')
+    const nameInput = await screen.findByRole('textbox', { name: 'name' })
     fireEvent.input(nameInput, { target: { value: formData.name } })
     const form = modal.querySelector('form')!
-    // TODO should use a better way to get submit button
+    // TODO should use a explicit way to get submit button
     const button = screen.getByRole('button')
     expect(button).not.toBeDisabled()
     fireEvent.submit(form)

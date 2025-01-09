@@ -53,10 +53,9 @@ export default [
       ...pluginJest.configs['flat/recommended'].rules,
       'jest/no-mocks-import': 'off',
       'jest/no-commented-out-tests': 'off',
-      'testing-library/await-async-queries': 'error',
-      'testing-library/no-await-sync-queries': 'error',
-      'testing-library/no-debugging-utils': 'warn',
-      'testing-library/no-dom-import': 'off'
+      ...pluginTestingLibrary.configs['flat/react'].rules,
+      'testing-library/no-container': 'warn',
+      'testing-library/no-node-access': 'warn'
     }
   }
 ]

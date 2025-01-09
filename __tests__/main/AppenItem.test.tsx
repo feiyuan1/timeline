@@ -1,11 +1,4 @@
-import {
-  fireEvent,
-  getAllByRole,
-  getByText,
-  render,
-  screen,
-  waitFor
-} from '@testing-library/react'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import fetchMock from 'fetch-mock'
 import AppendItem from 'pages/main/AppendItem'
 import { renderWithRoot } from '../utils'
@@ -30,8 +23,8 @@ const showMenu = (container: HTMLElement) => {
 
 const showModal = (index: number) => {
   const { container } = renderWithRoot(<AppendItem />)
-  const menu = showMenu(container)
-  const button = getAllByRole(menu, 'menuitem')[index]
+  showMenu(container)
+  const button = screen.getAllByRole('menuitem')[index]
   fireEvent.click(button)
   return screen.queryByRole('presentation')
 }
@@ -54,11 +47,11 @@ describe('AppendItem UI', () => {
 
   it('Menu UI', () => {
     const { container } = render(<AppendItem />)
-    const menu = showMenu(container)!
-    const menuList = getAllByRole(menu, 'menuitem')
+    showMenu(container)!
+    const menuList = screen.getAllByRole('menuitem')
     expect(menuList).toHaveLength(2)
-    expect(getByText(menu, '线路')).toBeInTheDocument()
-    expect(getByText(menu, '线路组')).toBeInTheDocument()
+    expect(screen.getByText('线路')).toBeInTheDocument()
+    expect(screen.getByText('线路组')).toBeInTheDocument()
   })
   it('LineModal UI', () => {
     // TODO 因为存在 test case：click add line button in menu => 这里是否需要再次确认 modal 不是 menu 呢？

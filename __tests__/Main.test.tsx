@@ -1,11 +1,4 @@
-import {
-  fireEvent,
-  render,
-  screen,
-  act,
-  getAllByRole,
-  getByRole
-} from '@testing-library/react'
+import { fireEvent, render, screen, act, within } from '@testing-library/react'
 import { BrowserRouter as Router } from 'react-router-dom'
 import Main, { TabContent } from 'pages/main/Main'
 import { mockGetAllList } from './__mocks__/apiMock/mix'
@@ -14,7 +7,7 @@ import { TabKey, tabs } from 'pages/main/constants'
 
 const renderMain = async () => {
   const promise = Promise.resolve()
-  const main = render(
+  const view = render(
     <Router>
       <Main />
     </Router>
@@ -24,7 +17,7 @@ const renderMain = async () => {
     await promise
   })
 
-  return main
+  return view
 }
 describe('main page logic', () => {
   const {
@@ -47,7 +40,7 @@ describe('main page logic', () => {
       </Router>
     )
     const mainTab = screen.getAllByRole('tablist')[0]
-    const firstUnactiveTab = getAllByRole(mainTab, 'tab', {
+    const firstUnactiveTab = within(mainTab).getAllByRole('tab', {
       selected: false
     })[0]
     expect(container).toContainHTML(tabContentMix.innerHTML)
@@ -58,7 +51,7 @@ describe('main page logic', () => {
   it('mix tab should be selected by default', async () => {
     await renderMain()
     const mainTab = screen.getAllByRole('tablist')[0]
-    const selectedTab = getByRole(mainTab, 'tab', { selected: true })
+    const selectedTab = within(mainTab).getByRole('tab', { selected: true })
     const tab = tabs.find((tab) => tab.key === TabKey.mix)!
     expect(tab).toBeTruthy()
     expect(selectedTab).toHaveTextContent(tab.label)

@@ -10,9 +10,10 @@
 
 client 端代码更新后，会重新执行代码影响到的测试用例，**出现异常，即使纠正**
 
-## with @testing-library/react
+## with @testing-library/react(TLR)
 
 > references from the author: https://kentcdodds.com/blog/common-mistakes-with-react-testing-library
+> TLR-eslint: https://github.com/testing-library/eslint-plugin-testing-library
 
 - render function already wrapped in act =>> wrapping in act manually is unnecessary
 - consider to use getByRole first
@@ -21,6 +22,8 @@ client 端代码更新后，会重新执行代码影响到的测试用例，**�
 - ...
 
 ## 其他
+
+> jest-eslint: https://github.com/jest-community/eslint-plugin-jest
 
 - 暂时没有 UI 上的 test cases
 - 每个组件都有一个独立的测试文件（hook 同理）

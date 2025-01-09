@@ -1,7 +1,6 @@
-import { act, fireEvent, render, screen } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import FormModal from 'components/FormModal'
 import { TextField } from 'components/RegularInput'
-import { getInput } from '../utils'
 
 const formProps = {
   title: 'title',
@@ -32,15 +31,16 @@ describe('TextField UI', () => {
 
   it('input correct', async () => {
     render(<TestFormModal />)
-    const nameInput = await getInput('name')
-    expect(nameInput).toBeInTheDocument()
+    expect(
+      await screen.findByRole('textbox', { name: 'name' })
+    ).toBeInTheDocument()
   })
 })
 
 describe('TextField interaction', () => {
   it('input value correct', async () => {
     render(<TestFormModal />)
-    const nameInput = await getInput('name')
+    const nameInput = await screen.findByRole('textbox', { name: 'name' })
     fireEvent.input(nameInput, { target: { value: formData.name } })
     expect(nameInput).toHaveValue(formData.name)
   })
@@ -51,14 +51,13 @@ describe('TextField logic', () => {
     render(<TestFormModal />)
     const modal = screen.getByRole('presentation')
     const form = modal.querySelector('form')!
-    const nameInput = await getInput('name')
-    await act(async () => fireEvent.submit(form))
-    expect(nameInput).toBeInvalid()
+    fireEvent.submit(form)
+    expect(await screen.findByRole('textbox', { name: 'name' })).toBeInvalid()
   })
 
   it('miss required input should give an error to user when change input', async () => {
     render(<TestFormModal />)
-    const nameInput = await getInput('name')
+    const nameInput = await screen.findByRole('textbox', { name: 'name' })
     fireEvent.input(nameInput, { target: { value: formData.name } })
     expect(nameInput).not.toBeInvalid()
     fireEvent.input(nameInput, { target: { value: '' } })
