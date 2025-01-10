@@ -88,7 +88,7 @@ const FormModalInner = ({
       aria-labelledby="form-modal-title"
       keepMounted={keepMounted}
     >
-      <Box component="form" sx={style} onSubmit={handleFormSubmit}>
+      <Box component="form" role="form" sx={style} onSubmit={handleFormSubmit}>
         <Typography id="form-modal-title" variant="h6" component="h2">
           {title}
         </Typography>

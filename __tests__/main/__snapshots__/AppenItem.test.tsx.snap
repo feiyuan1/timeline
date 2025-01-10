@@ -17,6 +17,7 @@ exports[`AppendItem UI LineModal UI 1`] = `
   />
   <form
     class="MuiBox-root css-1wnsr1i"
+    role="form"
     tabindex="-1"
   >
     <h2
@@ -35,7 +36,7 @@ exports[`AppendItem UI LineModal UI 1`] = `
           class="MuiFormControl-root MuiTextField-root css-1xp5r68-MuiFormControl-root-MuiTextField-root"
         >
           <label
-            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-standard MuiFormLabel-colorPrimary Mui-required MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-standard css-2hy7sk-MuiFormLabel-root-MuiInputLabel-root"
+            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-standard MuiFormLabel-colorPrimary Mui-error Mui-required MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-standard css-2hy7sk-MuiFormLabel-root-MuiInputLabel-root"
             data-shrink="false"
             for=":ra:"
             id=":ra:-label"
@@ -43,17 +44,18 @@ exports[`AppendItem UI LineModal UI 1`] = `
             名称
             <span
               aria-hidden="true"
-              class="MuiFormLabel-asterisk MuiInputLabel-asterisk css-1ljffdk-MuiFormLabel-asterisk"
+              class="MuiFormLabel-asterisk MuiInputLabel-asterisk Mui-error css-1ljffdk-MuiFormLabel-asterisk"
             >
                
               *
             </span>
           </label>
           <div
-            class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-formControl css-5h82ro-MuiInputBase-root-MuiInput-root"
+            class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl css-5h82ro-MuiInputBase-root-MuiInput-root"
           >
             <input
-              aria-invalid="false"
+              aria-describedby=":ra:-helper-text"
+              aria-invalid="true"
               class="MuiInputBase-input MuiInput-input css-1yrc8ca-MuiInputBase-input-MuiInput-input"
               id=":ra:"
               name="name"
@@ -62,6 +64,12 @@ exports[`AppendItem UI LineModal UI 1`] = `
               value=""
             />
           </div>
+          <p
+            class="MuiFormHelperText-root Mui-error MuiFormHelperText-sizeMedium Mui-required css-18y2hez-MuiFormHelperText-root"
+            id=":ra:-helper-text"
+          >
+            请填写名称
+          </p>
         </div>
         <div
           class="MuiFormControl-root MuiTextField-root css-1xp5r68-MuiFormControl-root-MuiTextField-root"
@@ -168,4 +176,163 @@ exports[`AppendItem UI LineModal UI 1`] = `
     tabindex="0"
   />
 </div>
+`;
+
+exports[`AppendItem UI LineModal UI: form part 1`] = `
+<form
+  class="MuiBox-root css-1wnsr1i"
+  role="form"
+  tabindex="-1"
+>
+  <h2
+    class="MuiTypography-root MuiTypography-h6 css-1miy0lu-MuiTypography-root"
+    id="form-modal-title"
+  >
+    新增线路
+  </h2>
+  <div
+    class="MuiStack-root css-1sos3zc-MuiStack-root"
+  >
+    <div
+      class="MuiStack-root css-nohnhc-MuiStack-root"
+    >
+      <div
+        class="MuiFormControl-root MuiTextField-root css-1xp5r68-MuiFormControl-root-MuiTextField-root"
+      >
+        <label
+          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-standard MuiFormLabel-colorPrimary Mui-error Mui-required MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-standard css-2hy7sk-MuiFormLabel-root-MuiInputLabel-root"
+          data-shrink="false"
+          for=":ra:"
+          id=":ra:-label"
+        >
+          名称
+          <span
+            aria-hidden="true"
+            class="MuiFormLabel-asterisk MuiInputLabel-asterisk Mui-error css-1ljffdk-MuiFormLabel-asterisk"
+          >
+             
+            *
+          </span>
+        </label>
+        <div
+          class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl css-5h82ro-MuiInputBase-root-MuiInput-root"
+        >
+          <input
+            aria-describedby=":ra:-helper-text"
+            aria-invalid="true"
+            class="MuiInputBase-input MuiInput-input css-1yrc8ca-MuiInputBase-input-MuiInput-input"
+            id=":ra:"
+            name="name"
+            required=""
+            type="text"
+            value=""
+          />
+        </div>
+        <p
+          class="MuiFormHelperText-root Mui-error MuiFormHelperText-sizeMedium Mui-required css-18y2hez-MuiFormHelperText-root"
+          id=":ra:-helper-text"
+        >
+          请填写名称
+        </p>
+      </div>
+      <div
+        class="MuiFormControl-root MuiTextField-root css-1xp5r68-MuiFormControl-root-MuiTextField-root"
+      >
+        <label
+          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-standard MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-standard css-2hy7sk-MuiFormLabel-root-MuiInputLabel-root"
+          data-shrink="false"
+          for=":rb:"
+          id=":rb:-label"
+        >
+          描述
+        </label>
+        <div
+          class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-formControl css-5h82ro-MuiInputBase-root-MuiInput-root"
+        >
+          <input
+            aria-invalid="false"
+            class="MuiInputBase-input MuiInput-input css-1yrc8ca-MuiInputBase-input-MuiInput-input"
+            id=":rb:"
+            name="description"
+            type="text"
+            value=""
+          />
+        </div>
+      </div>
+      <div
+        class="MuiFormControl-root css-1iw3t7y-MuiFormControl-root"
+      >
+        <label
+          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-standard MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-standard css-1ew92b2-MuiFormLabel-root-MuiInputLabel-root"
+          data-shrink="true"
+          id="select-label"
+        >
+          时间轴类型
+        </label>
+        <div
+          class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-formControl css-j218zi-MuiInputBase-root-MuiInput-root-MuiSelect-root"
+        >
+          <div
+            aria-controls=":rc:"
+            aria-expanded="false"
+            aria-haspopup="listbox"
+            aria-labelledby="select-label"
+            class="MuiSelect-select MuiSelect-standard MuiInputBase-input MuiInput-input css-5lvf42-MuiSelect-select-MuiInputBase-input-MuiInput-input"
+            role="combobox"
+            tabindex="0"
+          >
+            时间
+          </div>
+          <input
+            aria-hidden="true"
+            aria-invalid="false"
+            class="MuiSelect-nativeInput css-j0riat-MuiSelect-nativeInput"
+            tabindex="-1"
+            value="0"
+          />
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiSelect-iconStandard css-1gpuzre-MuiSvgIcon-root-MuiSelect-icon"
+            data-testid="ArrowDropDownIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M7 10l5 5 5-5z"
+            />
+          </svg>
+        </div>
+        <p
+          class="MuiFormHelperText-root MuiFormHelperText-sizeMedium MuiFormHelperText-filled css-18y2hez-MuiFormHelperText-root"
+        />
+      </div>
+    </div>
+    <div
+      aria-orientation="vertical"
+      class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical css-5vyl5u-MuiDivider-root"
+      role="separator"
+    />
+    <div
+      class="MuiBox-root css-txdpd1"
+    >
+      <button
+        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-1te2h75-MuiButtonBase-root-MuiIconButton-root"
+        tabindex="0"
+        type="submit"
+      >
+        <svg
+          aria-hidden="true"
+          class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium css-q6abum-MuiSvgIcon-root"
+          data-testid="CheckIcon"
+          focusable="false"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"
+          />
+        </svg>
+      </button>
+    </div>
+  </div>
+</form>
 `;

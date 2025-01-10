@@ -1,7 +1,7 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import fetchMock from 'fetch-mock'
 import AppendItem from 'pages/main/AppendItem'
-import { renderWithRoot } from '../utils'
+import { matchInputName, renderWithRoot } from '../utils'
 import { lineProps } from '_constants/form'
 import { mockAddLine } from '../__mocks__/apiMock/line'
 
@@ -53,11 +53,14 @@ describe('AppendItem UI', () => {
     expect(screen.getByText('线路')).toBeInTheDocument()
     expect(screen.getByText('线路组')).toBeInTheDocument()
   })
-  it('LineModal UI', () => {
+  it('LineModal UI', async () => {
     // TODO 因为存在 test case：click add line button in menu => 这里是否需要再次确认 modal 不是 menu 呢？
     const modal = showModal(0)!
     const { title } = lineProps
     expect(modal).toHaveTextContent(title)
+    const form = await screen.findByRole('form')
+    // TODO 因为 FormModal 组件实现的问题，无法很好的定位 form 的 输入区&操作区，这里也无法更精细的保存 snapshot
+    expect(form).toMatchSnapshot('form part')
     expect(modal).toMatchSnapshot()
   })
 
@@ -101,7 +104,9 @@ describe('LineModal logic', () => {
     // TODO 如何捕获回调中的异步错误
     const modal = showModal(0)!
     const button = modal.querySelector('button')!
-    const nameInput = modal.querySelector('input')!
+    const nameInput = await screen.findByRole('textbox', {
+      name: matchInputName('name')
+    })
     fireEvent.change(nameInput, { target: { value: 'testName' } })
     fireEvent.submit(button)
     await waitFor(() => expect(fetchMock.callHistory.called(name)).toBeTruthy())
