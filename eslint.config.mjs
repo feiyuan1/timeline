@@ -18,11 +18,24 @@ export default [
     },
     rules: pluginReactHook.configs.recommended.rules
   },
-  { languageOptions: { globals: { ...globals.browser, ...globals.node } } },
+  {
+    languageOptions: {
+      globals: { ...globals.browser, ...globals.node }
+    }
+  },
   pluginJs.configs.recommended,
-  ...tseslint.configs.recommended,
+  ...tseslint.configs.recommendedTypeChecked,
   pluginReact.configs.flat['jsx-runtime'],
   {
+    files: [
+      'src/**/*.{js,mjs,cjs,ts,jsx,tsx}',
+      '__tests__/**/*.test.{ts,js,tsx}',
+      'backend/**/**',
+      'public/**/**',
+      'server/**/**',
+      'types/**/**',
+      'scripts/**/**'
+    ],
     rules: {
       '@typescript-eslint/no-require-imports': 'off',
       'no-console': 'error',
@@ -40,6 +53,11 @@ export default [
           allowedNames: ['ctx']
         }
       ]
+    },
+    languageOptions: {
+      parserOptions: {
+        projectService: true
+      }
     }
   },
   PluginPrettier,
