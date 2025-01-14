@@ -24,7 +24,6 @@ export default [
     }
   },
   pluginJs.configs.recommended,
-  ...tseslint.configs.recommendedTypeChecked,
   pluginReact.configs.flat['jsx-runtime'],
   {
     files: [
@@ -37,6 +36,7 @@ export default [
       'scripts/**/**'
     ],
     rules: {
+      ...tseslint.configs.recommendedTypeChecked.rules,
       '@typescript-eslint/no-require-imports': 'off',
       'no-console': 'error',
       '@typescript-eslint/no-unused-vars': [
