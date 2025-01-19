@@ -1,1 +1,2 @@
+node .husky/scripts/maxChangedLines.js
 npm run lint
