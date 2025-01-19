@@ -57,7 +57,8 @@ export default [
         {
           allowedNames: ['ctx']
         }
-      ]
+      ],
+      'max-lines-per-function': ['error', { max: 200, skipComments: true }]
     }
   }),
   PluginPrettier,
