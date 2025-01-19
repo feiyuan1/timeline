@@ -25,7 +25,7 @@ export default [
   },
   pluginJs.configs.recommended,
   pluginReact.configs.flat['jsx-runtime'],
-  {
+  ...tseslint.config({
     files: [
       'src/**/*.{js,mjs,cjs,ts,jsx,tsx}',
       '__tests__/**/*.test.{ts,js,tsx}',
@@ -35,8 +35,13 @@ export default [
       'types/**/**',
       'scripts/**/**'
     ],
+    extends: [tseslint.configs.recommendedTypeChecked],
+    languageOptions: {
+      parserOptions: {
+        projectService: true
+      }
+    },
     rules: {
-      ...tseslint.configs.recommendedTypeChecked.rules,
       '@typescript-eslint/no-require-imports': 'off',
       'no-console': 'error',
       '@typescript-eslint/no-unused-vars': [
@@ -53,13 +58,8 @@ export default [
           allowedNames: ['ctx']
         }
       ]
-    },
-    languageOptions: {
-      parserOptions: {
-        projectService: true
-      }
     }
-  },
+  }),
   PluginPrettier,
   {
     files: ['__tests__/**/*.test.{ts,js,tsx}', 'jest-setup.js'],
