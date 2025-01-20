@@ -21,6 +21,9 @@ export default [
   {
     languageOptions: {
       globals: { ...globals.browser, ...globals.node }
+    },
+    rules: {
+      'no-console': 'error'
     }
   },
   pluginJs.configs.recommended,
@@ -43,7 +46,6 @@ export default [
     },
     rules: {
       '@typescript-eslint/no-require-imports': 'off',
-      'no-console': 'error',
       '@typescript-eslint/no-unused-vars': [
         'error',
         {
