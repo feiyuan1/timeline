@@ -23,7 +23,8 @@ export default [
       globals: { ...globals.browser, ...globals.node }
     },
     rules: {
-      'no-console': 'error'
+      'no-console': 'error',
+      'max-lines-per-function': ['error', { max: 200, skipComments: true }]
     }
   },
   pluginJs.configs.recommended,
@@ -59,8 +60,7 @@ export default [
         {
           allowedNames: ['ctx']
         }
-      ],
-      'max-lines-per-function': ['error', { max: 200, skipComments: true }]
+      ]
     }
   }),
   PluginPrettier,
