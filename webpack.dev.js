@@ -1,4 +1,3 @@
-const { spawn } = require('child_process')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { merge } = require('webpack-merge')
 const BundleAnalyzerPlugin =
