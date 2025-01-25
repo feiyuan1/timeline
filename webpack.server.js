@@ -1,3 +1,4 @@
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const path = require('path')
 
 module.exports = {
@@ -44,7 +45,25 @@ module.exports = {
             }
           }
         ] // WILL DISABLE TYPESCRIPT ERRORS
+      },
+      {
+        test: /\.css$/i, // 处理 css 文件，先安装依赖，再配置
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader, // 将 css 抽离到文件中，通过 link 标签将文件引入 html 中
+            options: {
+              emit: false
+            }
+          },
+          'css-loader'
+        ]
       }
     ]
-  }
+  },
+  plugins: [
+    new MiniCssExtractPlugin({
+      filename: '[name].[contenthash].css',
+      chunkFilename: '[id].[contenthash].css'
+    })
+  ]
 }
