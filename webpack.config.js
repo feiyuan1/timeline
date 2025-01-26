@@ -16,6 +16,6 @@ module.exports = (env, argv) => {
     case NODE_ENV.DEV:
       return webpackDev
     default:
-      throw new Error('这是什么环境？？？')
+      throw new Error(`mode:${mode}; 这是什么环境？？？`)
   }
 }
