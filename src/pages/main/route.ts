@@ -1,10 +1,9 @@
-import { RouteObject } from 'react-router-dom'
-import Main from './Main'
+import { CustomRouteObject } from 'types'
 
-const routes: RouteObject[] = [
+const routes: CustomRouteObject[] = [
   {
     path: '/',
-    Component: Main
+    ComponentFactory: () => import(/*webpackChunkName: 'main'*/ './Main')
   }
 ]
 

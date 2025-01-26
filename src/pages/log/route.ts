@@ -1,10 +1,9 @@
-import { RouteObject } from 'react-router-dom'
-import Log from './Log'
+import { CustomRouteObject } from 'types'
 
-const routes: RouteObject[] = [
+const routes: CustomRouteObject[] = [
   {
     path: '/log/:id',
-    Component: Log
+    ComponentFactory: () => import(/*webpackChunkName: 'log'*/ './Log')
   }
 ]
 

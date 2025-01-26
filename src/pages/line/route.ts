@@ -1,15 +1,14 @@
-import { RouteObject } from 'react-router-dom'
-import Line from './Line'
-import LineGroup from './LineGroup'
+import { CustomRouteObject } from 'types'
 
-const routes: RouteObject[] = [
+const routes: CustomRouteObject[] = [
   {
     path: '/line/:id',
-    Component: Line
+    ComponentFactory: () => import(/*webpackChunkName: 'line'*/ './Line')
   },
   {
     path: '/line-group/:id',
-    Component: LineGroup
+    ComponentFactory: () =>
+      import(/*webpackChunkName: 'line_group'*/ './LineGroup')
   }
 ]
 

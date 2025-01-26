@@ -1,10 +1,9 @@
-import { RouteObject } from 'react-router-dom'
-import Node from './Node'
+import { CustomRouteObject } from 'types'
 
-const routes: RouteObject[] = [
+const routes: CustomRouteObject[] = [
   {
     path: '/node/:id',
-    Component: Node
+    ComponentFactory: () => import(/*webpackChunkName: 'node'*/ './Node')
   }
 ]
 

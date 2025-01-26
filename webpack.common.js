@@ -36,20 +36,41 @@ module.exports = (mode) => {
     optimization: {
       runtimeChunk: 'single',
       splitChunks: {
+        chunks: 'all',
+        maxSize: 100000, //100kb
         cacheGroups: {
-          // 'test-vendor': {
-          //   test: /[\\/]node_modules[\\/]/,
-          //   name: 'test-vendor',
-          //   chunks(chunk){
-          //     return chunk.name === 'test'
-          //   }
-          // },
-          'index-vendor': {
+          default: {
+            minChunks: 2,
+            name: 'default'
+          },
+          index_style: {
+            type: 'css/mini-extract',
+            name: 'index_style',
+            enforce: true
+          },
+          public_tool: {
+            test: /src[\\/](utils|public|constants|components)/,
+            name: 'public_tool',
+            priority: 1
+          },
+          vendor: {
             test: /[\\/]node_modules[\\/]/,
-            name: 'index-vendor',
-            chunks(chunk) {
-              return chunk.name === 'index'
-            }
+            name: 'vendor'
+          },
+          mui: {
+            test: /(@mui|@emotion|react-transition-group)/,
+            priority: 1,
+            name: 'mui'
+          },
+          react_router: {
+            test: /(react-router|@remix)/,
+            priority: 1,
+            name: 'react-router'
+          },
+          mui_material: {
+            test: /@mui[\\/]material/,
+            priority: 2,
+            name: 'mui_material'
           }
         }
       }
@@ -65,6 +86,14 @@ module.exports = (mode) => {
         {
           test: /\.(ts|tsx)$/i,
           use: ['ts-loader']
+          // use: [
+          //   {
+          //     loader: 'ts-loader',
+          //     options: {
+          //       transpileOnly: true
+          //     }
+          //   }
+          // ]
         },
         // {
         //   test: /\.jsx$/i,
