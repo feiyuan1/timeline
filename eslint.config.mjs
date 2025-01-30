@@ -9,6 +9,9 @@ import pluginTestingLibrary from 'eslint-plugin-testing-library'
 
 export default [
   {
+    ignores: ['**/*.debug*']
+  },
+  {
     files: [
       'src/**/*.{js,mjs,cjs,ts,jsx,tsx}',
       '__tests__/**/*.test.{ts,js,tsx}'
