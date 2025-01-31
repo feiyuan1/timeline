@@ -2,3 +2,4 @@
 **/**dist/*
 **/**/.vscode
 stats.json
+**/*.debug*
