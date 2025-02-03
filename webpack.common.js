@@ -5,9 +5,9 @@ const { NODE_ENV } = require('./env.js')
 module.exports = (mode) => {
   const devMode = mode === NODE_ENV.DEV
   return {
-    watch: true,
     entry: {
-      index: { import: [devMode ? './src/devIndex.tsx' : './src/index.tsx'] }
+      // index: { import: [devMode ? './src/devIndex.tsx' : './src/index.tsx'] }
+      index: './src/index.tsx'
     },
     mode,
     output: {
@@ -86,15 +86,15 @@ module.exports = (mode) => {
       rules: [
         {
           test: /\.(ts|tsx)$/i,
-          use: ['ts-loader']
-          // use: [
-          //   {
-          //     loader: 'ts-loader',
-          //     options: {
-          //       transpileOnly: true
-          //     }
-          //   }
-          // ]
+          // use: ['ts-loader']
+          use: [
+            {
+              loader: 'ts-loader',
+              options: {
+                transpileOnly: true
+              }
+            }
+          ]
         },
         // {
         //   test: /\.jsx$/i,

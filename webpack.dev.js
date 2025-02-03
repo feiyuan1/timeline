@@ -8,6 +8,7 @@ const { scripts } = require('./scripts/devBuild.js')
 
 module.exports = merge(common(NODE_ENV.DEV), {
   devtool: false,
+  watch: true,
   devServer: {
     historyApiFallback: true,
     hot: false,
