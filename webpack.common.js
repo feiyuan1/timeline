@@ -5,6 +5,7 @@ const { NODE_ENV } = require('./env.js')
 module.exports = (mode) => {
   const devMode = mode === NODE_ENV.DEV
   return {
+    watch: true,
     entry: {
       index: { import: [devMode ? './src/devIndex.tsx' : './src/index.tsx'] }
     },

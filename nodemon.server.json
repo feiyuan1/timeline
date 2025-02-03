@@ -1,0 +1,8 @@
+{
+  "watch": ["./server", "./src/server"],
+  "ext": "js,ts,json,tsx",
+  "execMap": {
+    "js": "npm run build:server && npx tsc -p ./server && cross-env NODE_ENV=production node"
+  },
+  "delay": 2500
+}

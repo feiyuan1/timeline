@@ -7,7 +7,7 @@
     "build": "webpack --mode=production",
     "start": "webpack serve --mode development",
     "build:server": "webpack --config ./webpack.server.js",
-    "server-fe": "npm run build:server && npx tsc -p ./server && cross-env NODE_ENV=production node ./dist/server/index.js",
+    "server-fe": "nodemon --config nodemon.server.json ./dist/server/index.js",
     "server-be": "nodemon ./dist/backend/index.js",
     "analyse": "webpack --mode=production --profile --json > stats.json",
     "symLink": "node ./symLinkFile.js",

@@ -6,8 +6,8 @@ const logger = require('./utils/index')
 const clientConfig = require(path.resolve('./webpack.config.js'))({}, {})
 
 const webpackMiddleware = (webpackState: webpack.CustomWebpackState) => {
-  const p = new Promise((resolve) => {
-    webpack(clientConfig, (err, stats) => {
+  const p = new Promise((resolve, reject) => {
+    const compiler = webpack(clientConfig, (err, stats) => {
       if (err) {
         logger.error([{ message: 'client webpack error:' }, err])
       }
@@ -21,6 +21,7 @@ const webpackMiddleware = (webpackState: webpack.CustomWebpackState) => {
             }
           ])
         )
+        reject(0)
       }
       webpackState.stats = statsJson
       webpackState.outputFileSystem = fs
@@ -35,6 +36,9 @@ const webpackMiddleware = (webpackState: webpack.CustomWebpackState) => {
       }
       resolve(0)
     })
+
+    // 监听 client 端文件变更，并重新执行 compiler.run 方法
+    compiler.watch({}, () => {})
   })
 
   return async (ctx: Koa.Context, next: Koa.Next) => {
