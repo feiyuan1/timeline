@@ -6,6 +6,10 @@ const { scripts } = require('./scripts/build.js')
 
 module.exports = merge(common(NODE_ENV.PROD), {
   devtool: 'hidden-source-map',
+  cache: {
+    type: 'filesystem',
+    buildDependencies: { config: [__filename] }
+  },
   plugins: [
     new HtmlWebpackPlugin({
       title: 'webpack 学习',
