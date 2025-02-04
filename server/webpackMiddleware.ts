@@ -10,30 +10,23 @@ const webpackMiddleware = (webpackState: webpack.CustomWebpackState) => {
     const compiler = webpack(clientConfig, (err, stats) => {
       if (err) {
         logger.error([{ message: 'client webpack error:' }, err])
+        reject(0)
       }
 
       const statsJson = stats.toJson('normal')
-      if (stats.hasErrors()) {
-        logger.mutiError(
-          statsJson.errors.concat([
-            {
-              message: `webpack compile failed with ${statsJson.errors.length} errors`
-            }
-          ])
-        )
-        reject(0)
-      }
+      logger.log(`>  >  >  > webpack client compilation info`)
+      logger.log(
+        stats.toString({
+          entrypoints: true,
+          chunkGroups: true,
+          modules: false,
+          colors: true,
+          warnings: true,
+          errors: true
+        })
+      )
       webpackState.stats = statsJson
       webpackState.outputFileSystem = fs
-      if (statsJson.warnings.length) {
-        logger.mutiError(
-          [
-            {
-              message: `WARNING: webpack compile successed with ${statsJson.warnings.length} WARNINGs`
-            }
-          ].concat(statsJson.warnings)
-        )
-      }
       resolve(0)
     })
 
