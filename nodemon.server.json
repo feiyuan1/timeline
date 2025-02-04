@@ -1,5 +1,9 @@
 {
-  "watch": ["./server", "./src/server"],
+  "watch": [
+    "./server",
+    "./src/server",
+    "./webpack.{common,config,dev,prod,server}.js"
+  ],
   "ext": "js,ts,json,tsx",
   "execMap": {
     "js": "npm run build:server && npx tsc -p ./server && cross-env NODE_ENV=production node"
