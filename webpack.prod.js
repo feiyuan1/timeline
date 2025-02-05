@@ -1,3 +1,4 @@
+const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { merge } = require('webpack-merge')
 const common = require('./webpack.common.js')
@@ -8,7 +9,9 @@ module.exports = merge(common(NODE_ENV.PROD), {
   devtool: 'hidden-source-map',
   cache: {
     type: 'filesystem',
-    buildDependencies: { config: [__filename] }
+    buildDependencies: {
+      config: [__filename, path.resolve(__dirname, 'webpack.common.js')]
+    }
   },
   plugins: [
     new HtmlWebpackPlugin({
