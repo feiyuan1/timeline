@@ -3,3 +3,4 @@
 **/**/.vscode
 stats.json
 **/*.debug*
+ckb/**
