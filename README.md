@@ -86,8 +86,8 @@
 
 - src/pages 添加页面子目录
 - 在新增目录下添加 route.ts 添加子路由
-- route.ts 导出 Route[]
-- src/Router 会读取 pages/\*/route.ts 文件（无需手动操作）
+- route.ts 导出 CustomRouteObject[]
+- src/Router 会读取 pages/\*/route.ts 文件（无需手动操作），并提供给 RouterProvider
 
 ## 测试
 
@@ -95,3 +95,20 @@
 2. npm run test
 3. webpack.dev.js 增加 plugin 支持每次编译完毕后重新执行测试用例
 4. 更多见 `__tests__/README.md`
+
+# webpack 拆包思路
+
+1. entry point 只有 1 个
+2. 每条路由都被动态引入
+3. 使用 default minChunks cacheGroup
+4. 将 `/src[\\/](utils|public|constants|components)/` 目录下的文件合并到 `public-tools` chunk
+5. 将 `/(@mui|@emotion|react-transition-group)/` 目录下的文件合并到 `mui` chunk
+6. 将 `/(react-router|@remix)/` 目录下的文件合并到 `react-router` chunk
+7. 将 `/@mui[\\/]material/` 目录下的文件合并到 `mui_material` chunk
+8. 使用 default node_modules cacheGroup
+9. 上述所有 chunk 体积超出 100kb 时会被 webpack 自动切割
+
+## css 文件的处理
+
+1. 被 MiniCssExtractPlugin 抽离到单独 css 文件
+2. cacheGroup 将所有的 css 文件合并到 1 个 chunk
