@@ -2,6 +2,7 @@ import { hydrateRoot } from 'react-dom/client'
 import { matchRoutes } from 'react-router'
 import App from './App'
 import Router, { routes } from './Router'
+import './index.css'
 
 export default async function initReact() {
   const root = document.getElementById('root') as HTMLDivElement

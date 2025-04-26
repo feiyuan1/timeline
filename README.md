@@ -89,6 +89,10 @@
 - route.ts 导出 CustomRouteObject[]
 - src/Router 会读取 pages/\*/route.ts 文件（无需手动操作），并提供给 RouterProvider
 
+## 添加样式
+
+目前的样式仅有 index.css 一个文件，且为全局样式，无需隔离，在 index.tsx 中引入
+
 ## 测试
 
 1. 在项目根目录下 `/__tests__` 中添加测试用例&mockdata
@@ -111,4 +115,4 @@
 ## css 文件的处理
 
 1. 被 MiniCssExtractPlugin 抽离到单独 css 文件
-2. cacheGroup 将所有的 css 文件合并到 1 个 chunk
+2. ~~cacheGroup 将所有的 css 文件合并到 1 个 chunk~~（目前的 css 文件被移入 index chunk）

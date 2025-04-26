@@ -1,7 +1,6 @@
 import { FC, PropsWithChildren } from 'react'
 import Container, { ContainerProps } from '@mui/material/Container'
 import Box from '@mui/material/Box'
-import '../index.css'
 
 interface CustomContainerProps {
   container?: ContainerProps['sx']

@@ -44,11 +44,6 @@ module.exports = (mode) => {
             minChunks: 2,
             name: 'default'
           },
-          index_style: {
-            type: 'css/mini-extract',
-            name: 'index_style',
-            enforce: true
-          },
           public_tool: {
             test: /src[\\/](utils|public|constants|components)/,
             name: 'public_tool',
