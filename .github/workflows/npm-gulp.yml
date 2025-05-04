@@ -13,7 +13,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [18.x, 20.x, 22.x]
+        node-version: [19.x]
 
     steps:
       - uses: actions/checkout@v4
@@ -26,13 +26,5 @@ jobs:
       - name: Build
         run: |
           npm install
+          npm i webpack -g
           npm run analyse
-
-      - name: Print a greeting
-        env:
-          MY_VAR: Hi there! My name is
-          FIRST_NAME: Mona
-          MIDDLE_NAME: The
-          LAST_NAME: Octocat
-        run: |
-          echo $MY_VAR $FIRST_NAME $MIDDLE_NAME $LAST_NAME.
