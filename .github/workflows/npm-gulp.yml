@@ -4,7 +4,7 @@ on:
   pull_request:
     branches: ['master']
 
-  status:
+  push:
 
 jobs:
   build:
@@ -27,4 +27,5 @@ jobs:
         run: |
           npm install
           npm i webpack -g
-          npm run analyse
+          npx webpack -v
+          npm run build
