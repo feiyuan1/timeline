@@ -1,11 +1,12 @@
-name: NodeJS with Gulp
+name: analyze bundle
 
 on:
   pull_request:
-    branches: [ "master" ]
+    branches: ['master']
 
 jobs:
   build:
+    name: analyse bundle
     runs-on: ubuntu-latest
 
     strategy:
@@ -13,14 +14,23 @@ jobs:
         node-version: [18.x, 20.x, 22.x]
 
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v4
-      with:
-        node-version: ${{ matrix.node-version }}
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
 
-    - name: Build
-      run: |
-        npm install
-        npm run analyse
+      - name: Build
+        run: |
+          npm install
+          npm run analyse
+
+      - name: Print a greeting
+        env:
+          MY_VAR: Hi there! My name is
+          FIRST_NAME: Mona
+          MIDDLE_NAME: The
+          LAST_NAME: Octocat
+        run: |
+          echo $MY_VAR $FIRST_NAME $MIDDLE_NAME $LAST_NAME.
