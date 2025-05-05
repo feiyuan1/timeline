@@ -35,8 +35,11 @@ jobs:
       - name: debug
         run: npm run debug
 
+      - name: debug - ls
+        run: ls src/public
+
       - name: debug - cat
-        run: cat src/public/constants.ts
+        run: cd src/public && cat ./constants.ts
 
       - name: build
         run: npm run build
