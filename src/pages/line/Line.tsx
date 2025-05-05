@@ -15,7 +15,7 @@ import { getLink, redirectToIndex } from 'utils/index'
 import useLoading from 'utils/useLoading'
 import useToggleFormModal from 'utils/useFormModal'
 import GroupModal from './GroupModal'
-import { Type } from '_public/constants'
+import { Type } from 'tools/constants'
 
 const Line = ({ data: line }: { data: Line }) => {
   const [toggle, FormModal] = useToggleFormModal()

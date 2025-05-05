@@ -1,8 +1,8 @@
 import { lazy } from 'react'
 import { RouteObject } from 'react-router'
-import { Line, Log } from '_public/types'
+import { Line, Log } from 'tools/types'
 
-export * from '_public/types'
+export * from 'tools/types'
 export interface LogWithinNode extends Log {
   include?: boolean
 }

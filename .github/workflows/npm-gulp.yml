@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    name: analyse bundle - 是因为 client 缺少 symlink 吗？
+    name: analyse bundle - 改别名 + 使用 originalpath
     runs-on: ubuntu-latest
 
     strategy:
@@ -35,11 +35,8 @@ jobs:
       - name: debug
         run: npm run debug
 
-      - name: debug - ls
-        run: cd src && ls
-
-      - name: debug - ls02
-        run: cd src/public && ls
+      - name: debug - cat
+        run: cat src/public/constants.ts
 
       - name: build
         run: npm run build

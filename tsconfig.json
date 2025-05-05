@@ -33,7 +33,7 @@
       "types/*": [ "./src/types/*" ],
       "_constants/*": [ "./src/constants/*" ],
       "api/*": [ "./src/api/*" ],
-      "_public/*": [ "./src/public/*" ]
+      "tools/*": [ "./src/public/*" ]
     },
     "skipLibCheck": true
   }
