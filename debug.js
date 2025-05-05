@@ -1,5 +1,4 @@
 const path = require('path')
-// const { log } = require('./public/utils/log')
+const { log } = require('./public/utils/log.js')
 
-// eslint-disable-next-line no-console
-console.log(path.resolve(__dirname, 'src/constants'), __dirname)
+log(path.resolve(__dirname, 'src/constants'), __dirname)
