@@ -26,7 +26,7 @@ module.exports = (mode) => {
         types: path.resolve(__dirname, 'src/types/'),
         _constants: path.resolve(__dirname, 'src/constants'),
         api: path.resolve(__dirname, 'src/api/'),
-        public: path.resolve(__dirname, 'src/public/')
+        _public: path.resolve(__dirname, 'src/public/')
       }
     },
     externals: {

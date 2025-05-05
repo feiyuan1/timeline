@@ -37,7 +37,7 @@ export default [
       'src/**/*.{js,mjs,cjs,ts,jsx,tsx}',
       '__tests__/**/*.test.{ts,js,tsx}',
       'backend/**/**',
-      'public/**/**',
+      '_public/**/**',
       'server/**/**',
       'types/**/**',
       'scripts/**/**'

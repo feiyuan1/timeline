@@ -1,5 +1,5 @@
 {
-  "exclude": ["./server/**/*", "./backend/**/*"],
+  "exclude": [ "./server/**/*", "./backend/**/*" ],
   "compilerOptions": {
     "module": "ESNext",
     "moduleResolution": "Bundler",
@@ -22,18 +22,18 @@
       "koa-bodyparser",
       "fetch-mock"
     ],
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [ "dom", "dom.iterable", "esnext" ],
     "downlevelIteration": true,
     "paths": {
-      "components/*": ["./src/components/*"],
-      "pages/*": ["./src/pages/*"],
-      "assets/*": ["./src/assets/*"],
-      "utils/*": ["./src/utils/*"],
-      "types": ["./src/types"],
-      "types/*": ["./src/types/*"],
-      "_constants/*": ["./src/constants/*"],
-      "api/*": ["./src/api/*"],
-      "public/*": ["./src/public/*"]
+      "components/*": [ "./src/components/*" ],
+      "pages/*": [ "./src/pages/*" ],
+      "assets/*": [ "./src/assets/*" ],
+      "utils/*": [ "./src/utils/*" ],
+      "types": [ "./src/types" ],
+      "types/*": [ "./src/types/*" ],
+      "_constants/*": [ "./src/constants/*" ],
+      "api/*": [ "./src/api/*" ],
+      "_public/*": [ "./src/public/*" ]
     },
     "skipLibCheck": true
   }

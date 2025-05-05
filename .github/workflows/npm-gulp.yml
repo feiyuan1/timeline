@@ -6,8 +6,6 @@ on:
 
   push:
 
-  check_run:
-
 jobs:
   build:
     name: analyse bundle
@@ -35,8 +33,7 @@ jobs:
         run: npx webpack -v
 
       - name: debug
-        # run: npm run debug
-        run: ls
+        run: npm run debug
 
       - name: build
         run: npm run build
