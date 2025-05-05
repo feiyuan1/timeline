@@ -1,4 +1,4 @@
-name: analyze bundle - _public 可以构建成功吗？
+name: analyze bundle
 
 on:
   # pull_request:
@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    name: analyse bundle
+    name: analyse bundle - 是因为 client 缺少 symlink 吗？
     runs-on: ubuntu-latest
 
     strategy:
@@ -34,6 +34,12 @@ jobs:
 
       - name: debug
         run: npm run debug
+
+      - name: debug - ls
+        run: cd src && ls
+
+      - name: debug - ls02
+        run: cd src/public && ls
 
       - name: build
         run: npm run build
