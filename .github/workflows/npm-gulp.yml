@@ -32,8 +32,8 @@ jobs:
       - name: check webpack version
         run: npx webpack -v
 
-      - name: symLink
-        run: npm run symLink
+      - name: debug
+        run: npm run debug
 
       - name: build
         run: npm run build
