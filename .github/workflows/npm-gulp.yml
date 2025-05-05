@@ -1,4 +1,4 @@
-name: analyze bundle - 修改 debug log file PATH 后可以了吧？
+name: analyze bundle - _public 可以构建成功吗？
 
 on:
   # pull_request:
