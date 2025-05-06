@@ -51,8 +51,8 @@ jobs:
       - name: npm install
         run: npm install
 
-      # - name: install webpack
-      #   run: npm i webpack -g
+      - name: install webpack
+        run: npm i webpack -g
 
       - name: check webpack version
         run: npx webpack -v
