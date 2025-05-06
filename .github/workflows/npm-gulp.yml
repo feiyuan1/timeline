@@ -7,32 +7,32 @@ on:
   push:
 
 jobs:
-  ls:
-    name: ls & file
-    runs-on: ubuntu-latest
+  # ls:
+  #   name: ls & file
+  #   runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [19.x]
+  #   strategy:
+  #     matrix:
+  #       node-version: [19.x]
 
-    steps:
-      - name: debug - file
-        run: cd src/public && ls -l && file './constants.ts'
+  #   steps:
+  #     - name: debug - file
+  #       run: cd src/public && ls -l && file './constants.ts'
 
-  symlink:
-    name: symlink & cat
-    runs-on: ubuntu-latest
+  # symlink:
+  #   name: symlink & cat
+  #   runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [19.x]
+  #   strategy:
+  #     matrix:
+  #       node-version: [19.x]
 
-    steps:
-      - name: symlink
-        run: npm run symLink
+  #   steps:
+  #     - name: symlink
+  #       run: npm run symLink
 
-      - name: cat
-        run: cd src/public && ls -l && cat './constants.ts'
+  #     - name: cat
+  #       run: cd src/public && ls -l && cat './constants.ts'
 
   build:
     name: analyse bundle - 改别名 + 使用 originalpath
