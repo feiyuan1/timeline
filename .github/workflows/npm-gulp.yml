@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    name: analyse bundle - 改别名 + 使用 originalpath
+    name: analyse bundle
     runs-on: ubuntu-latest
 
     strategy:
@@ -36,7 +36,7 @@ jobs:
         run: npm run symLink
 
       - name: read stats.json
-        run: node ./report.js
+        run: node ./analyze-bundle/report.js
 
       - name: analyse
         run: npm run analyse
