@@ -7,37 +7,6 @@ on:
   push:
 
 jobs:
-  ls:
-    name: ls & file
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [19.x]
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: debug - file
-        run: cd src/public && ls -l && file './constants.ts'
-
-  symlink:
-    name: symlink & cat
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [19.x]
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: symlink
-        run: npm run symLink
-
-      - name: cat
-        run: cd src/public && ls -l && cat './constants.ts'
-
   build:
     name: analyse bundle - 改别名 + 使用 originalpath
     runs-on: ubuntu-latest
@@ -57,9 +26,6 @@ jobs:
       - name: npm install
         run: npm install
 
-      # - name: install webpack
-      #   run: npm i webpack -g
-
       - name: check webpack version
         run: npx webpack -v
 
@@ -69,11 +35,8 @@ jobs:
       - name: symlink
         run: npm run symLink
 
-      - name: debug - ls
-        run: ls src/public
+      - name: read stats.json
+        run: node ./report.js
 
-      - name: debug - cat
-        run: cd src/public && cat './constants.ts'
-
-      - name: build
-        run: npm run build
+      - name: analyse
+        run: npm run analyse
