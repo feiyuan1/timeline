@@ -1,5 +1,5 @@
 import { FormControlOwnProps } from '@mui/material/FormControl'
-import { ObjectWithString } from 'public/types'
+import { ObjectWithString } from 'tools/types'
 
 export enum defaultType {
   normal = 'normal',

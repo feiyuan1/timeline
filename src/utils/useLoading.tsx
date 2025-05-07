@@ -1,4 +1,4 @@
-import { isEmpty } from 'public/utils'
+import { isEmpty } from '../public/utils'
 import { FC, ReactNode, useCallback, useEffect, useState } from 'react'
 
 const useLoading = <T,>(

@@ -1,7 +1,7 @@
 import { FormGroup, FormLine, LineGroup, LineWithinGroup } from 'types'
 import customFetch from './customFetch'
 import { getLine } from './line'
-import { Type } from 'public/constants'
+import { Type } from 'tools/constants'
 
 const prefix = '/api/group'
 export const getGroup = (query?: Partial<LineGroup>): Promise<LineGroup[]> => {
