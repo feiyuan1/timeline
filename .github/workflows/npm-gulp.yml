@@ -1,26 +1,42 @@
-name: NodeJS with Gulp
+name: analyze bundle
 
 on:
-  pull_request:
-    branches: [ "master" ]
+  # pull_request:
+  # branches: ['master']
+
+  push:
 
 jobs:
   build:
+    name: analyse bundle - read stats.json
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        node-version: [18.x, 20.x, 22.x]
+        node-version: [19.x]
 
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v4
-      with:
-        node-version: ${{ matrix.node-version }}
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
 
-    - name: Build
-      run: |
-        npm install
-        npm run analyse
+      - name: npm install
+        run: npm install
+
+      - name: check webpack version
+        run: npx webpack -v
+
+      - name: debug
+        run: npm run debug
+
+      - name: symlink
+        run: npm run symLink
+
+      - name: read stats.json
+        run: node ./analyze-bundle/report.js
+
+      - name: analyse
+        run: npm run analyse

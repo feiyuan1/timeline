@@ -15,6 +15,7 @@
     "lint:fix": "npx eslint ./src ./__tests__ --fix",
     "test": "jest -o",
     "prepare": "husky",
+    "debug": "node ./debug.js",
     "commitlint": "npx commitlint --edit --verbose"
   },
   "author": "",

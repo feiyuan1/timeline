@@ -1,4 +1,4 @@
-const { existsSync, symlinkSync } = require('fs')
+const { mkdirSync, symlinkSync, rmSync } = require('fs')
 const path = require('path')
 
 const format = (paths, prefix) => {
@@ -8,17 +8,23 @@ const format = (paths, prefix) => {
   }))
 }
 
+const publicPrefix = './public'
+const targets = ['backend', 'src', 'server']
 const publicPath = ['./public/utils', './public/types', './public/constants.ts']
 const [utilPath, typePath, constPath] = publicPath
-const backend = format(publicPath, './backend')
-const client = format([typePath, constPath, utilPath], './src')
-const server = format([utilPath], './server')
+const backend = format(publicPath, targets[0])
+const client = format([typePath, constPath, utilPath], targets[1])
+const server = format([utilPath], targets[2])
 const ends = [backend, client, server]
+
+targets.forEach((target) => {
+  const targetDir = path.join('./', target, publicPrefix)
+  rmSync(targetDir, { recursive: true, force: true })
+  mkdirSync(targetDir)
+})
 
 ends.forEach((end) => {
   end.forEach(({ source, target }) => {
-    if (!existsSync(target)) {
-      symlinkSync(path.resolve(source), target)
-    }
+    symlinkSync(path.resolve(source), target)
   })
 })
