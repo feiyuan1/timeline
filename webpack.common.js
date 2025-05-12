@@ -16,6 +16,10 @@ module.exports = (mode) => {
       clean: true,
       publicPath: '/'
     },
+    stats: {
+      groupModulesByCacheStatus: true,
+      excludeModules: [/runtime/, /external/]
+    },
     resolve: {
       extensions: ['.tsx', '.ts', '...'],
       alias: {
