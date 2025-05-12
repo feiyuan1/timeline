@@ -35,8 +35,8 @@ jobs:
       - name: symlink
         run: npm run symLink
 
-      - name: read stats.json
-        run: node ./analyze-bundle/report.js
-
       - name: analyse
         run: npm run analyse
+
+      - name: read stats.json
+        run: node ./analyze-bundle/report.js
