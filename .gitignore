@@ -1,6 +1,6 @@
 **/**/node_modules/*
 **/**dist/*
 **/**/.vscode
-# stats.json
+stats.json
 **/*.debug*
 ckb/**
