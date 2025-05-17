@@ -26,6 +26,15 @@ jobs:
       - name: npm install
         run: npm install
 
+      - uses: actions/cache@v3
+        with:
+          # cache directory
+          path: node_modules/.cache/webpack/
+          key: ${{ env.GITHUB_REF_NAME }}-webpack-build
+          # fallback to use "main" branch cache
+          restore-keys: |
+            main-webpack-build
+
       - name: check webpack version
         run: npx webpack -v
 
