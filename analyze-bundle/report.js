@@ -63,7 +63,7 @@ const [uncachedAssets, uncachedChunks, allSize] = mapAssetsWithEffects([
   allAssetsSizeEffect
 ])
 
-fetch('http://localhost:8090/metrics/build-size', {
+fetch('http://192.168.2.53:8090/metrics/build-size', {
   method: 'post',
   headers: {
     'Content-Type': 'application/json'
