@@ -62,6 +62,17 @@ const [uncachedAssets, uncachedChunks, allSize] = mapAssetsWithEffects([
   uncachedChunksEffect,
   allAssetsSizeEffect
 ])
+
+fetch('http://localhost:8090/metrics/build-size', {
+  method: 'post',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    size: allSize
+  })
+})
+
 // console.log(
 //   'chunks: ',
 //   json.chunks.map((chunk) => chunk.names)
