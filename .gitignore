@@ -4,3 +4,5 @@
 stats.json
 **/*.debug*
 ckb/**
+data/**
+victoria-metrics-data/**
