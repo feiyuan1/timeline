@@ -18,6 +18,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
+
       - name: Configure Proxy
         run: |
           echo "HTTP_PROXY=http://192.168.2.53:8090" >> $GITHUB_ENV
