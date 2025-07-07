@@ -21,10 +21,6 @@ jobs:
       - name: Setup tmate session
         uses: mxschmitt/action-tmate@v3
 
-      - name: Configure Proxy
-        run: |
-          echo "HTTP_PROXY=http://192.168.2.53:8090" >> $GITHUB_ENV
-
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
