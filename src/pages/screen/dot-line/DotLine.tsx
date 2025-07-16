@@ -1,21 +1,41 @@
 import { useEffect, useRef, useState } from 'react'
 import image from './frame-1.png'
-import useDotPosition from './useDotPosition'
+import getDotPosition, { DotPoint } from './getDotPosition'
 
 const points = [
-  { x: 47, y: 100 },
-  { x: 904, y: 476 },
-  { x: 363, y: 482 }
+  { x: 54, y: 105 },
+  { x: 911, y: 482 },
+  { x: 489, y: 366 }
 ]
 
 const DotLine = () => {
   const [isClient, setIsClient] = useState(false)
   const imageRef = useRef<HTMLImageElement>(null)
-  const { points: dotPoints, containerRef } = useDotPosition(points, imageRef)
 
   useEffect(() => {
     setIsClient(true)
   }, [])
+
+  const [dotPositions, setDotPositions] = useState<DotPoint[]>([])
+
+  useEffect(() => {
+    if (!isClient) {
+      return
+    }
+    if (!imageRef.current) {
+      return
+    }
+
+    const image = imageRef.current
+    const displaySize = [image.naturalWidth, image.naturalHeight]
+    const naturalSize = [1175, 600]
+    const result = getDotPosition({
+      points,
+      naturalSize,
+      displaySize
+    })
+    setDotPositions(result)
+  }, [isClient])
 
   if (!isClient) {
     return ''
@@ -26,8 +46,8 @@ const DotLine = () => {
       style={{ height: '100%', width: '100%', position: 'relative' }}
       // ref={containerRef}
     >
-      <img src={image} style={{ height: '600px' }} ref={imageRef} />
-      {dotPoints.map(({ x, y }, index) => (
+      <img src={image} ref={imageRef} />
+      {dotPositions.map(({ x, y }, index) => (
         <div
           key={index}
           style={{
@@ -35,8 +55,8 @@ const DotLine = () => {
             width: '10px',
             height: '10px',
             position: 'absolute',
-            top: x + 'px',
-            left: y + 'px',
+            top: y + 'px',
+            left: x + 'px',
             transform: 'translate(-50%, -50%)'
           }}
         ></div>
