@@ -26,7 +26,8 @@ jobs:
       - run: sudo ip addr
 
       # - run: curl http://192.168.2.53:8090/metrics
-      - run: ping 192.168.2.53
+      # - run: ping 192.168.2.53
+      - run: ping 10.0.0.1
 
   build:
     name: analyse bundle - read stats.json
