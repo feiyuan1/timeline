@@ -13,9 +13,13 @@ jobs:
     steps:
       - run: sudo apt install wireguard
 
-      - run: wg genkey > privatekey
+      - run: sudo wg genkey > privatekey
+
+      - run: sudo cat privatekey
 
       - run: wg pubkey < privatekey > publickey
+
+      - run: wg pubkey < privatekey
 
       # - run: echo "${{ secrets.WIREGUARD_PRIVATE_KEY }}" > privatekey
 
