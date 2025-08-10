@@ -13,27 +13,27 @@ jobs:
     steps:
       - run: sudo apt install wireguard
 
-      - run: sudo wg genkey > privatekey
+      - run: echo "${{ secrets.WIREGUARD_PRIVATE_KEY }}" > privatekey
 
-      - run: sudo cat privatekey
+      # - run: sudo cat privatekey
 
-      - run: wg pubkey < privatekey > publickey
-
-      - run: wg pubkey < privatekey
-
-      # - run: echo "${{ secrets.WIREGUARD_PRIVATE_KEY }}" > privatekey
+      # - run: wg pubkey < privatekey
 
       - run: sudo ip link add dev wg0 type wireguard
 
       - run: sudo ip address add dev wg0 10.0.0.2/32
 
-      - run: sudo wg set wg0 listen-port 51820 private-key privatekey peer diRWVLh2PhXNpgWMsSm4yxVrtkF5z29XCiz6vscnXF8= allowed-ips 10.0.0.1/32 endpoint 192.168.2.53:51820
+      - run: sudo wg set wg0 listen-port 51820 private-key privatekey peer V4pm4yPzVu7eaTiI6eBVaPBYovfYDQkwrK8YGSVSgSI= allowed-ips 10.0.0.1/32 endpoint 192.168.2.53:51820
 
       - run: sudo ip link set up dev wg0
 
       - run: sudo ip addr
 
+      - run: sudo ip route show
+
       - run: sudo wg
+
+      - run: curl -L https://www.baidu.com
 
       - run: curl -L http://10.0.0.1:8090/metrics
       # - run: curl http://192.168.2.53:8090/metrics
