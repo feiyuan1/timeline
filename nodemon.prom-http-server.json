@@ -1,0 +1,1 @@
+{ "watch": [ "./analyze-bundle/prom-http-server.js" ], "ext": "js,ts,json" }

@@ -1,26 +1,89 @@
-name: NodeJS with Gulp
+name: analyze bundle
 
 on:
-  pull_request:
-    branches: [ "master" ]
+  # pull_request:
+  # branches: ['master']
+
+  push:
 
 jobs:
+  wireguard_init:
+    runs-on: ubuntu-latest
+
+    steps:
+      - run: sudo apt install wireguard
+
+      - run: echo "${{ secrets.WIREGUARD_PRIVATE_KEY }}" > privatekey
+
+      - run: sudo cat privatekey
+
+      - run: sudo ip link add dev wg0 type wireguard
+
+      - run: sudo ip address add dev wg0 10.0.0.2/24
+
+      - run: sudo wg set wg0 listen-port 51820 private-key privatekey peer V4pm4yPzVu7eaTiI6eBVaPBYovfYDQkwrK8YGSVSgSI= allowed-ips 10.0.0.1/32 endpoint 192.168.2.53:51820
+
+      - run: sudo modprobe wireguard && sudo echo module wireguard +p > /sys/kernel/debug/dynamic_debug/control
+
+      - run: sudo cat /sys/kernel/debug/dynamic_debug/control
+
+      - run: sudo ip link set up dev wg0
+
+      - run: sudo ip addr
+
+      - run: sudo ip route show
+
+      - run: sudo wg
+
+      - run: curl -L https://www.baidu.com
+
+      - run: curl -L http://10.0.0.1:8090/metrics
+      # - run: curl http://192.168.2.53:8090/metrics
+      # - run: ping 192.168.2.53
+      # - run: ping 10.0.0.1
+
   build:
+    name: analyse bundle - read stats.json
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        node-version: [18.x, 20.x, 22.x]
+        node-version: [19.x]
 
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v4
-      with:
-        node-version: ${{ matrix.node-version }}
+      # - name: Setup tmate session
+      #   uses: mxschmitt/action-tmate@v3
 
-    - name: Build
-      run: |
-        npm install
-        npm run analyse
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: npm install
+        run: npm install
+
+      - uses: actions/cache@v3
+        with:
+          # cache directory
+          path: node_modules/.cache/webpack/
+          key: ${{ env.GITHUB_REF_NAME }}-webpack-build
+          # fallback to use "main" branch cache
+          restore-keys: |
+            main-webpack-build
+
+      - name: check webpack version
+        run: npx webpack -v
+
+      - name: debug
+        run: npm run debug
+
+      - name: symlink
+        run: npm run symLink
+
+      - name: analyse
+        run: npm run analyse
+
+      - name: read stats.json
+        run: node ./analyze-bundle/report.js
