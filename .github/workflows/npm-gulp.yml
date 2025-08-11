@@ -17,13 +17,13 @@ jobs:
 
       - run: sudo cat privatekey
 
-      # - run: wg pubkey < privatekey
-
       - run: sudo ip link add dev wg0 type wireguard
 
       - run: sudo ip address add dev wg0 10.0.0.2/24
 
-      - run: sudo wg set wg0 listen-port 51820 private-key privatekey peer V4pm4yPzVu7eaTiI6eBVaPBYovfYDQkwrK8YGSVSgSI= allowed-ips 10.0.0.1/24 endpoint 192.168.2.53:51820
+      - run: sudo wg set wg0 listen-port 51820 private-key privatekey peer V4pm4yPzVu7eaTiI6eBVaPBYovfYDQkwrK8YGSVSgSI= allowed-ips 10.0.0.1/32 endpoint 192.168.2.53:51820
+
+      - run: modprobe wireguard && echo module wireguard +p > /sys/kernel/debug/dynamic_debug/control
 
       - run: sudo ip link set up dev wg0
 
